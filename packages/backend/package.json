@@ -1,0 +1,33 @@
+{
+  "name": "@fitness-app/backend",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev src/index.ts",
+    "build": "wrangler deploy --dry-run src/index.ts",
+    "deploy": "wrangler deploy src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "db:generate": "drizzle-kit generate:sqlite",
+    "db:migrate:local": "wrangler d1 migrations apply fitness-db --local",
+    "db:migrate:prod": "wrangler d1 migrations apply fitness-db",
+    "db:seed:local": "tsx scripts/seed-exercises.ts && wrangler d1 execute fitness-db --local --file=./migrations/seed_exercises.sql",
+    "db:seed:prod": "tsx scripts/seed-exercises.ts && wrangler d1 execute fitness-db --file=./migrations/seed_exercises.sql"
+  },
+  "dependencies": {
+    "hono": "^4.6.0",
+    "better-auth": "^0.8.0",
+    "drizzle-orm": "^0.35.0",
+    "free-exercise-db": "^1.0.0",
+    "@fitness-app/db-schema": "workspace:*"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241022.0",
+    "drizzle-kit": "^0.26.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0",
+    "wrangler": "^3.80.0",
+    "eslint": "^9.0.0"
+  }
+}

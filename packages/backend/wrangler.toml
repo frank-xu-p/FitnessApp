@@ -1,0 +1,22 @@
+name = "fitness-app-backend"
+main = "src/index.ts"
+compatibility_date = "2024-10-22"
+compatibility_flags = ["nodejs_compat"]
+
+[env.vars]
+NODE_ENV = "development"
+
+# Secrets (BETTER_AUTH_SECRET) should be set via `wrangler secret put BETTER_AUTH_SECRET`
+# or in .dev.vars for local development.
+
+[[d1_databases]]
+binding = "DB"
+database_name = "fitness-db"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "fitness-media"
+
+[ai]
+binding = "AI"

@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "Fitness App",
+    "slug": "fitness-app",
+    "version": "0.0.1",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "scheme": "fitnessapp",
+    "newArchEnabled": true,
+    "backgroundColor": "#ffffff",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.fitness.app"
+    },
+    "android": {
+      "package": "com.fitness.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-notifications",
+      "expo-video-thumbnails",
+      "expo-image"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

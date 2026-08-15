@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+*.tsbuildinfo
+dist/
+build/
+.expo/
+.expo-shared/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Turbo
+.turbo/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Wrangler
+.wrangler/
+
+# Testing
+coverage/
+
+# Misc
+*.pem
+*.p12
