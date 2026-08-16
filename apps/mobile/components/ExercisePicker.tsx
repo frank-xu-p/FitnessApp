@@ -14,8 +14,13 @@ export function ExercisePicker({ onSelect, onCreate }: ExercisePickerProps) {
   const [exercises, setExercises] = useState<Exercise[]>([]);
 
   const load = useCallback(async () => {
-    const rows = await getExercises(query);
-    setExercises(rows);
+    try {
+      const rows = await getExercises(query);
+      setExercises(rows);
+    } catch (err) {
+      console.error("Failed to load exercises", err);
+      setExercises([]);
+    }
   }, [query]);
 
   useEffect(() => {
@@ -25,7 +30,7 @@ export function ExercisePicker({ onSelect, onCreate }: ExercisePickerProps) {
   return (
     <View className="flex-1 p-4">
       <View className="mb-4 flex-row items-center gap-2 rounded-xl bg-gray-100 px-3 py-2 dark:bg-gray-800">
-        <Search className="h-5 w-5 text-gray-500" />
+        <Search size={20} color="#6B7280" />
         <TextInput
           value={query}
           onChangeText={setQuery}
@@ -47,7 +52,7 @@ export function ExercisePicker({ onSelect, onCreate }: ExercisePickerProps) {
             </Text>
             <Text className="text-sm text-gray-500 dark:text-gray-400">
               {item.equipment}
-              {item.primaryMuscles ? ` · ${item.primaryMuscles.join(", ")}` : ""}
+              {Array.isArray(item.primaryMuscles) ? ` · ${item.primaryMuscles.join(", ")}` : ""}
             </Text>
           </TouchableOpacity>
         )}
@@ -59,7 +64,7 @@ export function ExercisePicker({ onSelect, onCreate }: ExercisePickerProps) {
                 onPress={() => onCreate(query)}
                 className="mt-4 flex-row items-center gap-2 rounded-lg bg-primary px-4 py-2"
               >
-                <Plus className="h-4 w-4 text-white" />
+                <Plus size={16} color="#FFFFFF" />
                 <Text className="font-medium text-white">Create "{query}"</Text>
               </TouchableOpacity>
             )}

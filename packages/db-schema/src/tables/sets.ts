@@ -8,24 +8,20 @@ export const sets = sqliteTable("sets", {
   setType: text("set_type", { enum: ["standard", "warmup", "drop", "failure"] })
     .notNull()
     .default("standard"),
-  // Bilateral canonical values
   weightKg: real("weight_kg"),
   reps: integer("reps"),
-  // Unilateral tracking
   leftWeightKg: real("left_weight_kg"),
   leftReps: integer("left_reps"),
   rightWeightKg: real("right_weight_kg"),
   rightReps: integer("right_reps"),
-  // Feedback and regulation
   rpe: real("rpe"),
   rir: integer("rir"),
   durationSeconds: integer("duration_seconds"),
   restSeconds: integer("rest_seconds"),
-  completedAt: integer("completed_at", { mode: "timestamp" }),
-  // Sync metadata
-  createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
-  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull(),
-  clientTimestamp: integer("client_timestamp", { mode: "timestamp" }).notNull(),
+  completedAt: integer("completed_at"),
+  createdAt: integer("created_at").notNull(),
+  updatedAt: integer("updated_at").notNull(),
+  clientTimestamp: integer("client_timestamp").notNull(),
   deviceId: text("device_id").notNull(),
   isDeleted: integer("is_deleted", { mode: "boolean" }).notNull().default(false),
 });

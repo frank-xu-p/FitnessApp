@@ -4,6 +4,14 @@ import * as Notifications from "expo-notifications";
 import * as Haptics from "expo-haptics";
 import { Play, Pause, RotateCcw, Bell } from "lucide-react-native";
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
+
 type RestTimerProps = {
   defaultSeconds?: number;
   onComplete?: () => void;
@@ -21,12 +29,12 @@ export function RestTimer({ defaultSeconds = 120, onComplete }: RestTimerProps) 
         setSecondsLeft((prev) => {
           if (prev <= 1) {
             setIsRunning(false);
-            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => undefined);
             onComplete?.();
             return 0;
           }
           if (prev === 4) {
-            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning).catch(() => undefined);
           }
           return prev - 1;
         });
@@ -39,29 +47,39 @@ export function RestTimer({ defaultSeconds = 120, onComplete }: RestTimerProps) 
 
   const start = useCallback(() => {
     setIsRunning(true);
-    scheduleNotification(totalSeconds);
+    scheduleNotification(totalSeconds).catch(() => undefined);
   }, [totalSeconds]);
 
   const pause = useCallback(() => {
     setIsRunning(false);
-    Notifications.cancelAllScheduledNotificationsAsync();
+    Notifications.cancelAllScheduledNotificationsAsync().catch(() => undefined);
   }, []);
 
   const reset = useCallback((newSeconds = defaultSeconds) => {
     setIsRunning(false);
     setTotalSeconds(newSeconds);
     setSecondsLeft(newSeconds);
-    Notifications.cancelAllScheduledNotificationsAsync();
+    Notifications.cancelAllScheduledNotificationsAsync().catch(() => undefined);
   }, [defaultSeconds]);
 
   const scheduleNotification = async (seconds: number) => {
+    const permission = await Notifications.getPermissionsAsync();
+    if (permission.status !== "granted") {
+      const requested = await Notifications.requestPermissionsAsync();
+      if (requested.status !== "granted") return;
+    }
+
     await Notifications.scheduleNotificationAsync({
       content: {
         title: "Rest timer done",
         body: "Time for your next set!",
         sound: "default",
       },
-      trigger: { seconds, channelId: "rest-timer" },
+      trigger: {
+        type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+        seconds,
+        repeats: false,
+      },
     });
   };
 
@@ -96,7 +114,7 @@ export function RestTimer({ defaultSeconds = 120, onComplete }: RestTimerProps) 
           </TouchableOpacity>
         </View>
       </View>
-      <View className="mt-3 flex-row gap-2">
+      <View className="mt-3 flex-row flex-wrap gap-2">
         {[30, 60, 90, 120, 180, 300].map((preset) => (
           <TouchableOpacity
             key={preset}

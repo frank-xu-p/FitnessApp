@@ -4,8 +4,8 @@ import * as schema from "./schema";
 import { runMigrations } from "./migrations";
 import { seedBaseExercises } from "./seed";
 
-const expoDb = openDatabaseSync("fitness.db", { enableChangeListener: true });
-export const db = drizzle(expoDb, { schema, logger: __DEV__ });
+const expoDb = openDatabaseSync("fitness.db");
+export const db = drizzle(expoDb, { schema });
 
 export async function initDatabase() {
   await runMigrations(expoDb);

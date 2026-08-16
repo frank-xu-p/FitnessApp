@@ -19,7 +19,6 @@
     "hono": "^4.6.0",
     "better-auth": "^0.8.0",
     "drizzle-orm": "^0.35.0",
-    "free-exercise-db": "^1.0.0",
     "@fitness-app/db-schema": "workspace:*"
   },
   "devDependencies": {

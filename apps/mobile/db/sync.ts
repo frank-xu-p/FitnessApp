@@ -1,4 +1,4 @@
-import { eq, and, isNull, asc } from "drizzle-orm";
+import { eq, isNull, asc } from "drizzle-orm";
 import * as SecureStore from "expo-secure-store";
 import { db } from "./client";
 import { users, exercises, workouts, sets, syncQueue } from "./schema";
@@ -47,29 +47,29 @@ function generateSyncId(): string {
 }
 
 export async function getPendingMutations() {
-  return await db
+  return db
     .select()
     .from(syncQueue)
     .where(isNull(syncQueue.syncedAt))
-    .orderBy(asc(syncQueue.clientTimestamp))
-    .all();
+    .orderBy(asc(syncQueue.clientTimestamp));
 }
 
 export async function applyRemoteMutation(mutation: RemoteMutation) {
   const table = tables[mutation.tableName];
-  const existing = await db
+  const existingRows = await db
     .select()
     .from(table)
     .where(eq(table.id, mutation.recordId))
-    .get();
+    .limit(1);
+  const existing = existingRows[0];
 
   const remoteTimestamp = Number(mutation.payload.clientTimestamp ?? 0);
   if (existing && existing.clientTimestamp > remoteTimestamp) {
-    return; // local wins
+    return;
   }
 
   const row = mutation.payload as any;
-  if (row.is_deleted) {
+  if (row.isDeleted || row.is_deleted) {
     await db.delete(table).where(eq(table.id, mutation.recordId));
     return;
   }
@@ -162,7 +162,10 @@ export async function sync(apiUrl: string, sessionCookie?: string | null) {
   return { pushed: true, pulled: mutations.length };
 }
 
-async function markPendingAsFailed(pending: Awaited<ReturnType<typeof getPendingMutations>>, error: string) {
+async function markPendingAsFailed(
+  pending: Awaited<ReturnType<typeof getPendingMutations>>,
+  error: string
+) {
   for (const item of pending) {
     await db
       .update(syncQueue)

@@ -88,7 +88,7 @@ export function SetLogger({ workoutId, exercise }: SetLoggerProps) {
           </Text>
           <Text className="text-sm text-gray-500 dark:text-gray-400">
             {exercise.equipment}
-            {exercise.primaryMuscles ? ` · ${exercise.primaryMuscles.join(", ")}` : ""}
+            {Array.isArray(exercise.primaryMuscles) ? ` · ${exercise.primaryMuscles.join(", ")}` : ""}
           </Text>
         </View>
 

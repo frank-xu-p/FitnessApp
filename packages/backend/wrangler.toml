@@ -6,13 +6,20 @@ compatibility_flags = ["nodejs_compat"]
 [env.vars]
 NODE_ENV = "development"
 
-# Secrets (BETTER_AUTH_SECRET) should be set via `wrangler secret put BETTER_AUTH_SECRET`
-# or in .dev.vars for local development.
+# Secrets:
+#   BETTER_AUTH_SECRET should be set in .dev.vars for local development,
+#   or via `wrangler secret put BETTER_AUTH_SECRET` for production.
+
+# Setup checklist:
+# 1. Create D1 database: wrangler d1 create fitness-db
+# 2. Copy the database_id from that output and replace it below.
+# 3. Create R2 bucket: wrangler r2 bucket create fitness-media
+# 4. Set BETTER_AUTH_SECRET in .dev.vars.
 
 [[d1_databases]]
 binding = "DB"
 database_name = "fitness-db"
-database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+database_id = "19e4b860-d33d-46bd-a038-f04737b9cc59"
 
 [[r2_buckets]]
 binding = "R2"

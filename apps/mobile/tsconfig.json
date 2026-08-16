@@ -3,13 +3,32 @@
   "compilerOptions": {
     "target": "ES2020",
     "jsx": "react-jsx",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "jsxImportSource": "nativewind",
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "@fitness-app/db-schema": ["../../packages/db-schema/src"]
+      "@/*": [
+        "./*"
+      ],
+      "@fitness-app/db-schema": [
+        "../../packages/db-schema/src"
+      ]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "dist", ".expo"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts",
+    "nativewind-env.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    ".expo"
+  ]
 }

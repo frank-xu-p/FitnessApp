@@ -9,7 +9,8 @@
     ".": {
       "import": "./src/index.ts",
       "types": "./src/index.ts"
-    }
+    },
+    "./data/exercises.json": "./data/exercises.json"
   },
   "scripts": {
     "build": "tsc",

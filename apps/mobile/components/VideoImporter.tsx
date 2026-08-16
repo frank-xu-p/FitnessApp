@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { View, Text, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import * as VideoThumbnails from "expo-video-thumbnails";
+import { createVideoPlayer } from "expo-video";
+import * as ImageManipulator from "expo-image-manipulator";
 import * as FileSystem from "expo-file-system";
 import { useAuthStore } from "../store/useAuthStore";
 import { upsertExercise } from "../db/queries";
@@ -25,7 +26,7 @@ export function VideoImporter({ onImported }: VideoImporterProps) {
     if (!permission.granted) return;
 
     const picked = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: "videos",
+      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
       allowsEditing: true,
       quality: 0.8,
     });
@@ -40,7 +41,7 @@ export function VideoImporter({ onImported }: VideoImporterProps) {
     if (!permission.granted) return;
 
     const recorded = await ImagePicker.launchCameraAsync({
-      mediaTypes: "videos",
+      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
       allowsEditing: true,
       quality: 0.8,
     });
@@ -59,15 +60,23 @@ export function VideoImporter({ onImported }: VideoImporterProps) {
     try {
       // Extract start, middle, and near-peak frames at fixed seconds.
       const times = [0, 2, 4];
+      const player = createVideoPlayer(uri);
+      const nativeThumbnails = await player.generateThumbnailsAsync(times);
+
       const frames = await Promise.all(
-        times.map(async (time) => {
-          const thumb = await VideoThumbnails.getThumbnailAsync(uri, { time });
-          return thumb.uri;
+        nativeThumbnails.map(async (thumb) => {
+          // Native thumbnail refs must be rendered/saved to a file URI before base64 encoding.
+          const context = ImageManipulator.manipulate(thumb);
+          const rendered = await context.renderAsync();
+          const { uri: thumbUri } = await rendered.saveAsync();
+          return thumbUri;
         })
       );
+
       setThumbnails(frames);
     } catch (err) {
-      setError("Failed to extract frames.");
+      console.error("Thumbnail extraction failed", err);
+      setError(err instanceof Error ? err.message : "Failed to extract frames.");
     }
   };
 
@@ -80,7 +89,7 @@ export function VideoImporter({ onImported }: VideoImporterProps) {
       const base64Frames = await Promise.all(
         thumbnails.map(async (uri) => {
           const base64 = await FileSystem.readAsStringAsync(uri, {
-            encoding: FileSystem.EncodingType.Base64,
+            encoding: "base64",
           });
           return `data:image/jpeg;base64,${base64}`;
         })
@@ -184,7 +193,7 @@ export function VideoImporter({ onImported }: VideoImporterProps) {
             Equipment: {result.equipment ?? "Unknown"}
           </Text>
           <Text className="text-sm text-gray-600 dark:text-gray-400">
-            Muscles: {result.primaryMuscles?.join(", ") ?? "Unknown"}
+            Muscles: {Array.isArray(result.primaryMuscles) ? result.primaryMuscles.join(", ") : "Unknown"}
           </Text>
           <Text className="mt-2 text-xs text-gray-500 dark:text-gray-500">
             Saved privately. Pending admin review before it can be shared globally.

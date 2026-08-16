@@ -1,10 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import exercises from "free-exercise-db";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const DATA_PATH = path.join(__dirname, "..", "..", "db-schema", "data", "exercises.json");
 const OUTPUT_DIR = path.join(__dirname, "..", "migrations");
+
+const raw = fs.readFileSync(DATA_PATH, "utf-8");
+const exercises = JSON.parse(raw);
 
 function generateId(): string {
   return `${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;

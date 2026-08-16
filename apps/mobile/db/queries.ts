@@ -5,26 +5,21 @@ import { generateUuid } from "../lib/id";
 import { getDeviceId } from "../lib/device";
 import { logMutation } from "./sync";
 
-// Exercises
+function likeQuery(query: string) {
+  return sql`lower(${exercises.name}) LIKE ${`%${query.toLowerCase()}%`}`;
+}
+
 export async function getExercises(query?: string) {
   const conditions = [eq(exercises.isDeleted, false)];
   if (query) {
     conditions.push(likeQuery(query));
   }
-  return await db
-    .select()
-    .from(exercises)
-    .where(and(...conditions))
-    .all();
-}
-
-function likeQuery(query: string) {
-  // SQLite LIKE helper
-  return sql`lower(${exercises.name}) LIKE ${`%${query.toLowerCase()}%`}`;
+  return db.select().from(exercises).where(and(...conditions));
 }
 
 export async function getExercise(id: string) {
-  return await db.select().from(exercises).where(eq(exercises.id, id)).get();
+  const rows = await db.select().from(exercises).where(eq(exercises.id, id)).limit(1);
+  return rows[0];
 }
 
 export async function upsertExercise(
@@ -47,18 +42,17 @@ export async function upsertExercise(
   return row;
 }
 
-// Workouts
 export async function getWorkouts(userId: string) {
-  return await db
+  return db
     .select()
     .from(workouts)
     .where(and(eq(workouts.userId, userId), eq(workouts.isDeleted, false)))
-    .orderBy(desc(workouts.startedAt))
-    .all();
+    .orderBy(desc(workouts.startedAt));
 }
 
 export async function getWorkout(id: string) {
-  return await db.select().from(workouts).where(eq(workouts.id, id)).get();
+  const rows = await db.select().from(workouts).where(eq(workouts.id, id)).limit(1);
+  return rows[0];
 }
 
 export async function getWorkoutWithSets(id: string) {
@@ -68,8 +62,7 @@ export async function getWorkoutWithSets(id: string) {
     .select()
     .from(sets)
     .where(and(eq(sets.workoutId, id), eq(sets.isDeleted, false)))
-    .orderBy(asc(sets.setNumber))
-    .all();
+    .orderBy(asc(sets.setNumber));
   return { ...workout, sets: setRows };
 }
 
@@ -107,14 +100,12 @@ export async function deleteWorkout(id: string) {
   await logMutation("workouts", id, "delete", { id, isDeleted: true, clientTimestamp: now });
 }
 
-// Sets
 export async function getSetsForWorkout(workoutId: string) {
-  return await db
+  return db
     .select()
     .from(sets)
     .where(and(eq(sets.workoutId, workoutId), eq(sets.isDeleted, false)))
-    .orderBy(asc(sets.setNumber))
-    .all();
+    .orderBy(asc(sets.setNumber));
 }
 
 export async function createSet(

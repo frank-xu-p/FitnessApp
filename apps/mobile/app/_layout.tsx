@@ -1,17 +1,15 @@
 import "../global.css";
 import { useEffect } from "react";
-import { Stack, useRouter, useSegments } from "expo-router";
+import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useColorScheme } from "nativewind";
+import { useColorScheme } from "react-native";
 import { initDatabase } from "../db/client";
 import { loadSessionCookie, getSession } from "../lib/auth";
 import { useAuthStore } from "../store/useAuthStore";
 
 export default function RootLayout() {
-  const { colorScheme } = useColorScheme();
-  const router = useRouter();
-  const segments = useSegments();
-  const { apiUrl, user } = useAuthStore();
+  const colorScheme = useColorScheme();
+  const { apiUrl } = useAuthStore();
 
   useEffect(() => {
     initDatabase().catch((err) => {
@@ -20,27 +18,21 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
-    let mounted = true;
-    loadSessionCookie().then(async (cookie) => {
-      if (!mounted) return;
-      if (cookie) {
-        await getSession(apiUrl);
-      }
-      const current = segments[0];
-      if (!cookie && current !== "auth") {
-        router.replace("/auth");
-      }
-    });
-    return () => {
-      mounted = false;
-    };
-  }, [apiUrl, router, segments]);
+    loadSessionCookie()
+      .then((cookie) => (cookie ? getSession(apiUrl) : null))
+      .catch((err) => {
+        console.warn("Session restore skipped", err);
+      });
+  }, [apiUrl]);
 
   return (
     <>
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="workout/[id]" options={{ title: "Workout" }} />
+        <Stack.Screen name="auth" options={{ title: "Sign in" }} />
+        <Stack.Screen name="settings" options={{ title: "Settings" }} />
+        <Stack.Screen name="import-video" options={{ title: "Import exercise" }} />
       </Stack>
       <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
     </>
