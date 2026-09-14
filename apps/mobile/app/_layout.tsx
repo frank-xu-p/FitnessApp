@@ -2,10 +2,18 @@ import "../global.css";
 import { useEffect } from "react";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { useColorScheme } from "react-native";
+import { useColorScheme, LogBox } from "react-native";
 import { initDatabase } from "../db/client";
 import { loadSessionCookie, getSession } from "../lib/auth";
 import { useAuthStore } from "../store/useAuthStore";
+
+// Suppress the known NativeWind/css-interop upgrade warning that fires during
+// initial render when it tries to serialize router/navigation props via JSON.stringify.
+// This is a known issue with react-native-css-interop@0.1.x + expo-router v6.
+LogBox.ignoreLogs([
+  "Couldn't find a navigation context",
+  "CssInterop upgrade warning",
+]);
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();

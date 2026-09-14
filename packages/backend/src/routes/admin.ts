@@ -2,9 +2,10 @@ import { Hono } from "hono";
 import { eq, and } from "drizzle-orm";
 import { exercises } from "@fitness-app/db-schema";
 import { createDb } from "../db/client";
-import { authMiddleware, requireAuth, type Variables } from "../middleware/auth";
+import { authMiddleware, requireAuth, type AppEnv } from "../middleware/auth";
 
-const app = new Hono<{ Bindings: { DB: D1Database }; Variables: Variables }>();
+const app = new Hono<AppEnv>();
+
 
 app.use("*", authMiddleware);
 

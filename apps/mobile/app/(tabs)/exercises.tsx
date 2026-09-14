@@ -1,37 +1,448 @@
+import React, { useState, useEffect, useCallback } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import { useRouter } from "expo-router";
-import { View, TouchableOpacity, Text } from "react-native";
-import { ExercisePicker } from "../../components/ExercisePicker";
+import { Image } from "expo-image";
+import { FlashList } from "@shopify/flash-list";
+import * as Haptics from "expo-haptics";
+
+import {
+  Search,
+  Dumbbell,
+  SlidersHorizontal,
+  X,
+  ChevronRight,
+  Sparkles,
+  Download,
+} from "lucide-react-native";
+import { getExercises } from "../../db/queries";
 import { useWorkoutStore } from "../../store/useWorkoutStore";
-import { Camera } from "lucide-react-native";
+import { AnatomicalDummy } from "../../components/AnatomicalDummy";
+import { StrongImportModal } from "../../components/StrongImportModal";
 import type { Exercise } from "../../db/schema";
+
+const EQUIPMENT_CHIPS = [
+  "All",
+  "Barbell",
+  "Dumbbell",
+  "Cable",
+  "Machine",
+  "Body Only",
+  "Kettlebells",
+  "Bands",
+];
+
+const MUSCLE_CHIPS = [
+  "All",
+  "Chest",
+  "Back",
+  "Legs",
+  "Shoulders",
+  "Biceps",
+  "Triceps",
+  "Abdominals",
+];
 
 export default function ExercisesScreen() {
   const router = useRouter();
   const { activeWorkout, addExerciseToWorkout } = useWorkoutStore();
 
-  const handleSelect = (exercise: Exercise) => {
+  const [query, setQuery] = useState("");
+  const [selectedEquipment, setSelectedEquipment] = useState("All");
+  const [selectedMuscle, setSelectedMuscle] = useState<string | null>(null);
+  const [showBodyMap, setShowBodyMap] = useState(false);
+  const [exercises, setExercises] = useState<Exercise[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showStrongModal, setShowStrongModal] = useState(false);
+
+  const loadData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const eqFilter =
+        selectedEquipment === "All"
+          ? undefined
+          : [selectedEquipment.toLowerCase()];
+
+      const muscleFilter =
+        selectedMuscle && selectedMuscle !== "All"
+          ? [selectedMuscle.toLowerCase()]
+          : undefined;
+
+      const rows = await getExercises({
+        query: query.trim().length > 0 ? query : undefined,
+        equipment: eqFilter,
+        muscles: muscleFilter,
+      });
+
+      setExercises(rows);
+    } catch (err) {
+      console.error("Failed to load exercises library", err);
+      setExercises([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [query, selectedEquipment, selectedMuscle]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  const handleSelectExercise = (exercise: Exercise) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
     if (activeWorkout) {
       addExerciseToWorkout(exercise.id);
       router.push(`/workout/${activeWorkout.id}`);
+    } else {
+      router.push(`/exercise/${exercise.id}`);
     }
   };
 
+  const handleResetFilters = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
+    setQuery("");
+    setSelectedEquipment("All");
+    setSelectedMuscle(null);
+  };
+
+  const hasActiveFilters =
+    query.length > 0 ||
+    selectedEquipment !== "All" ||
+    (selectedMuscle !== null && selectedMuscle !== "All");
+
   return (
-    <View className="flex-1">
-      <TouchableOpacity
-        onPress={() => router.push("/import-video")}
-        className="mx-4 mb-2 mt-4 flex-row items-center justify-center gap-2 rounded-xl bg-purple-100 py-3 dark:bg-purple-900/30"
-      >
-        <Camera size={20} color="#9333EA" />
-        <Text className="font-medium text-purple-700 dark:text-purple-300">
-          Import exercise with AI
-        </Text>
-      </TouchableOpacity>
-      <ExercisePicker
-        onSelect={handleSelect}
-        onCreate={(name) => {
-          console.log("Create exercise", name);
-        }}
+    <View className="flex-1 bg-black pt-12">
+      {/* Top Header */}
+      <View className="px-4 pb-2">
+        <View className="flex-row items-center justify-between mb-3">
+          <View>
+            <Text className="text-2xl font-black text-white tracking-tight">
+              Exercise Library
+            </Text>
+            <Text className="text-xs font-mono font-bold text-zinc-400">
+              {exercises.length} Movements Available
+            </Text>
+          </View>
+
+          <View className="flex-row items-center gap-2">
+            <TouchableOpacity
+              onPress={() => {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
+                setShowStrongModal(true);
+              }}
+              activeOpacity={0.8}
+              className="flex-row items-center gap-1.5 rounded-xl bg-cyan-500/10 px-3 py-2 border border-cyan-500/30"
+            >
+              <Download size={15} color="#38BDF8" />
+              <Text className="text-xs font-bold text-cyan-400">
+                Strong Import
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
+                router.push("/import-video");
+              }}
+              activeOpacity={0.8}
+              className="flex-row items-center gap-1.5 rounded-xl bg-purple-500/10 px-3 py-2 border border-purple-500/30"
+            >
+              <Sparkles size={16} color="#A855F7" />
+              <Text className="text-xs font-bold text-purple-400">
+                AI Import
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Search Bar + Body Map Toggle */}
+        <View className="flex-row items-center gap-2 mb-2">
+          <View className="flex-1 flex-row items-center gap-2 rounded-2xl bg-zinc-900 px-3.5 py-2.5 border border-zinc-800/80">
+            <Search size={18} color="#71717A" />
+            <TextInput
+              testID="exercise-search-input"
+              value={query}
+              onChangeText={setQuery}
+              placeholder="Search exercise, muscle, equipment..."
+              placeholderTextColor="#71717A"
+              className="flex-1 text-sm font-semibold text-white"
+            />
+            {query.length > 0 && (
+              <TouchableOpacity
+                onPress={() => setQuery("")}
+                activeOpacity={0.8}
+              >
+                <X size={16} color="#71717A" />
+              </TouchableOpacity>
+            )}
+          </View>
+
+          <TouchableOpacity
+            testID="toggle-body-map-btn"
+            onPress={() => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
+              setShowBodyMap((prev) => !prev);
+            }}
+            activeOpacity={0.8}
+            className={`flex-row items-center gap-1.5 rounded-2xl px-3 py-2.5 border ${
+              showBodyMap || selectedMuscle
+                ? "bg-cyan-500/20 border-cyan-500/60"
+                : "bg-zinc-900 border-zinc-800/80"
+            }`}
+          >
+            <SlidersHorizontal
+              size={16}
+              color={showBodyMap || selectedMuscle ? "#38BDF8" : "#A1A1AA"}
+            />
+            <Text
+              className={`text-xs font-black uppercase tracking-wider ${
+                showBodyMap || selectedMuscle ? "text-cyan-400" : "text-zinc-400"
+              }`}
+            >
+              Body Map
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Interactive Anatomical Dummy Body Map (Collapsible / Toggleable) */}
+        {showBodyMap && (
+          <View className="mb-3">
+            <AnatomicalDummy
+              selectedMuscle={selectedMuscle}
+              onSelectMuscle={(m) => {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
+                setSelectedMuscle(m);
+              }}
+            />
+          </View>
+        )}
+
+        {/* Scrollable Filter Chips */}
+        <View className="gap-2 mb-1">
+          {/* Equipment Chips */}
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            className="flex-row"
+          >
+            <View className="flex-row gap-1.5 pr-4">
+              {EQUIPMENT_CHIPS.map((eq) => {
+                const isActive = selectedEquipment === eq;
+                return (
+                  <TouchableOpacity
+                    key={eq}
+                    testID={`chip-equipment-${eq}`}
+                    onPress={() => {
+                      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
+                      setSelectedEquipment(eq);
+                    }}
+                    activeOpacity={0.8}
+                    className={`rounded-xl px-3 py-1.5 border ${
+                      isActive
+                        ? "bg-cyan-500/20 border-cyan-500/60"
+                        : "bg-zinc-900 border-zinc-800/80"
+                    }`}
+                  >
+                    <Text
+                      className={`text-xs font-bold ${
+                        isActive
+                          ? "text-cyan-400"
+                          : "text-zinc-400"
+                      }`}
+                    >
+                      {eq}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </ScrollView>
+
+          {/* Muscle Chips */}
+          {!showBodyMap && (
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              className="flex-row"
+            >
+              <View className="flex-row gap-1.5 pr-4">
+                {MUSCLE_CHIPS.map((m) => {
+                  const isActive =
+                    (m === "All" && !selectedMuscle) ||
+                    (selectedMuscle &&
+                      selectedMuscle.toLowerCase() === m.toLowerCase());
+                  return (
+                    <TouchableOpacity
+                      key={m}
+                      testID={`chip-muscle-${m}`}
+                      onPress={() => {
+                        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
+                        setSelectedMuscle(m === "All" ? null : m.toLowerCase());
+                      }}
+                      activeOpacity={0.8}
+                      className={`rounded-xl px-3 py-1 border ${
+                        isActive
+                          ? "bg-lime-400/20 border-lime-400/60"
+                          : "bg-zinc-900/80 border-zinc-800/60"
+                      }`}
+                    >
+                      <Text
+                        className={`text-[11px] font-bold ${
+                          isActive
+                            ? "text-[#CCFF00]"
+                            : "text-zinc-400"
+                        }`}
+                      >
+                        {m}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </ScrollView>
+          )}
+        </View>
+
+        {/* Active Filters Reset Bar */}
+        {hasActiveFilters && (
+          <View className="mt-2 flex-row items-center justify-between">
+            <Text className="text-[11px] font-bold text-zinc-400">
+              Filtering by:{" "}
+              <Text className="text-cyan-400 font-black">
+                {[
+                  query ? `"${query}"` : null,
+                  selectedEquipment !== "All" ? selectedEquipment : null,
+                  selectedMuscle ? selectedMuscle : null,
+                ]
+                  .filter(Boolean)
+                  .join(" · ")}
+              </Text>
+            </Text>
+            <TouchableOpacity
+              testID="reset-filters-btn"
+              onPress={handleResetFilters}
+              activeOpacity={0.8}
+            >
+              <Text className="text-[11px] font-bold text-red-400">Reset All</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
+
+      {/* Main List: FlashList with 44x44 Thumbnails for Smooth 60 FPS Scrolling */}
+      <View className="flex-1 px-4 pt-1">
+        {loading ? (
+          <View className="flex-1 items-center justify-center">
+            <ActivityIndicator size="large" color="#38BDF8" />
+          </View>
+        ) : (
+          <FlashList
+            data={exercises}
+            keyExtractor={(item) => item.id}
+            estimatedItemSize={68}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 32 }}
+            renderItem={({ item }) => {
+              const primary = Array.isArray(item.primaryMuscles)
+                ? item.primaryMuscles[0]
+                : null;
+
+              return (
+                <TouchableOpacity
+                  testID={`exercise-item-${item.id}`}
+                  onPress={() => handleSelectExercise(item)}
+                  activeOpacity={0.8}
+                  className="mb-2.5 flex-row items-center justify-between rounded-2xl border border-zinc-800/80 bg-zinc-900 p-3 shadow-sm"
+                >
+                  <View className="flex-row items-center gap-3 flex-1 pr-2">
+                    {/* 44x44 Static Image Thumbnail */}
+                    <View className="h-11 w-11 rounded-xl bg-zinc-950 items-center justify-center overflow-hidden border border-zinc-800">
+                      {item.imageUrl ? (
+                        <Image
+                          source={{ uri: item.imageUrl }}
+                          style={{ width: 44, height: 44 }}
+                          contentFit="cover"
+                          transition={100}
+                        />
+                      ) : (
+                        <Dumbbell size={20} color="#71717A" />
+                      )}
+                    </View>
+
+                    {/* Title & Metadata */}
+                    <View className="flex-1">
+                      <Text
+                        className="text-sm font-bold text-white"
+                        numberOfLines={1}
+                      >
+                        {item.name}
+                      </Text>
+                      <View className="mt-0.5 flex-row items-center gap-1.5">
+                        {primary && (
+                          <Text className="text-xs font-semibold capitalize text-cyan-400">
+                            {primary}
+                          </Text>
+                        )}
+                        {item.equipment && (
+                          <Text className="text-xs text-zinc-400 capitalize">
+                            · {item.equipment}
+                          </Text>
+                        )}
+                      </View>
+                    </View>
+                  </View>
+
+                  {/* Right Action */}
+                  <View className="flex-row items-center gap-1">
+                    {activeWorkout ? (
+                      <View className="rounded-xl bg-cyan-500/20 px-2.5 py-1 border border-cyan-500/40">
+                        <Text className="text-[11px] font-black text-cyan-400">
+                          + ADD
+                        </Text>
+                      </View>
+                    ) : (
+                      <ChevronRight size={18} color="#71717A" />
+                    )}
+                  </View>
+                </TouchableOpacity>
+              );
+            }}
+            ListEmptyComponent={
+              <View className="items-center py-16">
+                <Dumbbell size={40} color="#71717A" />
+                <Text className="mt-3 text-base font-bold text-zinc-300">
+                  No exercises found
+                </Text>
+                <Text className="mt-1 text-xs text-zinc-500 text-center px-6">
+                  Try clearing your search query or selecting a different muscle group.
+                </Text>
+                {hasActiveFilters && (
+                  <TouchableOpacity
+                    onPress={handleResetFilters}
+                    activeOpacity={0.8}
+                    className="mt-4 rounded-xl bg-cyan-500 px-4 py-2"
+                  >
+                    <Text className="text-xs font-black text-black uppercase">
+                      Clear Filters
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            }
+          />
+        )}
+      </View>
+
+      {/* Strong App Importer Modal */}
+      <StrongImportModal
+        visible={showStrongModal}
+        onClose={() => setShowStrongModal(false)}
+        onImportSuccess={() => loadData()}
       />
     </View>
   );

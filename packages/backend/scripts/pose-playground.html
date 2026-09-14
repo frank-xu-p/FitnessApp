@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2D Segmented Muscular Figurine Pose Playground</title>
+  <!-- Tailwind CSS CDN for sleek dark UI -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- TensorFlow.js & Pose Detection MoveNet -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core@4.20.0/dist/tf-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@4.20.0/dist/tf-converter.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl@4.20.0/dist/tf-backend-webgl.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection@2.1.3/dist/pose-detection.min.js"></script>
+  <style>
+    body { background-color: #030712; color: #F9FAFB; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    .glow-cyan { text-shadow: 0 0 20px rgba(56, 189, 248, 0.6); }
+  </style>
+</head>
+<body class="min-h-screen p-6 md:p-10 flex flex-col items-center">
+  <!-- Header -->
+  <header class="w-full max-w-6xl mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-gray-800 pb-6">
+    <div>
+      <div class="flex items-center gap-3">
+        <div class="h-10 w-10 rounded-2xl bg-sky-500/20 border border-sky-500/30 flex items-center justify-center">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"><path d="M6 18h12M6 6h12M9 12h6"/></svg>
+        </div>
+        <h1 class="text-2xl font-black text-white tracking-tight">2D Segmented Muscular Figurine Engine</h1>
+      </div>
+      <p class="text-xs text-gray-400 mt-1">Computer Vision Pose Estimation (MoveNet) converting video clips into contoured anatomical 2D vector figurines.</p>
+    </div>
+    <div id="modelStatus" class="flex items-center gap-2 rounded-full bg-yellow-500/10 border border-yellow-500/30 px-3.5 py-1.5 text-xs font-bold text-yellow-400">
+      <span class="h-2 w-2 rounded-full bg-yellow-400 animate-ping"></span>
+      Loading MoveNet Vision Model...
+    </div>
+  </header>
+
+  <!-- Sample Test Clips Bar -->
+  <section class="w-full max-w-6xl mb-6 bg-gray-900/60 p-4 rounded-2xl border border-gray-800 flex flex-wrap items-center justify-between gap-3">
+    <div class="flex items-center gap-2">
+      <span class="text-xs font-black text-white">⚡ Quick Sample Clips:</span>
+      <button onclick="loadSampleClip('/clips/squats.mp4', 'quadriceps,glutes', 'body')" class="rounded-xl bg-gray-800 hover:bg-sky-500/20 hover:border-sky-500/40 border border-gray-700 px-3 py-1.5 text-xs font-bold text-gray-200 transition">
+        🏋️‍♂️ Squats Clip
+      </button>
+      <button onclick="loadSampleClip('/clips/curls.mp4', 'biceps', 'dumbbell')" class="rounded-xl bg-gray-800 hover:bg-sky-500/20 hover:border-sky-500/40 border border-gray-700 px-3 py-1.5 text-xs font-bold text-gray-200 transition">
+        💪 Bicep Curls Clip
+      </button>
+      <button onclick="loadSampleClip('/clips/pushup.mp4', 'chest,triceps', 'body')" class="rounded-xl bg-gray-800 hover:bg-sky-500/20 hover:border-sky-500/40 border border-gray-700 px-3 py-1.5 text-xs font-bold text-gray-200 transition">
+        🦾 Pushups Clip
+      </button>
+    </div>
+    <label class="cursor-pointer rounded-xl bg-sky-500 hover:bg-sky-400 px-3.5 py-1.5 text-xs font-black text-white transition shadow-lg shadow-sky-500/20">
+      + Upload Your Own Video
+      <input type="file" id="videoFileInput" accept="video/*" class="hidden" />
+    </label>
+  </section>
+
+  <!-- Main Dual Grid -->
+  <main class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <!-- Left: Original Video & Skeleton Tracking Overlay -->
+    <div class="flex flex-col gap-4 rounded-3xl bg-gray-900/90 p-6 border border-gray-800 shadow-2xl">
+      <div class="flex items-center justify-between">
+        <h2 class="text-sm font-bold text-white flex items-center gap-2">
+          <span>1. Source Video Clip</span>
+          <span id="fpsCounter" class="rounded-md bg-gray-800 px-2 py-0.5 text-[10px] text-gray-400">0 FPS</span>
+        </h2>
+        <span class="text-[11px] font-bold text-gray-400" id="clipNameLabel">No clip loaded</span>
+      </div>
+
+      <!-- Video & Tracking Canvas Container -->
+      <div id="dropZone" class="relative w-full h-80 rounded-2xl bg-black border-2 border-dashed border-gray-700 flex items-center justify-center overflow-hidden group">
+        <video id="inputVideo" playsinline loop muted crossorigin="anonymous" class="w-full h-full object-contain hidden"></video>
+        <canvas id="trackingCanvas" class="absolute inset-0 w-full h-full object-contain pointer-events-none"></canvas>
+        <div id="dropPrompt" class="flex flex-col items-center gap-2 text-center p-6">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <p class="text-sm font-bold text-gray-300">Drag and drop your exercise video clip here</p>
+          <p class="text-xs text-gray-500">Or click one of the quick sample clips above</p>
+        </div>
+      </div>
+
+      <!-- Video Timeline Controls -->
+      <div class="flex items-center gap-3">
+        <button id="btnPlayPause" class="rounded-xl bg-gray-800 hover:bg-gray-700 p-2 text-white border border-gray-700">
+          <svg id="playIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </button>
+        <input type="range" id="videoScrubber" min="0" max="100" value="0" class="flex-1 accent-sky-400" />
+        <span id="timeDisplay" class="text-xs font-mono text-gray-400">0.0s</span>
+      </div>
+    </div>
+
+    <!-- Right: Synchronized 2D Segmented Muscular Figurine -->
+    <div class="flex flex-col gap-4 rounded-3xl bg-gray-900/90 p-6 border border-gray-800 shadow-2xl">
+      <div class="flex items-center justify-between">
+        <h2 class="text-sm font-bold text-white flex items-center gap-2">
+          <span>2. 2D Segmented Muscular Figurine</span>
+          <span class="rounded-md bg-sky-500/20 text-sky-400 border border-sky-500/30 px-2 py-0.5 text-[10px] font-bold uppercase">GymVisual / Hevy Style</span>
+        </h2>
+        <div id="detectedPhase" class="rounded-full bg-gray-800 px-3 py-1 text-xs font-bold text-sky-400 border border-gray-700">
+          Phase: Tracking...
+        </div>
+      </div>
+
+      <!-- Vector Figurine Display -->
+      <div class="relative w-full h-80 rounded-2xl bg-[#0B0F19] border border-gray-800 flex items-center justify-center overflow-hidden">
+        <div id="stickFigureContainer" class="w-full h-full flex items-center justify-center"></div>
+      </div>
+
+      <!-- Movement Configuration -->
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-[11px] font-bold text-gray-400 mb-1 block">Active Target Muscle</label>
+          <select id="muscleSelect" class="w-full rounded-xl bg-gray-950 px-3 py-2 text-xs font-bold text-white border border-gray-800">
+            <option value="chest,triceps">Chest & Triceps (Push)</option>
+            <option value="quadriceps,glutes">Quadriceps & Glutes (Squat/Legs)</option>
+            <option value="lats,biceps">Lats & Biceps (Pull/Back)</option>
+            <option value="shoulders">Shoulders (Delts)</option>
+            <option value="biceps">Biceps (Arm Flexion)</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-[11px] font-bold text-gray-400 mb-1 block">Apparatus Geometry</label>
+          <select id="apparatusSelect" class="w-full rounded-xl bg-gray-950 px-3 py-2 text-xs font-bold text-white border border-gray-800">
+            <option value="barbell">Barbell & Plates</option>
+            <option value="dumbbell">Dumbbells</option>
+            <option value="cable">Cable Pulley</option>
+            <option value="machine">Machine Levers</option>
+            <option value="body">Bodyweight (None)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Script Logic -->
+  <script>
+    let detector = null;
+    let isVideoPlaying = false;
+    let lastTime = performance.now();
+    let frameCount = 0;
+
+    const video = document.getElementById("inputVideo");
+    const canvas = document.getElementById("trackingCanvas");
+    const ctx = canvas.getContext("2d");
+    const stickContainer = document.getElementById("stickFigureContainer");
+    const modelStatus = document.getElementById("modelStatus");
+    const dropPrompt = document.getElementById("dropPrompt");
+    const fpsCounter = document.getElementById("fpsCounter");
+    const detectedPhase = document.getElementById("detectedPhase");
+    const clipNameLabel = document.getElementById("clipNameLabel");
+    const muscleSelect = document.getElementById("muscleSelect");
+    const apparatusSelect = document.getElementById("apparatusSelect");
+    const scrubber = document.getElementById("videoScrubber");
+    const timeDisplay = document.getElementById("timeDisplay");
+
+    // Exponential Moving Average (EMA) state for smoothing
+    const smoothedJoints = {};
+    const EMA_ALPHA = 0.35; // Lower = smoother but more lag, Higher = more responsive but jittery
+
+    function applyEma(jointName, newPt) {
+      if (!newPt) return null;
+      if (!smoothedJoints[jointName]) {
+        smoothedJoints[jointName] = { x: newPt.x, y: newPt.y };
+      } else {
+        smoothedJoints[jointName].x = (EMA_ALPHA * newPt.x) + ((1 - EMA_ALPHA) * smoothedJoints[jointName].x);
+        smoothedJoints[jointName].y = (EMA_ALPHA * newPt.y) + ((1 - EMA_ALPHA) * smoothedJoints[jointName].y);
+      }
+      return smoothedJoints[jointName];
+    }
+
+    async function initMoveNet() {
+      try {
+        await tf.setBackend("webgl");
+        await tf.ready();
+        // Upgrade to BlazePose for 33 keypoints and higher fidelity
+        detector = await poseDetection.createDetector(
+          poseDetection.SupportedModels.BlazePose,
+          { 
+            runtime: 'tfjs', 
+            modelType: 'full',
+            enableSmoothing: true // Built-in temporal smoothing
+          }
+        );
+        modelStatus.className = "flex items-center gap-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1.5 text-xs font-bold text-emerald-400";
+        modelStatus.innerHTML = '<span class="h-2 w-2 rounded-full bg-emerald-400"></span>BlazePose 33-pt Active (GPU)';
+      } catch (err) {
+        console.error("BlazePose init failed", err);
+        modelStatus.className = "flex items-center gap-2 rounded-full bg-red-500/10 border border-red-500/30 px-3.5 py-1.5 text-xs font-bold text-red-400";
+        modelStatus.innerText = "Vision Fallback Active";
+      }
+    }
+
+    function buildMuscleSegment(p1, p2, w1, wMid, w2, cOut = 0.5, cIn = 0.5) {
+      if (!p1 || !p2) return "";
+      const dx = p2.x - p1.x;
+      const dy = p2.y - p1.y;
+      const len = Math.sqrt(dx * dx + dy * dy) || 1;
+      const nx = -dy / len;
+      const ny = dx / len;
+
+      const midX = (p1.x + p2.x) / 2;
+      const midY = (p1.y + p2.y) / 2;
+
+      const p1Out = { x: p1.x + nx * (w1 / 2), y: p1.y + ny * (w1 / 2) };
+      const midOut = { x: midX + nx * (wMid / 2) * cOut, y: midY + ny * (wMid / 2) * cOut };
+      const p2Out = { x: p2.x + nx * (w2 / 2), y: p2.y + ny * (w2 / 2) };
+
+      const p2In = { x: p2.x - nx * (w2 / 2), y: p2.y - ny * (w2 / 2) };
+      const midIn = { x: midX - nx * (wMid / 2) * cIn, y: midY - ny * (wMid / 2) * cIn };
+      const p1In = { x: p1.x - nx * (w1 / 2), y: p1.y - ny * (w1 / 2) };
+
+      return `M ${p1Out.x.toFixed(1)} ${p1Out.y.toFixed(1)} Q ${midOut.x.toFixed(1)} ${midOut.y.toFixed(1)} ${p2Out.x.toFixed(1)} ${p2Out.y.toFixed(1)} L ${p2In.x.toFixed(1)} ${p2In.y.toFixed(1)} Q ${midIn.x.toFixed(1)} ${midIn.y.toFixed(1)} ${p1In.x.toFixed(1)} ${p1In.y.toFixed(1)} Z`;
+    }
+
+    function generateMuscularFigurineSvg(joints, muscles, apparatus) {
+      const size = 400;
+      const isChest = muscles.includes("chest") || muscles.includes("pectoral");
+      const isArms = muscles.includes("bicep") || muscles.includes("tricep") || muscles.includes("arm");
+      const isShoulders = muscles.includes("shoulder") || muscles.includes("delt");
+      const isBack = muscles.includes("lat") || muscles.includes("back");
+      const isLegs = muscles.includes("quad") || muscles.includes("glute") || muscles.includes("leg");
+      const isCore = muscles.includes("ab") || muscles.includes("core");
+
+      const toPx = (val, defaultVal) => val != null ? Math.max(15, Math.min(size - 15, val * size)) : defaultVal;
+
+      const head = { x: toPx(joints.head?.x, 200), y: toPx(joints.head?.y, 75) };
+      const neck = { x: toPx(joints.neck?.x, head.x), y: toPx(joints.neck?.y, head.y + 30) };
+      const lShoulder = { x: toPx(joints.leftShoulder?.x, neck.x - 30), y: toPx(joints.leftShoulder?.y, neck.y + 8) };
+      const rShoulder = { x: toPx(joints.rightShoulder?.x, neck.x + 30), y: toPx(joints.rightShoulder?.y, neck.y + 8) };
+      const spine = { x: toPx(joints.spine?.x, neck.x), y: toPx(joints.spine?.y, neck.y + 60) };
+      const hip = { x: toPx(joints.hip?.x, neck.x), y: toPx(joints.hip?.y, neck.y + 110) };
+
+      const lElbow = { x: toPx(joints.leftElbow?.x, lShoulder.x - 30), y: toPx(joints.leftElbow?.y, lShoulder.y + 55) };
+      const rElbow = { x: toPx(joints.rightElbow?.x, rShoulder.x + 30), y: toPx(joints.rightElbow?.y, rShoulder.y + 55) };
+      const lWrist = { x: toPx(joints.leftWrist?.x, lElbow.x - 15), y: toPx(joints.leftWrist?.y, lElbow.y + 55) };
+      const rWrist = { x: toPx(joints.rightWrist?.x, rElbow.x + 15), y: toPx(joints.rightWrist?.y, rElbow.y + 55) };
+      
+      // Hands (using new 33pt indices: index finger as main grip)
+      const lHand = { x: toPx(joints.leftIndex?.x, lWrist.x - 5), y: toPx(joints.leftIndex?.y, lWrist.y + 15) };
+      const rHand = { x: toPx(joints.rightIndex?.x, rWrist.x + 5), y: toPx(joints.rightIndex?.y, rWrist.y + 15) };
+
+      const lKnee = { x: toPx(joints.leftKnee?.x, hip.x - 24), y: toPx(joints.leftKnee?.y, hip.y + 80) };
+      const rKnee = { x: toPx(joints.rightKnee?.x, hip.x + 24), y: toPx(joints.rightKnee?.y, hip.y + 80) };
+      const lAnkle = { x: toPx(joints.leftAnkle?.x, lKnee.x - 8), y: toPx(joints.leftAnkle?.y, lKnee.y + 80) };
+      const rAnkle = { x: toPx(joints.rightAnkle?.x, rKnee.x + 8), y: toPx(joints.rightAnkle?.y, rKnee.y + 80) };
+
+      // Feet (using new 33pt indices: heel and toe)
+      const lHeel = { x: toPx(joints.leftHeel?.x, lAnkle.x), y: toPx(joints.leftHeel?.y, lAnkle.y + 5) };
+      const lToe = { x: toPx(joints.leftFootIndex?.x, lAnkle.x + 15), y: toPx(joints.leftFootIndex?.y, lAnkle.y + 10) };
+      const rHeel = { x: toPx(joints.rightHeel?.x, rAnkle.x), y: toPx(joints.rightHeel?.y, rAnkle.y + 5) };
+      const rToe = { x: toPx(joints.rightFootIndex?.x, rAnkle.x + 15), y: toPx(joints.rightFootIndex?.y, rAnkle.y + 10) };
+
+      const getStyle = (active) => active
+        ? 'fill="#0284C7" fill-opacity="0.85" stroke="#38BDF8" stroke-width="2.5" filter="url(#neon-glow)"'
+        : 'fill="#1E293B" stroke="#475569" stroke-width="1.8"';
+
+      let apparatusSvg = "";
+      // Anchor apparatus to the actual hands (index fingers) instead of wrists
+      if (apparatus === "barbell") {
+        apparatusSvg = `
+          <line x1="${lHand.x - 30}" y1="${lHand.y}" x2="${rHand.x + 30}" y2="${rHand.y}" stroke="#F59E0B" stroke-width="7" stroke-linecap="round" />
+          <rect x="${lHand.x - 38}" y="${lHand.y - 32}" width="16" height="64" rx="4" fill="#F59E0B" stroke="#B45309" stroke-width="1.5" />
+          <rect x="${lHand.x - 50}" y="${lHand.y - 24}" width="10" height="48" rx="3" fill="#D97706" />
+          <rect x="${rHand.x + 22}" y="${rHand.y - 32}" width="16" height="64" rx="4" fill="#F59E0B" stroke="#B45309" stroke-width="1.5" />
+          <rect x="${rHand.x + 40}" y="${rHand.y - 24}" width="10" height="48" rx="3" fill="#D97706" />
+        `;
+      } else if (apparatus === "dumbbell") {
+        apparatusSvg = `
+          <line x1="${lHand.x - 20}" y1="${lHand.y}" x2="${lHand.x + 20}" y2="${lHand.y}" stroke="#F59E0B" stroke-width="6" stroke-linecap="round" />
+          <rect x="${lHand.x - 28}" y="${lHand.y - 18}" width="10" height="36" rx="4" fill="#F59E0B" />
+          <rect x="${lHand.x + 18}" y="${lHand.y - 18}" width="10" height="36" rx="4" fill="#F59E0B" />
+          <line x1="${rHand.x - 20}" y1="${rHand.y}" x2="${rHand.x + 20}" y2="${rHand.y}" stroke="#F59E0B" stroke-width="6" stroke-linecap="round" />
+          <rect x="${rHand.x - 28}" y="${rHand.y - 18}" width="10" height="36" rx="4" fill="#F59E0B" />
+          <rect x="${rHand.x + 18}" y="${rHand.y - 18}" width="10" height="36" rx="4" fill="#F59E0B" />
+        `;
+      } else if (apparatus === "cable") {
+        apparatusSvg = `
+          <line x1="200" y1="20" x2="${(lHand.x + rHand.x) / 2}" y2="${(lHand.y + rHand.y) / 2}" stroke="#F59E0B" stroke-width="3.5" stroke-dasharray="5,5" />
+          <circle cx="200" cy="24" r="12" fill="#0F172A" stroke="#F59E0B" stroke-width="3" />
+          <line x1="${lHand.x}" y1="${lHand.y}" x2="${rHand.x}" y2="${rHand.y}" stroke="#F59E0B" stroke-width="6" stroke-linecap="round" />
+        `;
+      }
+
+      const torsoPath = `
+        M ${lShoulder.x} ${lShoulder.y}
+        Q ${neck.x} ${neck.y + 8} ${rShoulder.x} ${rShoulder.y}
+        Q ${rShoulder.x + 8} ${spine.y} ${hip.x + 16} ${hip.y}
+        L ${hip.x - 16} ${hip.y}
+        Q ${lShoulder.x - 8} ${spine.y} ${lShoulder.x} ${lShoulder.y} Z
+      `;
+
+      const chestPlateLeft = `M ${neck.x - 2} ${neck.y + 12} L ${lShoulder.x + 4} ${lShoulder.y + 4} Q ${lShoulder.x + 2} ${spine.y - 4} ${neck.x - 2} ${spine.y + 4} Z`;
+      const chestPlateRight = `M ${neck.x + 2} ${neck.y + 12} L ${rShoulder.x - 4} ${rShoulder.y + 4} Q ${rShoulder.x - 2} ${spine.y - 4} ${neck.x + 2} ${spine.y + 4} Z`;
+
+      // Draw solid feet anchored to heel and toe
+      const lFoot = `M ${lAnkle.x - 4} ${lAnkle.y - 4} L ${lAnkle.x + 4} ${lAnkle.y - 4} L ${lHeel.x + 4} ${lHeel.y + 4} L ${lToe.x + 4} ${lToe.y + 4} Q ${lToe.x} ${lToe.y + 6} ${lToe.x - 4} ${lToe.y + 4} L ${lHeel.x - 4} ${lHeel.y + 4} Z`;
+      const rFoot = `M ${rAnkle.x - 4} ${rAnkle.y - 4} L ${rAnkle.x + 4} ${rAnkle.y - 4} L ${rHeel.x + 4} ${rHeel.y + 4} L ${rToe.x + 4} ${rToe.y + 4} Q ${rToe.x} ${rToe.y + 6} ${rToe.x - 4} ${rToe.y + 4} L ${rHeel.x - 4} ${rHeel.y + 4} Z`;
+
+      // Hands geometry based on wrist to index mapping
+      const lHandGeo = `M ${lWrist.x - 4} ${lWrist.y} L ${lWrist.x + 4} ${lWrist.y} L ${lHand.x + 4} ${lHand.y + 2} A 4 4 0 0 1 ${lHand.x - 4} ${lHand.y + 2} Z`;
+      const rHandGeo = `M ${rWrist.x - 4} ${rWrist.y} L ${rWrist.x + 4} ${rWrist.y} L ${rHand.x + 4} ${rHand.y + 2} A 4 4 0 0 1 ${rHand.x - 4} ${rHand.y + 2} Z`;
+
+      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+        <defs>
+          <filter id="neon-glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="4" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        <rect width="400" height="400" fill="#0B0F19" />
+        <line x1="20" y1="370" x2="380" y2="370" stroke="#1E293B" stroke-width="3.5" stroke-linecap="round" />
+        <line x1="60" y1="378" x2="340" y2="378" stroke="#1E293B" stroke-width="2" stroke-dasharray="6,6" opacity="0.6" />
+
+        ${apparatusSvg}
+
+        <path d="${buildMuscleSegment(hip, lKnee, 24, 30, 18, 1.2, 0.9)}" ${getStyle(isLegs)} />
+        <path d="${buildMuscleSegment(lKnee, lAnkle, 18, 24, 12, 1.3, 0.8)}" ${getStyle(isLegs)} />
+        <path d="${lFoot}" ${getStyle(isLegs)} />
+
+        <path d="${buildMuscleSegment(hip, rKnee, 24, 30, 18, 1.2, 0.9)}" ${getStyle(isLegs)} />
+        <path d="${buildMuscleSegment(rKnee, rAnkle, 18, 24, 12, 1.3, 0.8)}" ${getStyle(isLegs)} />
+        <path d="${rFoot}" ${getStyle(isLegs)} />
+
+        <path d="${torsoPath}" ${getStyle(isCore || isBack)} />
+
+        <path d="${chestPlateLeft}" ${getStyle(isChest)} />
+        <path d="${chestPlateRight}" ${getStyle(isChest)} />
+
+        <circle cx="${lShoulder.x}" cy="${lShoulder.y}" r="13" ${getStyle(isShoulders)} />
+        <path d="${buildMuscleSegment(lShoulder, lElbow, 20, 24, 14, 1.2, 1.0)}" ${getStyle(isArms || isShoulders)} />
+        <path d="${buildMuscleSegment(lElbow, lWrist, 15, 18, 10, 1.1, 0.9)}" ${getStyle(isArms)} />
+        <path d="${lHandGeo}" ${getStyle(isArms)} />
+
+        <circle cx="${rShoulder.x}" cy="${rShoulder.y}" r="13" ${getStyle(isShoulders)} />
+        <path d="${buildMuscleSegment(rShoulder, rElbow, 20, 24, 14, 1.2, 1.0)}" ${getStyle(isArms || isShoulders)} />
+        <path d="${buildMuscleSegment(rElbow, rWrist, 15, 18, 10, 1.1, 0.9)}" ${getStyle(isArms)} />
+        <path d="${rHandGeo}" ${getStyle(isArms)} />
+
+        <polygon points="${neck.x - 7},${neck.y} ${neck.x + 7},${neck.y} ${head.x + 5},${head.y + 8} ${head.x - 5},${head.y + 8}" fill="#1E293B" stroke="#475569" stroke-width="1.8" />
+        <ellipse cx="${head.x}" cy="${head.y}" rx="15" ry="19" fill="#1E293B" stroke="#475569" stroke-width="2" />
+        <path d="M ${head.x - 11} ${head.y - 2} Q ${head.x} ${head.y - 6} ${head.x + 11} ${head.y - 2} Q ${head.x} ${head.y + 3} ${head.x - 11} ${head.y - 2} Z" fill="#38BDF8" opacity="0.95" filter="url(#neon-glow)" />
+      </svg>`;
+    }
+
+    async function processFrame() {
+      if (video.paused || video.ended) return;
+
+      canvas.width = video.videoWidth || 640;
+      canvas.height = video.videoHeight || 480;
+
+      if (detector) {
+        try {
+          const poses = await detector.estimatePoses(video);
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          if (poses.length > 0) {
+            const kp = poses[0].keypoints;
+            const joints = {};
+            
+            // Map 33 BlazePose keypoints and apply EMA smoothing
+            const getPt = (idx, name) => {
+              const p = kp[idx];
+              if (!p || p.score < 0.2) return null;
+              const rawPt = { x: p.x / canvas.width, y: p.y / canvas.height };
+              return applyEma(name, rawPt);
+            };
+
+            joints.head = getPt(0, "head");
+            joints.leftShoulder = getPt(11, "leftShoulder");
+            joints.rightShoulder = getPt(12, "rightShoulder");
+            joints.leftElbow = getPt(13, "leftElbow");
+            joints.rightElbow = getPt(14, "rightElbow");
+            joints.leftWrist = getPt(15, "leftWrist");
+            joints.rightWrist = getPt(16, "rightWrist");
+            joints.leftPinky = getPt(17, "leftPinky");
+            joints.rightPinky = getPt(18, "rightPinky");
+            joints.leftIndex = getPt(19, "leftIndex");
+            // If thumb is available we can average it, but index works great for gripping
+            joints.rightIndex = getPt(20, "rightIndex");
+            
+            joints.leftHip = getPt(23, "leftHip");
+            joints.rightHip = getPt(24, "rightHip");
+            joints.leftKnee = getPt(25, "leftKnee");
+            joints.rightKnee = getPt(26, "rightKnee");
+            joints.leftAnkle = getPt(27, "leftAnkle");
+            joints.rightAnkle = getPt(28, "rightAnkle");
+            joints.leftHeel = getPt(29, "leftHeel");
+            joints.rightHeel = getPt(30, "rightHeel");
+            joints.leftFootIndex = getPt(31, "leftFootIndex");
+            joints.rightFootIndex = getPt(32, "rightFootIndex");
+
+            if (joints.leftShoulder && joints.rightShoulder) {
+              joints.neck = { x: (joints.leftShoulder.x + joints.rightShoulder.x) / 2, y: (joints.leftShoulder.y + joints.rightShoulder.y) / 2 };
+            }
+            if (joints.leftHip && joints.rightHip) {
+              joints.hip = { x: (joints.leftHip.x + joints.rightHip.x) / 2, y: (joints.leftHip.y + joints.rightHip.y) / 2 };
+            }
+            if (joints.neck && joints.hip) {
+              joints.spine = { x: (joints.neck.x + joints.hip.x) / 2, y: (joints.neck.y + joints.hip.y) / 2 };
+            }
+
+            // Skeleton Tracking Lines & Dots on Video (Full 33 points mapped)
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = "#38BDF8";
+            kp.forEach((p) => {
+              if (p.score > 0.3) {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 4, 0, 2 * Math.PI);
+                ctx.fillStyle = "#38BDF8";
+                ctx.fill();
+              }
+            });
+
+            // Render 2D Segmented Muscular Figurine with 33pt logic
+            const svg = generateMuscularFigurineSvg(joints, muscleSelect.value.split(","), apparatusSelect.value);
+            stickContainer.innerHTML = svg;
+
+            if (joints.leftKnee && joints.hip) {
+              const kneeDist = Math.abs(joints.hip.y - joints.leftKnee.y);
+              if (kneeDist < 0.18) {
+                detectedPhase.innerText = "Phase: Bottom Stretch (Inflection)";
+                detectedPhase.className = "rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/40 px-3 py-1 text-xs font-bold";
+              } else {
+                detectedPhase.innerText = "Phase: Lockout / Setup";
+                detectedPhase.className = "rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/40 px-3 py-1 text-xs font-bold";
+              }
+            }
+          }
+        } catch (e) {
+          console.warn("Pose estimation error:", e);
+        }
+      }
+
+      if (video.duration) {
+        scrubber.value = (video.currentTime / video.duration) * 100;
+        timeDisplay.innerText = video.currentTime.toFixed(1) + "s / " + video.duration.toFixed(1) + "s";
+      }
+
+      frameCount++;
+      const now = performance.now();
+      if (now - lastTime >= 1000) {
+        fpsCounter.innerText = frameCount + " FPS";
+        frameCount = 0;
+        lastTime = now;
+      }
+
+      requestAnimationFrame(processFrame);
+    }
+
+    function loadSampleClip(url, muscles, apparatus) {
+      muscleSelect.value = muscles;
+      apparatusSelect.value = apparatus;
+      clipNameLabel.innerText = url.split("/").pop();
+      dropPrompt.classList.add("hidden");
+      video.classList.remove("hidden");
+      video.src = url;
+      video.play().catch(() => {});
+      isVideoPlaying = true;
+      requestAnimationFrame(processFrame);
+    }
+
+    function loadUserVideo(file) {
+      clipNameLabel.innerText = file.name;
+      dropPrompt.classList.add("hidden");
+      video.classList.remove("hidden");
+      video.src = URL.createObjectURL(file);
+      video.play().catch(() => {});
+      isVideoPlaying = true;
+      requestAnimationFrame(processFrame);
+    }
+
+    const fileInput = document.getElementById("videoFileInput");
+    fileInput.addEventListener("change", (e) => {
+      if (e.target.files && e.target.files[0]) {
+        loadUserVideo(e.target.files[0]);
+      }
+    });
+
+    const dropZone = document.getElementById("dropZone");
+    dropZone.addEventListener("dragover", (e) => { e.preventDefault(); dropZone.classList.add("border-sky-400"); });
+    dropZone.addEventListener("dragleave", () => dropZone.classList.remove("border-sky-400"));
+    dropZone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropZone.classList.remove("border-sky-400");
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        loadUserVideo(e.dataTransfer.files[0]);
+      }
+    });
+
+    document.getElementById("btnPlayPause").addEventListener("click", () => {
+      if (video.paused) {
+        video.play();
+        requestAnimationFrame(processFrame);
+      } else {
+        video.pause();
+      }
+    });
+
+    scrubber.addEventListener("input", (e) => {
+      if (video.duration) {
+        video.currentTime = (e.target.value / 100) * video.duration;
+      }
+    });
+
+    initMoveNet();
+  </script>
+</body>
+</html>

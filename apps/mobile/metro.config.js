@@ -7,7 +7,8 @@ const workspaceRoot = path.resolve(projectRoot, "../..");
 
 const config = getDefaultConfig(projectRoot);
 
-config.watchFolders = [workspaceRoot];
+config.watchFolders = [...(config.watchFolders || []), workspaceRoot];
+
 config.resolver.nodeModulesPaths = [
   path.resolve(projectRoot, "node_modules"),
   path.resolve(workspaceRoot, "node_modules"),
@@ -15,10 +16,17 @@ config.resolver.nodeModulesPaths = [
 
 config.resolver.extraNodeModules = {
   "@babel/runtime": path.resolve(workspaceRoot, "node_modules/@babel/runtime"),
+  "react-native-reanimated": path.resolve(projectRoot, "lib/reanimated-mock.js"),
 };
 
 const defaultResolveRequest = config.resolver.resolveRequest;
 config.resolver.resolveRequest = (context, moduleName, platform) => {
+  if (moduleName === "react-native-reanimated") {
+    return {
+      filePath: path.resolve(projectRoot, "lib/reanimated-mock.js"),
+      type: "sourceFile",
+    };
+  }
   const resolvedName = moduleName === "expo-sqlite/next" ? "expo-sqlite" : moduleName;
   if (defaultResolveRequest) {
     return defaultResolveRequest(context, resolvedName, platform);

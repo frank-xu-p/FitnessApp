@@ -32,10 +32,20 @@ pnpm-debug.log*
 
 # Wrangler
 .wrangler/
+.dev.vars
+.dev.vars.*
 
 # Testing
 coverage/
+test-output/
+*.test-output/
+
+# Temp files
+temp_*.ts
 
 # Misc
 *.pem
 *.p12
+
+# Local test media (regenerable via download-sample-clips.ts)
+test-clips/

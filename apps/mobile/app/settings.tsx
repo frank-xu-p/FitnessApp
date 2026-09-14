@@ -3,29 +3,25 @@ import { useAuthStore } from "../store/useAuthStore";
 import { signOut } from "../lib/auth";
 import { useRouter } from "expo-router";
 import { ChevronLeft, LogOut } from "lucide-react-native";
+import { sortInventory } from "../lib/plates";
 
 export default function SettingsScreen() {
   const router = useRouter();
-  const { user, displayUnit, setDisplayUnit, defaultBarWeightKg, setBarWeight, customPlates, setCustomPlates, apiUrl } =
-    useAuthStore();
+  const {
+    user,
+    displayUnit,
+    setDisplayUnit,
+    barByUnit,
+    setBarWeight,
+    inventoryByUnit,
+    addPlate,
+    updatePlate,
+    removePlate,
+    apiUrl,
+  } = useAuthStore();
 
-  const updatePlate = (index: number, value: string) => {
-    const next = [...customPlates];
-    next[index] = parseFloat(value) || 0;
-    setCustomPlates(next);
-  };
-
-  const addPlate = () => {
-    const step = displayUnit === "lb" ? 5 : 1.25;
-    const max = customPlates.length > 0 ? Math.max(...customPlates) : 0;
-    setCustomPlates([...customPlates, max + step]);
-  };
-
-  const removePlate = (index: number) => {
-    const next = [...customPlates];
-    next.splice(index, 1);
-    setCustomPlates(next);
-  };
+  const inventory = sortInventory(inventoryByUnit[displayUnit]);
+  const barWeight = barByUnit[displayUnit];
 
   return (
     <ScrollView className="flex-1 bg-white dark:bg-gray-950">
@@ -61,40 +57,55 @@ export default function SettingsScreen() {
         </View>
 
         <View className="mb-6 rounded-xl bg-gray-100 p-4 dark:bg-gray-900">
-          <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">Bar Weight</Text>
+          <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
+            Bar Weight ({displayUnit})
+          </Text>
           <TextInput
-            value={String(defaultBarWeightKg)}
-            onChangeText={(v) => setBarWeight(parseFloat(v) || 0)}
+            value={String(barWeight)}
+            onChangeText={(value) => setBarWeight(parseFloat(value) || 0)}
             keyboardType="decimal-pad"
             className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-base text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
           />
-          <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">Stored in kilograms</Text>
+          <Text className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+            Defaults to {displayUnit === "lb" ? "45 lb" : "20 kg"}
+          </Text>
         </View>
 
         <View className="mb-6 rounded-xl bg-gray-100 p-4 dark:bg-gray-900">
           <Text className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">
             Plate Inventory ({displayUnit})
           </Text>
-          {customPlates
-            .sort((a, b) => b - a)
-            .map((plate, index) => (
-              <View key={index} className="mb-2 flex-row items-center gap-2">
-                <TextInput
-                  value={String(plate)}
-                  onChangeText={(v) => updatePlate(index, v)}
-                  keyboardType="decimal-pad"
-                  className="flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-base text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
-                />
-                <TouchableOpacity
-                  onPress={() => removePlate(index)}
-                  className="rounded-lg bg-red-100 px-3 py-2 dark:bg-red-900/30"
-                >
-                  <Text className="text-red-700 dark:text-red-300">Remove</Text>
-                </TouchableOpacity>
-              </View>
-            ))}
+          <View className="mb-2 flex-row gap-2">
+            <Text className="flex-1 text-xs text-gray-500">Weight</Text>
+            <Text className="w-16 text-xs text-gray-500">Count</Text>
+            <Text className="w-20" />
+          </View>
+          {inventory.map((plate) => (
+            <View key={plate.id} className="mb-2 flex-row items-center gap-2">
+              <TextInput
+                value={String(plate.weight)}
+                onChangeText={(value) => updatePlate(plate.id, { weight: parseFloat(value) || 0 })}
+                keyboardType="decimal-pad"
+                className="flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-base text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+              />
+              <TextInput
+                value={String(plate.count)}
+                onChangeText={(value) =>
+                  updatePlate(plate.id, { count: Math.max(0, parseInt(value, 10) || 0) })
+                }
+                keyboardType="number-pad"
+                className="w-16 rounded-lg border border-gray-300 bg-white px-3 py-2 text-base text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+              />
+              <TouchableOpacity
+                onPress={() => removePlate(plate.id)}
+                className="rounded-lg bg-red-100 px-3 py-2 dark:bg-red-900/30"
+              >
+                <Text className="text-red-700 dark:text-red-300">Remove</Text>
+              </TouchableOpacity>
+            </View>
+          ))}
           <TouchableOpacity
-            onPress={addPlate}
+            onPress={() => addPlate()}
             className="mt-2 rounded-lg bg-white py-2 dark:bg-gray-800"
           >
             <Text className="text-center font-medium text-gray-900 dark:text-gray-100">Add Plate</Text>

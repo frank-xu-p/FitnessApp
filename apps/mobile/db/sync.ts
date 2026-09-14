@@ -108,12 +108,12 @@ export async function pushLocalChanges(apiUrl: string, sessionCookie?: string | 
     throw new Error(`Sync push failed: ${response.status} ${error}`);
   }
 
-  const { accepted, rejected } = await response.json<{
+  const { accepted, rejected } = (await response.json()) as {
     accepted: number;
     rejected: { recordId: string; tableName: TableName }[];
-  }>();
+  };
 
-  const rejectedIds = new Set(rejected.map((r) => `${r.tableName}:${r.recordId}`));
+  const rejectedIds = new Set(rejected.map((r: { recordId: string; tableName: TableName }) => `${r.tableName}:${r.recordId}`));
   const now = Date.now();
 
   for (const item of pending) {
@@ -146,13 +146,14 @@ export async function pullRemoteChanges(
     throw new Error(`Sync pull failed: ${response.status}`);
   }
 
-  const { mutations } = await response.json<{ mutations: RemoteMutation[] }>();
+  const { mutations } = (await response.json()) as { mutations: RemoteMutation[] };
   for (const mutation of mutations) {
     await applyRemoteMutation(mutation);
   }
 
   return mutations;
 }
+
 
 export async function sync(apiUrl: string, sessionCookie?: string | null) {
   await pushLocalChanges(apiUrl, sessionCookie);

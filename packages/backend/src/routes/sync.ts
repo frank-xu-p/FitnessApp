@@ -2,12 +2,13 @@ import { Hono } from "hono";
 import { eq, and, gt, or, inArray } from "drizzle-orm";
 import { users, exercises, workouts, sets } from "@fitness-app/db-schema";
 import { createDb } from "../db/client";
-import { authMiddleware, requireAuth, type Variables } from "../middleware/auth";
+import { authMiddleware, requireAuth, type AppEnv } from "../middleware/auth";
 import type { Mutation } from "../types/sync";
 
 const tables = { users, exercises, workouts, sets };
 
-const app = new Hono<{ Bindings: { DB: D1Database }; Variables: Variables }>();
+const app = new Hono<AppEnv>();
+
 
 app.use("*", authMiddleware);
 

@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -8,16 +8,19 @@ import {
   ScrollView,
 } from "react-native";
 import { X, ChevronDown, ChevronUp, Minus, Plus } from "lucide-react-native";
-import { toDisplay, toCanonical, kgToLb, lbToKg } from "../lib/units";
-import { calculatePlatesPerSide, recommendDropSetWeight } from "../lib/plates";
+import { toDisplay, toCanonical } from "../lib/units";
+import {
+  calculatePlatesPerSide,
+  formatPlateCounts,
+  recommendDropSetWeight,
+  sortInventory,
+} from "../lib/plates";
+import { useAuthStore } from "../store/useAuthStore";
 import type { WeightUnit } from "../lib/units";
 
 type PlateCalculatorModalProps = {
   visible: boolean;
   targetWeightKg: number;
-  barWeightKg: number;
-  availablePlates: number[];
-  displayUnit: WeightUnit;
   onClose: () => void;
   onApply: (weightKg: number, setType: "drop" | "standard") => void;
 };
@@ -25,51 +28,45 @@ type PlateCalculatorModalProps = {
 export function PlateCalculatorModal({
   visible,
   targetWeightKg,
-  barWeightKg,
-  availablePlates,
-  displayUnit,
   onClose,
   onApply,
 }: PlateCalculatorModalProps) {
-  const [displayWeight, setDisplayWeight] = useState(toDisplay(targetWeightKg, displayUnit) ?? 0);
-  const [barDisplay, setBarDisplay] = useState(toDisplay(barWeightKg, displayUnit) ?? 0);
-  const [plates, setPlates] = useState<number[]>(availablePlates);
+  const {
+    displayUnit,
+    barByUnit,
+    inventoryByUnit,
+    setBarWeight,
+    addPlate,
+    updatePlate,
+    removePlate,
+  } = useAuthStore();
+
+  const [displayWeight, setDisplayWeight] = useState("0");
+  const [barInput, setBarInput] = useState("0");
   const [showInventory, setShowInventory] = useState(false);
 
-  const targetKg = useMemo(
-    () => toCanonical(displayWeight, displayUnit) ?? 0,
-    [displayWeight, displayUnit]
-  );
-  const barKg = useMemo(
-    () => toCanonical(barDisplay, displayUnit) ?? 0,
-    [barDisplay, displayUnit]
-  );
+  const inventory = inventoryByUnit[displayUnit];
+  const barWeight = barByUnit[displayUnit];
+
+  useEffect(() => {
+    if (!visible) return;
+    const target = toDisplay(targetWeightKg, displayUnit) ?? 0;
+    setDisplayWeight(String(roundForUnit(target, displayUnit)));
+    setBarInput(String(barWeight));
+  }, [visible, targetWeightKg, displayUnit, barWeight]);
+
+  const targetValue = parseFloat(displayWeight) || 0;
+  const barValue = parseFloat(barInput) || 0;
 
   const result = useMemo(
-    () => calculatePlatesPerSide(targetKg, barKg, plates),
-    [targetKg, barKg, plates]
+    () => calculatePlatesPerSide(targetValue, barValue, inventory),
+    [targetValue, barValue, inventory]
   );
 
-  const dropRecommendation = useMemo(() => recommendDropSetWeight(targetKg), [targetKg]);
-  const dropDisplay = toDisplay(dropRecommendation, displayUnit) ?? 0;
-
-  const addPlate = () => {
-    const step = displayUnit === "lb" ? 5 : 1.25;
-    const max = plates.length > 0 ? Math.max(...plates) : 0;
-    setPlates([...plates, max + step]);
-  };
-
-  const removePlate = (index: number) => {
-    const next = [...plates];
-    next.splice(index, 1);
-    setPlates(next);
-  };
-
-  const updatePlate = (index: number, value: number) => {
-    const next = [...plates];
-    next[index] = value;
-    setPlates(next);
-  };
+  const dropRecommendation = useMemo(
+    () => recommendDropSetWeight(targetValue),
+    [targetValue]
+  );
 
   return (
     <Modal visible={visible} animationType="slide" transparent onRequestClose={onClose}>
@@ -91,8 +88,8 @@ export function PlateCalculatorModal({
                   Target ({displayUnit})
                 </Text>
                 <TextInput
-                  value={String(displayWeight)}
-                  onChangeText={(v) => setDisplayWeight(parseFloat(v) || 0)}
+                  value={displayWeight}
+                  onChangeText={setDisplayWeight}
                   keyboardType="decimal-pad"
                   className="rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-base text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
                 />
@@ -102,8 +99,12 @@ export function PlateCalculatorModal({
                   Bar ({displayUnit})
                 </Text>
                 <TextInput
-                  value={String(barDisplay)}
-                  onChangeText={(v) => setBarDisplay(parseFloat(v) || 0)}
+                  value={barInput}
+                  onChangeText={(value) => {
+                    setBarInput(value);
+                    const parsed = parseFloat(value);
+                    if (!Number.isNaN(parsed)) setBarWeight(parsed);
+                  }}
                   keyboardType="decimal-pad"
                   className="rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-base text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
                 />
@@ -113,14 +114,14 @@ export function PlateCalculatorModal({
             <View className="mb-4 rounded-xl bg-gray-100 p-4 dark:bg-gray-800">
               <Text className="text-sm text-gray-500 dark:text-gray-400">Per side</Text>
               <Text className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                {toDisplay(result?.perSideKg ?? 0, displayUnit)?.toFixed(displayUnit === "lb" ? 0 : 1) ?? 0}{" "}
-                {displayUnit}
+                {roundForUnit(result.perSide, displayUnit)} {displayUnit}
               </Text>
               <Text className="mt-2 text-sm text-gray-900 dark:text-gray-100">
-                Plates: {result && result.plates.length > 0
-                  ? result.plates.map((p) => `${displayUnit === "lb" ? Math.round(kgToLb(p) * 10) / 10 : p} ${displayUnit}`).join(" + ")
-                  : "Bar only"}
+                Plates: {formatPlateCounts(result.plates, displayUnit)}
               </Text>
+              {result.error ? (
+                <Text className="mt-2 text-sm text-red-600 dark:text-red-400">{result.error}</Text>
+              ) : null}
             </View>
 
             <TouchableOpacity
@@ -137,37 +138,35 @@ export function PlateCalculatorModal({
 
             {showInventory && (
               <View className="mb-4">
-                {plates
-                  .sort((a, b) => b - a)
-                  .map((plate, index) => (
-                    <View
-                      key={index}
-                      className="mb-2 flex-row items-center gap-2"
+                {sortInventory(inventory).map((plate) => (
+                  <View key={plate.id} className="mb-2 flex-row items-center gap-2">
+                    <TextInput
+                      value={String(plate.weight)}
+                      onChangeText={(value) =>
+                        updatePlate(plate.id, { weight: parseFloat(value) || 0 })
+                      }
+                      keyboardType="decimal-pad"
+                      className="flex-1 rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-base text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+                    />
+                    <TextInput
+                      value={String(plate.count)}
+                      onChangeText={(value) =>
+                        updatePlate(plate.id, { count: Math.max(0, parseInt(value, 10) || 0) })
+                      }
+                      keyboardType="number-pad"
+                      className="w-16 rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-base text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+                    />
+                    <Text className="text-sm text-gray-500 dark:text-gray-400">{displayUnit}</Text>
+                    <TouchableOpacity
+                      onPress={() => removePlate(plate.id)}
+                      className="rounded-lg bg-red-100 p-2 dark:bg-red-900"
                     >
-                      <TextInput
-                        value={String(
-                          displayUnit === "lb" ? Math.round(kgToLb(plate) * 10) / 10 : plate
-                        )}
-                        onChangeText={(v) =>
-                          updatePlate(
-                            index,
-                            displayUnit === "lb" ? lbToKg(parseFloat(v) || 0) : parseFloat(v) || 0
-                          )
-                        }
-                        keyboardType="decimal-pad"
-                        className="flex-1 rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-base text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
-                      />
-                      <Text className="text-sm text-gray-500 dark:text-gray-400">{displayUnit}</Text>
-                      <TouchableOpacity
-                        onPress={() => removePlate(index)}
-                        className="rounded-lg bg-red-100 p-2 dark:bg-red-900"
-                      >
-                        <Minus size={16} color="#EF4444" />
-                      </TouchableOpacity>
-                    </View>
-                  ))}
+                      <Minus size={16} color="#EF4444" />
+                    </TouchableOpacity>
+                  </View>
+                ))}
                 <TouchableOpacity
-                  onPress={addPlate}
+                  onPress={() => addPlate()}
                   className="mt-2 flex-row items-center justify-center gap-2 rounded-lg bg-gray-200 py-2 dark:bg-gray-700"
                 >
                   <Plus size={18} color="#6B7280" />
@@ -178,7 +177,7 @@ export function PlateCalculatorModal({
 
             <View className="mb-4 rounded-xl border border-purple-200 bg-purple-50 p-4 dark:border-purple-800 dark:bg-purple-900/20">
               <Text className="text-sm text-purple-700 dark:text-purple-300">
-                Drop-set recommendation: {dropDisplay.toFixed(displayUnit === "lb" ? 0 : 1)}{" "}
+                Drop-set recommendation: {roundForUnit(dropRecommendation, displayUnit)}{" "}
                 {displayUnit} (17.5% less)
               </Text>
             </View>
@@ -187,14 +186,18 @@ export function PlateCalculatorModal({
           <View className="mt-4 flex-row gap-3">
             <TouchableOpacity
               onPress={() => {
-                onApply(dropRecommendation, "drop");
+                const kg = toCanonical(dropRecommendation, displayUnit) ?? 0;
+                onApply(kg, "drop");
               }}
               className="flex-1 rounded-xl bg-purple-600 py-3"
             >
               <Text className="text-center font-semibold text-white">Apply Drop</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => onApply(targetKg, "standard")}
+              onPress={() => {
+                const kg = toCanonical(targetValue, displayUnit) ?? 0;
+                onApply(kg, "standard");
+              }}
               className="flex-1 rounded-xl bg-primary py-3"
             >
               <Text className="text-center font-semibold text-white">Apply</Text>
@@ -204,4 +207,9 @@ export function PlateCalculatorModal({
       </View>
     </Modal>
   );
+}
+
+function roundForUnit(value: number, unit: WeightUnit): number {
+  const digits = unit === "lb" ? 1 : 2;
+  return Math.round(value * 10 ** digits) / 10 ** digits;
 }

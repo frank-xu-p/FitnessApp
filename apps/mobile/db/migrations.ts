@@ -100,7 +100,96 @@ const MIGRATIONS = [
       CREATE INDEX IF NOT EXISTS "sync_queue_synced_at_idx" ON "sync_queue" ("synced_at");
     `,
   },
+  {
+    id: 2,
+    name: "templates_and_overload",
+    sql: `
+      CREATE TABLE IF NOT EXISTS "workout_templates" (
+        "id" TEXT PRIMARY KEY,
+        "user_id" TEXT NOT NULL,
+        "name" TEXT NOT NULL,
+        "notes" TEXT,
+        "category" TEXT NOT NULL DEFAULT 'Custom',
+        "auto_overload_enabled" INTEGER NOT NULL DEFAULT 1,
+        "cadence_model" TEXT NOT NULL DEFAULT 'double_progression',
+        "cadence_rate" TEXT NOT NULL DEFAULT 'session',
+        "cadence_increment_kg" REAL,
+        "is_preset" INTEGER NOT NULL DEFAULT 0,
+        "created_at" INTEGER NOT NULL,
+        "updated_at" INTEGER NOT NULL,
+        "client_timestamp" INTEGER NOT NULL,
+        "is_deleted" INTEGER NOT NULL DEFAULT 0
+      );
+
+
+      CREATE TABLE IF NOT EXISTS "template_exercises" (
+        "id" TEXT PRIMARY KEY,
+        "template_id" TEXT NOT NULL,
+        "exercise_id" TEXT NOT NULL,
+        "order_index" INTEGER NOT NULL DEFAULT 0,
+        "target_sets" INTEGER NOT NULL DEFAULT 3,
+        "target_reps" INTEGER DEFAULT 10,
+        "target_weight_kg" REAL,
+        "target_rpe" REAL,
+        "rest_seconds" INTEGER DEFAULT 90,
+        "notes" TEXT,
+        "created_at" INTEGER NOT NULL,
+        "updated_at" INTEGER NOT NULL,
+        "client_timestamp" INTEGER NOT NULL,
+        "is_deleted" INTEGER NOT NULL DEFAULT 0
+      );
+
+      CREATE INDEX IF NOT EXISTS "workout_templates_user_id_idx" ON "workout_templates" ("user_id");
+      CREATE INDEX IF NOT EXISTS "template_exercises_template_id_idx" ON "template_exercises" ("template_id");
+    `,
+  },
 ];
+
+async function ensureWorkoutColumns(database: SQLiteDatabase) {
+  try {
+    const tableInfo = await database.getAllAsync<{ name: string }>(
+      'PRAGMA table_info("workouts")'
+    );
+    const existing = new Set(tableInfo.map((c) => c.name));
+
+    if (!existing.has("template_id")) {
+      await database.execAsync('ALTER TABLE "workouts" ADD COLUMN "template_id" TEXT;');
+    }
+    if (!existing.has("auto_overload_enabled")) {
+      await database.execAsync(
+        'ALTER TABLE "workouts" ADD COLUMN "auto_overload_enabled" INTEGER NOT NULL DEFAULT 1;'
+      );
+    }
+    if (!existing.has("cadence_model")) {
+      await database.execAsync(
+        'ALTER TABLE "workouts" ADD COLUMN "cadence_model" TEXT NOT NULL DEFAULT \'double_progression\';'
+      );
+    }
+    if (!existing.has("cadence_rate")) {
+      await database.execAsync(
+        'ALTER TABLE "workouts" ADD COLUMN "cadence_rate" TEXT NOT NULL DEFAULT \'session\';'
+      );
+    }
+    if (!existing.has("cadence_increment_kg")) {
+      await database.execAsync(
+        'ALTER TABLE "workouts" ADD COLUMN "cadence_increment_kg" REAL;'
+      );
+    }
+
+    const tplInfo = await database.getAllAsync<{ name: string }>(
+      'PRAGMA table_info("workout_templates")'
+    );
+    const tplExisting = new Set(tplInfo.map((c) => c.name));
+    if (!tplExisting.has("is_preset")) {
+      await database.execAsync(
+        'ALTER TABLE "workout_templates" ADD COLUMN "is_preset" INTEGER NOT NULL DEFAULT 0;'
+      );
+    }
+  } catch (err) {
+    console.warn("Could not ensure workout columns", err);
+  }
+}
+
 
 export async function runMigrations(database: SQLiteDatabase) {
   await database.execAsync(`
@@ -125,4 +214,7 @@ export async function runMigrations(database: SQLiteDatabase) {
       [migration.id, migration.name, Date.now()]
     );
   }
+
+  await ensureWorkoutColumns(database);
 }
+

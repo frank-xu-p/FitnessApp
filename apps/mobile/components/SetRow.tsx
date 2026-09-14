@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
-import { Check, Trash2, Calculator, ChevronDown } from "lucide-react-native";
+import { Check, Trash2, Calculator, ChevronDown, Zap } from "lucide-react-native";
+import * as Haptics from "expo-haptics";
 import { useAuthStore } from "../store/useAuthStore";
-import { toDisplay, toCanonical, formatWeight } from "../lib/units";
+import { toDisplay, toCanonical } from "../lib/units";
 import type { Set, Exercise } from "../db/schema";
 
 type SetRowProps = {
   set: Set;
   exercise: Exercise;
   index: number;
+  previousPerformance?: string | null;
+  isAutoOverloaded?: boolean;
   onUpdate: (patch: Partial<Set>) => void;
   onComplete: (completedAt: number) => void;
   onDelete: () => void;
@@ -21,6 +24,8 @@ export function SetRow({
   set,
   exercise,
   index,
+  previousPerformance,
+  isAutoOverloaded,
   onUpdate,
   onComplete,
   onDelete,
@@ -33,7 +38,7 @@ export function SetRow({
 
   const handleWeightChange = (value: string, side?: "left" | "right") => {
     const num = value === "" ? null : parseFloat(value);
-    const kg = num === null ? null : toCanonical(num, displayUnit);
+    const kg = num === null || isNaN(num) ? null : toCanonical(num, displayUnit);
     if (side === "left") onUpdate({ leftWeightKg: kg });
     else if (side === "right") onUpdate({ rightWeightKg: kg });
     else onUpdate({ weightKg: kg });
@@ -41,12 +46,14 @@ export function SetRow({
 
   const handleRepsChange = (value: string, side?: "left" | "right") => {
     const num = value === "" ? null : parseInt(value, 10);
-    if (side === "left") onUpdate({ leftReps: num });
-    else if (side === "right") onUpdate({ rightReps: num });
-    else onUpdate({ reps: num });
+    const reps = num === null || isNaN(num) ? null : num;
+    if (side === "left") onUpdate({ leftReps: reps });
+    else if (side === "right") onUpdate({ rightReps: reps });
+    else onUpdate({ reps });
   };
 
   const toggleComplete = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
     if (isCompleted) {
       onUpdate({ completedAt: null });
     } else {
@@ -57,60 +64,94 @@ export function SetRow({
     }
   };
 
-  const displayWeight = toDisplay(set.weightKg, displayUnit) ?? "";
-  const leftDisplay = toDisplay(set.leftWeightKg, displayUnit) ?? "";
-  const rightDisplay = toDisplay(set.rightWeightKg, displayUnit) ?? "";
+  const displayWeight = toDisplay(set.weightKg, displayUnit);
+  const leftDisplay = toDisplay(set.leftWeightKg, displayUnit);
+  const rightDisplay = toDisplay(set.rightWeightKg, displayUnit);
 
   return (
-    <View className="mb-3 rounded-xl border border-gray-200 bg-white p-3 dark:border-gray-700 dark:bg-gray-900">
-      <View className="mb-2 flex-row items-center justify-between">
+    <View
+      className={`mb-3 rounded-2xl border p-3.5 ${
+        isCompleted
+          ? "border-lime-400/40 bg-zinc-900/90"
+          : "border-zinc-800/80 bg-zinc-900"
+      }`}
+    >
+      <View className="mb-2.5 flex-row items-center justify-between">
         <View className="flex-row items-center gap-2">
-          <Text className="text-base font-bold text-gray-900 dark:text-gray-100">
-            Set {index + 1}
-          </Text>
+          <View className="flex-row items-center gap-1.5">
+            <Text className="text-base font-black text-white font-mono">
+              Set {index + 1}
+            </Text>
+            {isAutoOverloaded && (
+              <View className="flex-row items-center gap-0.5 rounded-md bg-amber-500/10 px-1.5 py-0.5 border border-amber-500/20">
+                <Zap size={10} color="#F59E0B" />
+                <Text className="text-[10px] font-bold text-amber-400">
+                  OVERLOAD
+                </Text>
+              </View>
+            )}
+          </View>
+
+          {/* Set Type Pill */}
           <TouchableOpacity
             onPress={() => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
               const idx = SET_TYPES.indexOf(set.setType);
               const next = SET_TYPES[(idx + 1) % SET_TYPES.length];
               onUpdate({ setType: next });
             }}
-            className={`rounded-full px-2 py-1 ${
+            className={`rounded-full px-2.5 py-0.5 border ${
               set.setType === "warmup"
-                ? "bg-orange-100 dark:bg-orange-900"
+                ? "bg-amber-500/20 border-amber-500/40"
                 : set.setType === "drop"
-                ? "bg-purple-100 dark:bg-purple-900"
+                ? "bg-purple-500/20 border-purple-500/40"
                 : set.setType === "failure"
-                ? "bg-red-100 dark:bg-red-900"
-                : "bg-gray-100 dark:bg-gray-800"
+                ? "bg-red-500/20 border-red-500/40"
+                : "bg-zinc-800 border-zinc-700/60"
             }`}
           >
             <View className="flex-row items-center gap-1">
               <Text
-                className={`text-xs font-medium capitalize ${
+                className={`text-[11px] font-mono font-bold capitalize ${
                   set.setType === "warmup"
-                    ? "text-orange-700 dark:text-orange-300"
+                    ? "text-amber-400"
                     : set.setType === "drop"
-                    ? "text-purple-700 dark:text-purple-300"
+                    ? "text-purple-400"
                     : set.setType === "failure"
-                    ? "text-red-700 dark:text-red-300"
-                    : "text-gray-700 dark:text-gray-300"
+                    ? "text-red-400"
+                    : "text-zinc-300"
                 }`}
               >
                 {set.setType}
               </Text>
-              <ChevronDown size={12} color="#6B7280" />
+              <ChevronDown size={11} color="#71717A" />
             </View>
           </TouchableOpacity>
         </View>
+
         <View className="flex-row items-center gap-1">
+          {previousPerformance && (
+            <Text className="mr-1 text-xs text-zinc-400 font-mono">
+              Prev: {previousPerformance}
+            </Text>
+          )}
           <TouchableOpacity
-            onPress={() => onOpenPlateCalculator(set)}
-            className="rounded-lg p-2"
+            onPress={() => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
+              onOpenPlateCalculator(set);
+            }}
+            className="rounded-lg p-1.5"
           >
-            <Calculator size={18} color="#6B7280" />
+            <Calculator size={17} color="#71717A" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={onDelete} className="rounded-lg p-2">
-            <Trash2 size={18} color="#EF4444" />
+          <TouchableOpacity
+            onPress={() => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
+              onDelete();
+            }}
+            className="rounded-lg p-1.5"
+          >
+            <Trash2 size={17} color="#EF4444" />
           </TouchableOpacity>
         </View>
       </View>
@@ -119,66 +160,87 @@ export function SetRow({
         <View className="mb-2 flex-row gap-3">
           <SideInputs
             label="Left"
-            weight={leftDisplay}
-            reps={set.leftReps ?? ""}
+            weight={leftDisplay != null ? String(leftDisplay) : ""}
+            reps={set.leftReps != null ? String(set.leftReps) : ""}
             onWeightChange={(v) => handleWeightChange(v, "left")}
             onRepsChange={(v) => handleRepsChange(v, "left")}
             displayUnit={displayUnit}
           />
           <SideInputs
             label="Right"
-            weight={rightDisplay}
-            reps={set.rightReps ?? ""}
+            weight={rightDisplay != null ? String(rightDisplay) : ""}
+            reps={set.rightReps != null ? String(set.rightReps) : ""}
             onWeightChange={(v) => handleWeightChange(v, "right")}
             onRepsChange={(v) => handleRepsChange(v, "right")}
             displayUnit={displayUnit}
           />
         </View>
       ) : (
-        <View className="mb-2 flex-row gap-3">
+        <View className="mb-2.5 flex-row gap-3">
           <View className="flex-1">
-            <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
+            <Text className="mb-1 text-[11px] font-bold uppercase text-zinc-400 font-mono">
               Weight ({displayUnit})
             </Text>
             <TextInput
-              value={String(displayWeight)}
+              value={displayWeight != null ? String(displayWeight) : ""}
               onChangeText={handleWeightChange}
               keyboardType="decimal-pad"
-              className="rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-base text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+              className="rounded-xl border border-zinc-700 bg-zinc-950 px-3 py-2 text-lg font-mono font-bold text-white"
               placeholder="0"
+              placeholderTextColor="#52525B"
             />
           </View>
           <View className="flex-1">
-            <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">Reps</Text>
+            <Text className="mb-1 text-[11px] font-bold uppercase text-zinc-400 font-mono">
+              Reps
+            </Text>
             <TextInput
-              value={String(set.reps ?? "")}
+              value={set.reps != null ? String(set.reps) : ""}
               onChangeText={handleRepsChange}
               keyboardType="number-pad"
-              className="rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 text-base text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+              className="rounded-xl border border-zinc-700 bg-zinc-950 px-3 py-2 text-lg font-mono font-bold text-white"
               placeholder="0"
+              placeholderTextColor="#52525B"
             />
           </View>
         </View>
       )}
 
-      {isCompleted && (
-        <View className="mb-2">
-          <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">RPE (1–10)</Text>
+      {/* RPE Selector */}
+      {(isCompleted || showRpe) && (
+        <View className="mb-2.5">
+          <View className="mb-1 flex-row items-center justify-between">
+            <Text className="text-[11px] font-bold text-zinc-400 uppercase font-mono">
+              RPE (Rate of Perceived Exertion)
+            </Text>
+            {set.rpe != null && (
+              <Text className="text-xs font-mono font-bold text-cyan-400">
+                RPE {set.rpe}
+              </Text>
+            )}
+          </View>
           <View className="flex-row gap-1">
-            {[6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10].map((rpe) => (
+            {[6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10].map((rpeVal) => (
               <TouchableOpacity
-                key={rpe}
-                onPress={() => onUpdate({ rpe })}
-                className={`flex-1 rounded-lg py-2 ${
-                  set.rpe === rpe ? "bg-primary" : "bg-gray-100 dark:bg-gray-800"
+                key={rpeVal}
+                onPress={() => {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
+                  onUpdate({ rpe: rpeVal });
+                }}
+                className={`flex-1 rounded-lg py-1.5 border ${
+                  set.rpe === rpeVal
+                    ? "bg-cyan-500 border-cyan-400"
+                    : "bg-zinc-950 border-zinc-800"
                 }`}
               >
                 <Text
-                  className={`text-center text-xs font-medium ${
-                    set.rpe === rpe ? "text-white" : "text-gray-700 dark:text-gray-300"
+                  className={`text-center text-[11px] font-mono font-bold ${
+                    set.rpe === rpeVal
+                      ? "text-black"
+                      : "text-zinc-400"
                   }`}
                 >
-                  {rpe}
+                  {rpeVal}
                 </Text>
               </TouchableOpacity>
             ))}
@@ -186,15 +248,23 @@ export function SetRow({
         </View>
       )}
 
+      {/* Completed Set Check Badge with Neon Lime */}
       <TouchableOpacity
         onPress={toggleComplete}
-        className={`flex-row items-center justify-center gap-2 rounded-lg py-2 ${
-          isCompleted ? "bg-success" : "bg-primary"
+        activeOpacity={0.8}
+        className={`flex-row items-center justify-center gap-2 rounded-xl py-2.5 ${
+          isCompleted
+            ? "bg-[#CCFF00] shadow-md shadow-[#CCFF00]/20"
+            : "bg-zinc-800 border border-zinc-700"
         }`}
       >
-        <Check size={18} color="white" />
-        <Text className="font-semibold text-white">
-          {isCompleted ? "Completed" : "Complete Set"}
+        <Check size={18} color={isCompleted ? "#000000" : "#A1A1AA"} strokeWidth={3} />
+        <Text
+          className={`font-mono text-xs font-black uppercase tracking-wider ${
+            isCompleted ? "text-black" : "text-zinc-200"
+          }`}
+        >
+          {isCompleted ? "Completed ✓" : "Complete Set"}
         </Text>
       </TouchableOpacity>
     </View>
@@ -210,29 +280,33 @@ function SideInputs({
   displayUnit,
 }: {
   label: string;
-  weight: string | number;
-  reps: string | number;
+  weight: string;
+  reps: string;
   onWeightChange: (value: string) => void;
   onRepsChange: (value: string) => void;
   displayUnit: "kg" | "lb";
 }) {
   return (
     <View className="flex-1">
-      <Text className="mb-1 text-xs font-medium text-gray-700 dark:text-gray-300">{label}</Text>
+      <Text className="mb-1 text-xs font-mono font-bold text-zinc-400">
+        {label}
+      </Text>
       <View className="flex-row gap-2">
         <TextInput
-          value={String(weight)}
+          value={weight}
           onChangeText={onWeightChange}
           keyboardType="decimal-pad"
-          className="flex-1 rounded-lg border border-gray-300 bg-gray-50 px-2 py-2 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+          className="flex-1 rounded-xl border border-zinc-700 bg-zinc-950 px-2 py-2 text-base font-mono font-bold text-white"
           placeholder={displayUnit}
+          placeholderTextColor="#52525B"
         />
         <TextInput
-          value={String(reps)}
+          value={reps}
           onChangeText={onRepsChange}
           keyboardType="number-pad"
-          className="flex-1 rounded-lg border border-gray-300 bg-gray-50 px-2 py-2 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+          className="flex-1 rounded-xl border border-zinc-700 bg-zinc-950 px-2 py-2 text-base font-mono font-bold text-white"
           placeholder="reps"
+          placeholderTextColor="#52525B"
         />
       </View>
     </View>

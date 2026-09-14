@@ -10,11 +10,16 @@ import ai from "./routes/ai";
 export type Env = {
   DB: D1Database;
   R2: R2Bucket;
-  AI: Ai;
+  AI: any;
   BETTER_AUTH_SECRET: string;
 };
 
-const app = new Hono<{ Bindings: Env }>();
+export type AppVariables = {
+  db: any;
+  user: any;
+};
+
+const app = new Hono<{ Bindings: Env; Variables: AppVariables }>();
 
 app.use("/api/*", async (c, next) => {
   c.set("db", createDb(c.env.DB));

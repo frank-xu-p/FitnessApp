@@ -6,8 +6,16 @@
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "scheme": "fitnessapp",
-    "newArchEnabled": true,
+    "platforms": ["ios", "android"],
+
+
     "backgroundColor": "#ffffff",
+    "updates": {
+      "enabled": false,
+      "checkAutomatically": "NEVER"
+    },
+
+
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.fitness.app"
@@ -20,9 +28,9 @@
     },
     "plugins": [
       "expo-router",
-      "expo-secure-store",
-      "expo-notifications"
+      "expo-secure-store"
     ],
+
     "experiments": {
       "typedRoutes": true
     }

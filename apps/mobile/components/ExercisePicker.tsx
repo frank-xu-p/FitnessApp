@@ -1,6 +1,7 @@
-import { useEffect, useState, useCallback } from "react";
-import { View, Text, TextInput, FlatList, TouchableOpacity } from "react-native";
-import { Search, Plus } from "lucide-react-native";
+import React, { useEffect, useState, useCallback } from "react";
+import { View, Text, TextInput, TouchableOpacity, FlatList } from "react-native";
+import { Image } from "expo-image";
+import { Search, Plus, Dumbbell, X } from "lucide-react-native";
 import { getExercises } from "../db/queries";
 import type { Exercise } from "../db/schema";
 
@@ -29,43 +30,94 @@ export function ExercisePicker({ onSelect, onCreate }: ExercisePickerProps) {
 
   return (
     <View className="flex-1 p-4">
-      <View className="mb-4 flex-row items-center gap-2 rounded-xl bg-gray-100 px-3 py-2 dark:bg-gray-800">
-        <Search size={20} color="#6B7280" />
+      <View className="mb-3 flex-row items-center gap-2 rounded-2xl bg-gray-100 dark:bg-gray-800 px-3.5 py-2.5 border border-gray-200 dark:border-gray-700">
+        <Search size={18} color="#9CA3AF" />
         <TextInput
           value={query}
           onChangeText={setQuery}
-          placeholder="Search exercises..."
-          className="flex-1 text-base text-gray-900 dark:text-gray-100"
+          placeholder="Search 800+ exercises..."
+          className="flex-1 text-sm font-semibold text-gray-900 dark:text-gray-100"
           placeholderTextColor="#9CA3AF"
         />
+        {query.length > 0 && (
+          <TouchableOpacity onPress={() => setQuery("")} activeOpacity={0.8}>
+            <X size={16} color="#9CA3AF" />
+          </TouchableOpacity>
+        )}
       </View>
+
       <FlatList
         data={exercises}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => onSelect(item)}
-            className="mb-2 rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900"
-          >
-            <Text className="text-base font-semibold text-gray-900 dark:text-gray-100">
-              {item.name}
-            </Text>
-            <Text className="text-sm text-gray-500 dark:text-gray-400">
-              {item.equipment}
-              {Array.isArray(item.primaryMuscles) ? ` · ${item.primaryMuscles.join(", ")}` : ""}
-            </Text>
-          </TouchableOpacity>
-        )}
+        initialNumToRender={15}
+        maxToRenderPerBatch={15}
+        windowSize={11}
+        removeClippedSubviews={true}
+
+        renderItem={({ item }) => {
+          const primary = Array.isArray(item.primaryMuscles)
+            ? item.primaryMuscles[0]
+            : null;
+
+          return (
+            <TouchableOpacity
+              onPress={() => onSelect(item)}
+              activeOpacity={0.8}
+              className="mb-2 flex-row items-center justify-between rounded-2xl border border-gray-200 bg-white p-3 dark:border-gray-800 dark:bg-gray-900 shadow-sm"
+            >
+              <View className="flex-row items-center gap-3 flex-1 pr-2">
+                {/* 44x44 Static Image Thumbnail */}
+                <View className="h-11 w-11 rounded-xl bg-gray-100 dark:bg-gray-800 items-center justify-center overflow-hidden border border-gray-200 dark:border-gray-700/60">
+                  {item.imageUrl ? (
+                    <Image
+                      source={{ uri: item.imageUrl }}
+                      style={{ width: 44, height: 44 }}
+                      contentFit="cover"
+                      transition={100}
+                    />
+                  ) : (
+                    <Dumbbell size={20} color="#64748B" />
+                  )}
+                </View>
+
+                <View className="flex-1">
+                  <Text
+                    className="text-sm font-bold text-gray-900 dark:text-gray-100"
+                    numberOfLines={1}
+                  >
+                    {item.name}
+                  </Text>
+                  <Text className="text-xs text-gray-500 dark:text-gray-400 capitalize mt-0.5">
+                    {primary ? `${primary} · ` : ""}
+                    {item.equipment ?? "Free Weight"}
+                  </Text>
+                </View>
+              </View>
+
+              <View className="rounded-xl bg-sky-500/10 px-2.5 py-1 border border-sky-500/30">
+                <Text className="text-xs font-bold text-sky-500 dark:text-sky-400">
+                  Select
+                </Text>
+              </View>
+            </TouchableOpacity>
+          );
+        }}
         ListEmptyComponent={
-          <View className="items-center py-8">
-            <Text className="text-gray-500">No exercises found</Text>
+          <View className="items-center py-12">
+            <Dumbbell size={36} color="#64748B" />
+            <Text className="mt-2 text-sm font-bold text-gray-700 dark:text-gray-300">
+              No exercises found
+            </Text>
             {query.length > 0 && onCreate && (
               <TouchableOpacity
                 onPress={() => onCreate(query)}
-                className="mt-4 flex-row items-center gap-2 rounded-lg bg-primary px-4 py-2"
+                activeOpacity={0.8}
+                className="mt-4 flex-row items-center gap-2 rounded-xl bg-sky-500 px-4 py-2.5"
               >
                 <Plus size={16} color="#FFFFFF" />
-                <Text className="font-medium text-white">Create "{query}"</Text>
+                <Text className="text-xs font-black text-white uppercase">
+                  Create "{query}"
+                </Text>
               </TouchableOpacity>
             )}
           </View>
