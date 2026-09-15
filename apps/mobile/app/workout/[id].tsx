@@ -43,6 +43,11 @@ import {
   type TemplateWithExercises,
 } from "../../db/queries";
 import { useWorkoutStore } from "../../store/useWorkoutStore";
+import {
+  suggestNextSetWeight,
+  defaultEquipmentIncrement,
+} from "../../lib/progression";
+import { effectiveWeightKg, effectiveReps } from "../../lib/unilateral";
 import type { Exercise, Workout, Set as WorkoutSet } from "../../db/schema";
 
 export default function WorkoutScreen() {
@@ -263,15 +268,16 @@ export default function WorkoutScreen() {
         ([exerciseId, exSets], idx) => {
           const completed = exSets.filter((s) => s.completedAt != null);
           const topSet = (completed.length > 0 ? completed : exSets).reduce(
-            (max, s) => ((s.weightKg ?? 0) >= (max.weightKg ?? 0) ? s : max),
+            (max, s) =>
+            ((effectiveWeightKg(s) ?? 0) >= (effectiveWeightKg(max) ?? 0) ? s : max),
             exSets[0]
           );
           return {
             exerciseId,
             orderIndex: idx,
             targetSets: exSets.length,
-            targetReps: topSet?.reps ?? 10,
-            targetWeightKg: topSet?.weightKg ?? null,
+            targetReps: effectiveReps(topSet) ?? 10,
+            targetWeightKg: effectiveWeightKg(topSet) ?? null,
             targetRpe: topSet?.rpe ?? 8,
           };
         }
@@ -298,13 +304,14 @@ export default function WorkoutScreen() {
         ([exerciseId, exSets]) => {
           const completed = exSets.filter((s) => s.completedAt != null);
           const topSet = (completed.length > 0 ? completed : exSets).reduce(
-            (max, s) => ((s.weightKg ?? 0) >= (max.weightKg ?? 0) ? s : max),
+            (max, s) =>
+            ((effectiveWeightKg(s) ?? 0) >= (effectiveWeightKg(max) ?? 0) ? s : max),
             exSets[0]
           );
           return {
             exerciseId,
-            targetWeightKg: topSet?.weightKg ?? null,
-            targetReps: topSet?.reps ?? 10,
+            targetWeightKg: effectiveWeightKg(topSet) ?? null,
+            targetReps: effectiveReps(topSet) ?? 10,
             targetRpe: topSet?.rpe ?? 8,
           };
         }

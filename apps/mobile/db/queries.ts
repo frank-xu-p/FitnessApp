@@ -6,6 +6,12 @@ import { generateUuid } from "../lib/id";
 import { getDeviceId } from "../lib/device";
 import { logMutation } from "./sync";
 import { computeProgressionSuggestion, defaultRule } from "../lib/progression";
+import type { WeightUnit } from "../lib/units";
+import {
+  effectiveWeightKg,
+  effectiveReps,
+  setVolumeKg,
+} from "../lib/unilateral";
 
 function likeQuery(query: string) {
   const q = `%${query.toLowerCase().trim()}%`;
@@ -73,17 +79,17 @@ export async function getExercisePersonalRecords(
     for (const s of session.sets) {
       if (s.completedAt != null) {
         totalSetsCompleted++;
-        const w = s.weightKg ?? 0;
-        const r = s.reps ?? 0;
+        const w = effectiveWeightKg(s) ?? 0;
+        const r = effectiveReps(s) ?? 0;
 
-        if (s.weightKg != null && (maxWeightKg === null || s.weightKg > maxWeightKg)) {
-          maxWeightKg = s.weightKg;
+        if (w > 0 && (maxWeightKg === null || w > maxWeightKg)) {
+          maxWeightKg = w;
         }
-        if (s.reps != null && (maxReps === null || s.reps > maxReps)) {
-          maxReps = s.reps;
+        if (r > 0 && (maxReps === null || r > maxReps)) {
+          maxReps = r;
         }
 
-        const vol = w * r;
+        const vol = setVolumeKg(s);
         if (vol > 0 && (maxVolumeKg === null || vol > maxVolumeKg)) {
           maxVolumeKg = vol;
         }
@@ -136,9 +142,9 @@ export async function getExerciseAnalytics(
       let totalVol = 0;
 
       for (const s of completed) {
-        const w = s.weightKg ?? 0;
-        const r = s.reps ?? 0;
-        totalVol += w * r;
+        const w = effectiveWeightKg(s) ?? 0;
+        const r = effectiveReps(s) ?? 0;
+        totalVol += setVolumeKg(s);
         if (w > topWeightKg) {
           topWeightKg = w;
           topReps = r;
@@ -167,6 +173,22 @@ export async function getExercise(id: string) {
   await ensureDbReady();
   const rows = await db.select().from(exercises).where(eq(exercises.id, id)).limit(1);
   return rows[0];
+}
+
+/**
+ * Persists an exercise's tracking mode (bilateral/unilateral/alternating).
+ * Used by the isolateral toggle in the workout screen so per-side input
+ * mode survives remounts and app restarts.
+ */
+export async function updateExerciseTrackingMode(
+  exerciseId: string,
+  trackingMode: "bilateral" | "unilateral" | "alternating"
+) {
+  await ensureDbReady();
+  const now = Date.now();
+  const row = { trackingMode, updatedAt: now, clientTimestamp: now };
+  await db.update(exercises).set(row).where(eq(exercises.id, exerciseId));
+  await logMutation("exercises", exerciseId, "update", row);
 }
 
 
@@ -248,11 +270,7 @@ export async function getWorkoutsWithDetails(userId: string): Promise<WorkoutHis
     }));
 
     const completed = setsWithEx.filter((s) => s.completedAt != null);
-    const totalVolumeKg = completed.reduce((sum, s) => {
-      const wKg = s.weightKg ?? 0;
-      const reps = s.reps ?? 0;
-      return sum + wKg * reps;
-    }, 0);
+    const totalVolumeKg = completed.reduce((sum, s) => sum + setVolumeKg(s), 0);
 
     const distinctExerciseNames = Array.from(
       new Set(setsWithEx.map((s) => s.exercise?.name).filter(Boolean))
@@ -278,7 +296,11 @@ export async function getWorkoutsWithDetails(userId: string): Promise<WorkoutHis
 
 export async function getWorkout(id: string) {
   await ensureDbReady();
-  const rows = await db.select().from(workouts).where(eq(workouts.id, id)).limit(1);
+  const rows = await db
+    .select()
+    .from(workouts)
+    .where(and(eq(workouts.id, id), eq(workouts.isDeleted, false)))
+    .limit(1);
   return rows[0];
 }
 
@@ -849,6 +871,10 @@ export async function getExerciseHistory(
       setType: sets.setType,
       weightKg: sets.weightKg,
       reps: sets.reps,
+      leftWeightKg: sets.leftWeightKg,
+      leftReps: sets.leftReps,
+      rightWeightKg: sets.rightWeightKg,
+      rightReps: sets.rightReps,
       rpe: sets.rpe,
       completedAt: sets.completedAt,
       workoutDate: workouts.startedAt,
@@ -885,7 +911,8 @@ export async function getExerciseHistory(
 export async function createWorkoutFromTemplate(
   userId: string,
   templateId: string,
-  autoOverloadEnabled = true
+  autoOverloadEnabled = true,
+  unit: WeightUnit = "kg"
 ) {
   const tpl = await getTemplateWithExercises(templateId);
   if (!tpl) {
@@ -910,15 +937,15 @@ export async function createWorkoutFromTemplate(
       const history = await getExerciseHistory(te.exerciseId, 1);
       if (history.length > 0 && history[0].sets.length > 0) {
         const lastSession = history[0].sets;
-        // Find top working set
+        // Find top working set (unilateral-aware: per-side data counts)
         const topSet = lastSession.reduce(
-          (max, s) => ((s.weightKg ?? 0) > (max.weightKg ?? 0) ? s : max),
+          (max, s) => ((effectiveWeightKg(s) ?? 0) > (effectiveWeightKg(max) ?? 0) ? s : max),
           lastSession[0]
         );
 
         const suggestion = computeProgressionSuggestion({
-          lastWeightKg: topSet.weightKg ?? te.targetWeightKg ?? 0,
-          lastReps: topSet.reps ?? startingReps,
+          lastWeightKg: effectiveWeightKg(topSet) ?? te.targetWeightKg ?? 0,
+          lastReps: effectiveReps(topSet) ?? startingReps,
           lastRpe: topSet.rpe ?? te.targetRpe ?? 8,
           targetReps: te.targetReps ?? 8,
           targetRpe: te.targetRpe ?? 8,
@@ -926,6 +953,8 @@ export async function createWorkoutFromTemplate(
           equipment: te.exercise?.equipment,
           model: tpl.cadenceModel,
           cadenceRate: tpl.cadenceRate,
+          lastSessionAt: history[0].date,
+          unit,
         });
 
         if (suggestion.suggestedWeightKg > 0) {
@@ -993,9 +1022,9 @@ export async function saveWorkoutAsTemplate(
     const completedSets = exSets.filter((s) => s.completedAt != null);
     const candidateSets = completedSets.length > 0 ? completedSets : exSets;
 
-    // Pick top weight set or last set
+    // Pick top weight set or last set (unilateral-aware)
     const topSet = candidateSets.reduce(
-      (max, s) => ((s.weightKg ?? 0) >= (max.weightKg ?? 0) ? s : max),
+      (max, s) => ((effectiveWeightKg(s) ?? 0) >= (effectiveWeightKg(max) ?? 0) ? s : max),
       candidateSets[0]
     );
 
@@ -1003,8 +1032,8 @@ export async function saveWorkoutAsTemplate(
       exerciseId,
       orderIndex,
       targetSets: exSets.length,
-      targetReps: topSet?.reps ?? 10,
-      targetWeightKg: topSet?.weightKg ?? null,
+      targetReps: effectiveReps(topSet) ?? 10,
+      targetWeightKg: effectiveWeightKg(topSet) ?? null,
       targetRpe: topSet?.rpe ?? 8,
     });
     orderIndex++;

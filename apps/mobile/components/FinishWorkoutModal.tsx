@@ -12,6 +12,7 @@ import {
 import { Trophy, Clock, Dumbbell, CheckCircle2, X, RefreshCw, BookmarkPlus, Layers } from "lucide-react-native";
 import { useAuthStore } from "../store/useAuthStore";
 import { toDisplay } from "../lib/units";
+import { setVolumeKg, effectiveReps } from "../lib/unilateral";
 import type { Workout, Set, WorkoutTemplate } from "../db/schema";
 
 export type TemplateAction = "none" | "save_new" | "update_all" | "update_values_only";
@@ -62,14 +63,10 @@ export function FinishWorkoutModal({
   );
   const [loading, setLoading] = useState(false);
 
-  // Compute summary stats
+  // Compute summary stats (unilateral-aware: per-side data counts)
   const completedSets = sets.filter((s) => s.completedAt != null);
-  const totalReps = completedSets.reduce((sum, s) => sum + (s.reps ?? 0), 0);
-  const totalVolumeKg = completedSets.reduce((sum, s) => {
-    const w = s.weightKg ?? 0;
-    const r = s.reps ?? 0;
-    return sum + w * r;
-  }, 0);
+  const totalReps = completedSets.reduce((sum, s) => sum + (effectiveReps(s) ?? 0), 0);
+  const totalVolumeKg = completedSets.reduce((sum, s) => sum + setVolumeKg(s), 0);
 
   const displayVolume = toDisplay(totalVolumeKg, displayUnit) ?? 0;
 

@@ -27,11 +27,18 @@ import {
   updateSet,
   deleteSet,
   getExerciseHistory,
+  updateExerciseTrackingMode,
 } from "../db/queries";
 import { toDisplay, toCanonical, formatWeight } from "../lib/units";
 import {
+  effectiveWeightKg,
+  effectiveReps,
+  isUnilateralSet,
+} from "../lib/unilateral";
+import {
   suggestNextSetWeight,
   computeProgressionSuggestion,
+  defaultEquipmentIncrement,
 } from "../lib/progression";
 import { SetTypeModal, SET_TYPE_CONFIG, type SetType } from "./SetTypeModal";
 import { PlateCalculatorModal } from "./PlateCalculatorModal";
@@ -135,6 +142,22 @@ export function WorkoutExerciseCard({
   const [isIsolateral, setIsIsolateral] = useState(
     exercise.trackingMode === "unilateral"
   );
+
+  // Toggle isolateral mode — persisted to the exercise row so per-side
+  // inputs stay reachable across remounts and app restarts (B2).
+  const handleToggleIsolateral = useCallback(async () => {
+    const next = !isIsolateral;
+    setIsIsolateral(next);
+    setShowOptionsMenu(false);
+    try {
+      await updateExerciseTrackingMode(
+        exercise.id,
+        next ? "unilateral" : "bilateral"
+      );
+    } catch (err) {
+      console.error("Failed to persist tracking mode", err);
+    }
+  }, [isIsolateral, exercise.id]);
   const [activeTypeSet, setActiveTypeSet] = useState<WorkoutSet | null>(null);
   const [plateSet, setPlateSet] = useState<WorkoutSet | null>(null);
   const [showOptionsMenu, setShowOptionsMenu] = useState(false);
@@ -155,7 +178,8 @@ export function WorkoutExerciseCard({
         if (mounted && history.length > 0 && history[0].sets.length > 0) {
           const map: Record<number, string> = {};
           history[0].sets.forEach((s) => {
-            const dispW = toDisplay(s.weightKg, displayUnit);
+            const dispW = toDisplay(effectiveWeightKg(s), displayUnit);
+            const r = effectiveReps(s);
             const tag =
               s.setType === "drop"
                 ? " [D]"
@@ -164,10 +188,12 @@ export function WorkoutExerciseCard({
                 : s.setType === "warmup"
                 ? " [W]"
                 : "";
+            // Unilateral sets show the effective per-side weight, flagged L/R
+            const sideTag = isUnilateralSet(s) ? " L/R" : "";
             if (dispW != null) {
-              map[s.setNumber] = `${dispW} ${displayUnit} × ${s.reps ?? 0}${tag}`;
-            } else if (s.reps != null) {
-              map[s.setNumber] = `/ × ${s.reps}${tag}`;
+              map[s.setNumber] = `${dispW} ${displayUnit} × ${r ?? 0}${sideTag}${tag}`;
+            } else if (r != null) {
+              map[s.setNumber] = `/ × ${r}${sideTag}${tag}`;
             } else {
               map[s.setNumber] = "/";
             }
@@ -208,7 +234,9 @@ export function WorkoutExerciseCard({
         sets,
         {
           targetReps: 8,
-          incrementKg: cadenceIncrementKg ?? 2.5,
+          incrementKg:
+            cadenceIncrementKg ??
+            defaultEquipmentIncrement(exercise.equipment, displayUnit),
           model: cadenceModel,
           cadenceRate,
         },
@@ -659,10 +687,7 @@ export function WorkoutExerciseCard({
 
             {/* Toggle Isolateral Mode */}
             <TouchableOpacity
-              onPress={() => {
-                setIsIsolateral(!isIsolateral);
-                setShowOptionsMenu(false);
-              }}
+              onPress={handleToggleIsolateral}
               className="flex-row items-center gap-3 py-3 border-b border-gray-800"
             >
               <Split size={18} color="#38BDF8" />
