@@ -72,6 +72,13 @@ export function TemplateEditorModal({
   const [cadenceRate, setCadenceRate] = useState<CadenceRate>(
     template?.cadenceRate ?? "session"
   );
+  // Display-unit string for the per-session increment. Blank = use the
+  // equipment default. Stored back in kg via toCanonical on save.
+  const [incrementDisplay, setIncrementDisplay] = useState(() =>
+    template?.cadenceIncrementKg != null
+      ? String(toDisplay(template.cadenceIncrementKg, displayUnit) ?? "")
+      : ""
+  );
   const [exercisesList, setExercisesList] = useState<EditableTemplateExercise[]>([]);
   const [pickingExercise, setPickingExercise] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -84,6 +91,11 @@ export function TemplateEditorModal({
       setAutoOverloadEnabled(template.autoOverloadEnabled);
       setCadenceModel(template.cadenceModel);
       setCadenceRate(template.cadenceRate);
+      setIncrementDisplay(
+        template.cadenceIncrementKg != null
+          ? String(toDisplay(template.cadenceIncrementKg, displayUnit) ?? "")
+          : ""
+      );
       setExercisesList(
         template.exercises.map((te) => ({
           exerciseId: te.exerciseId,
@@ -104,6 +116,7 @@ export function TemplateEditorModal({
       setAutoOverloadEnabled(true);
       setCadenceModel("double_progression");
       setCadenceRate("session");
+      setIncrementDisplay("");
       setExercisesList([]);
     }
   }, [template, displayUnit, visible]);
@@ -177,7 +190,11 @@ export function TemplateEditorModal({
         autoOverloadEnabled,
         cadenceModel,
         cadenceRate,
-        cadenceIncrementKg: 2.5,
+        // Preserve the template's increment; blank = equipment default (null)
+        cadenceIncrementKg:
+          incrementDisplay.trim() === ""
+            ? null
+            : toCanonical(parseFloat(incrementDisplay), displayUnit),
         exercises: payloadExercises,
       });
       onClose();
@@ -290,6 +307,22 @@ export function TemplateEditorModal({
               thumbColor={autoOverloadEnabled ? "#FFFFFF" : "#F3F4F6"}
             />
           </View>
+
+          {autoOverloadEnabled && (
+            <View className="mb-4 rounded-2xl border border-amber-200 bg-amber-50/60 p-4 dark:border-amber-900/40 dark:bg-amber-950/20">
+              <Text className="mb-1 text-xs font-semibold text-gray-700 dark:text-gray-300">
+                Overload increment ({displayUnit}) — blank = equipment default
+              </Text>
+              <TextInput
+                value={incrementDisplay}
+                onChangeText={setIncrementDisplay}
+                placeholder="e.g. 2.5"
+                placeholderTextColor="#9CA3AF"
+                keyboardType="decimal-pad"
+                className="rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
+              />
+            </View>
+          )}
 
           {/* Exercises Section */}
           <View className="mb-4 flex-row items-center justify-between">

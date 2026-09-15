@@ -106,7 +106,8 @@ export default function WorkoutsScreen() {
         autoOverloadEnabled: true,
         cadenceModel: "double_progression",
         cadenceRate: "session",
-        cadenceIncrementKg: 2.5,
+        // null = equipment default; the engine picks a unit-aware default
+        cadenceIncrementKg: null,
       });
       startEmptyWorkout(newWorkout);
       router.push(`/workout/${newWorkout.id}`);
@@ -123,7 +124,8 @@ export default function WorkoutsScreen() {
       const { workout: newWorkout, exercises } = await createWorkoutFromTemplate(
         userId,
         templateId,
-        true
+        true,
+        displayUnit
       );
       const exIds = exercises.map((e) => e.id);
       startWorkoutFromTemplate(newWorkout, exIds);

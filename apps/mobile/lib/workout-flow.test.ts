@@ -122,7 +122,7 @@ describe("Workout Log & Auto Progressive Overload Full Simulation", () => {
 
   describe("Dynamic In-Session Set Prediction", () => {
     it("suggests the same or overloaded weight for set 2 based on set 1 performance", () => {
-      const set1 = { weightKg: 100, reps: 12, rpe: 7.5 };
+      const set1 = { weightKg: 100, reps: 12, rpe: 7.5, completedAt: 1 };
       const nextWeight = suggestNextSetWeight(
         [set1],
         {
@@ -138,7 +138,7 @@ describe("Workout Log & Auto Progressive Overload Full Simulation", () => {
     });
 
     it("maintains current weight if set 1 was within working range", () => {
-      const set1 = { weightKg: 100, reps: 9, rpe: 8.0 };
+      const set1 = { weightKg: 100, reps: 9, rpe: 8.0, completedAt: 1 };
       const nextWeight = suggestNextSetWeight(
         [set1],
         {

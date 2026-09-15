@@ -13,13 +13,15 @@ import {
 } from "../db/queries";
 import { useAuthStore } from "../store/useAuthStore";
 import { useWorkoutStore } from "../store/useWorkoutStore";
+import { toDisplay, formatWeight } from "../lib/units";
+import { effectiveWeightKg, effectiveReps } from "../lib/unilateral";
 import {
   suggestNextSetWeight,
   computeProgressionSuggestion,
   defaultRule,
+  defaultEquipmentIncrement,
   type ProgressionSuggestion,
 } from "../lib/progression";
-import { toDisplay, formatWeight } from "../lib/units";
 import type { Set, Exercise } from "../db/schema";
 
 type SetLoggerProps = {
@@ -49,26 +51,28 @@ export function SetLogger({ workoutId, exercise, onRemoveExercise }: SetLoggerPr
     if (history.length > 0 && history[0].sets.length > 0) {
       const prevSets = history[0].sets;
       const topSet = prevSets.reduce(
-        (max, s) => ((s.weightKg ?? 0) >= (max.weightKg ?? 0) ? s : max),
+        (max, s) =>
+          (effectiveWeightKg(s) ?? 0) >= (effectiveWeightKg(max) ?? 0) ? s : max,
         prevSets[0]
       );
-      const prevDispWeight = toDisplay(topSet.weightKg, displayUnit);
+      const prevDispWeight = toDisplay(effectiveWeightKg(topSet), displayUnit);
       setPreviousPerf(
-        `${prevDispWeight ? `${prevDispWeight} ${displayUnit}` : "—"} × ${topSet.reps ?? 0}${
+        `${prevDispWeight ? `${prevDispWeight} ${displayUnit}` : "—"} × ${effectiveReps(topSet) ?? 0}${
           topSet.rpe ? ` @ RPE ${topSet.rpe}` : ""
         }`
       );
 
       if (autoOverloadEnabled) {
         const sugg = computeProgressionSuggestion({
-          lastWeightKg: topSet.weightKg ?? 0,
-          lastReps: topSet.reps ?? 8,
+          lastWeightKg: effectiveWeightKg(topSet) ?? 0,
+          lastReps: effectiveReps(topSet) ?? 8,
           lastRpe: topSet.rpe ?? 8,
           targetReps: 8,
           incrementKg: cadenceIncrementKg ?? undefined,
           equipment: exercise.equipment,
           model: cadenceModel,
           cadenceRate,
+          lastSessionAt: history[0].date,
           unit: displayUnit,
         });
         setSuggestion(sugg);
@@ -106,7 +110,8 @@ export function SetLogger({ workoutId, exercise, onRemoveExercise }: SetLoggerPr
         sets,
         {
           targetReps: 8,
-          incrementKg: cadenceIncrementKg ?? 2.5,
+          incrementKg:
+            cadenceIncrementKg ?? defaultEquipmentIncrement(exercise.equipment, displayUnit),
           model: cadenceModel,
           cadenceRate,
         },

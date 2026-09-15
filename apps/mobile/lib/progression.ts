@@ -30,24 +30,41 @@ export function rpeToRir(rpe: number): number {
   return Math.max(0, Math.min(10, 10 - rpe));
 }
 
-export function defaultEquipmentIncrement(equipment?: string | null): number {
+/**
+ * Default progression increment, stored in kg. When the user's display unit
+ * is pounds, the same nominal increment is interpreted in pounds and
+ * converted to kg (e.g. a 2.5 default becomes ~1.13 kg, not a 5.5 lb jump).
+ */
+export function defaultEquipmentIncrement(
+  equipment?: string | null,
+  unit: WeightUnit = "kg"
+): number {
+  let base: number;
   switch (equipment?.toLowerCase()) {
     case "dumbbell":
-      return 2.0; // 2kg jump (1kg per dumbbell or standard 2kg pair increments)
+      base = 2.0; // 2-unit jump (1 per dumbbell or standard 2-unit pair increments)
+      break;
     case "machine":
     case "cable":
-      return 2.5;
+      base = 2.5;
+      break;
     case "bodyweight":
     case "weighted_bodyweight":
-      return 1.25;
+      base = 1.25;
+      break;
     case "barbell":
     default:
-      return 2.5;
+      base = 2.5;
+      break;
   }
+  return unit === "lb" ? lbToKg(base) : base;
 }
 
-export function defaultRule(equipment?: string | null): ProgressionRule {
-  const incrementKg = defaultEquipmentIncrement(equipment);
+export function defaultRule(
+  equipment?: string | null,
+  unit: WeightUnit = "kg"
+): ProgressionRule {
+  const incrementKg = defaultEquipmentIncrement(equipment, unit);
   return {
     targetReps: 8,
     minReps: 8,
@@ -109,16 +126,24 @@ export function computeProgressionSuggestion(params: {
   equipment?: string | null;
   model?: ProgressionModel;
   cadenceRate?: CadenceRate;
+  /**
+   * Timestamp of the last completed session for this exercise. When
+   * cadenceRate is "weekly"/"biweekly", weight is only progressed if the
+   * last progression window has fully elapsed (7 / 14 days) — otherwise
+   * the engine honestly holds instead of pretending cadence does nothing.
+   */
+  lastSessionAt?: number | null;
   unit?: WeightUnit;
 }): ProgressionSuggestion {
   const unit = params.unit ?? "kg";
   const equipment = params.equipment ?? "barbell";
-  const incrementKg = params.incrementKg ?? defaultEquipmentIncrement(equipment);
+  const incrementKg = params.incrementKg ?? defaultEquipmentIncrement(equipment, unit);
   const model: ProgressionModel = params.model ?? "double_progression";
   const targetReps = params.targetReps ?? 8;
   const minReps = params.minReps ?? Math.max(1, targetReps - 2);
   const maxReps = params.maxReps ?? (targetReps + 4);
   const targetRpe = params.targetRpe ?? 8;
+  const cadenceRate: CadenceRate = params.cadenceRate ?? "session";
   const rpe = params.lastRpe ?? 8;
   const lastWeight = params.lastWeightKg;
   const lastReps = params.lastReps;
@@ -138,10 +163,32 @@ export function computeProgressionSuggestion(params: {
     };
   }
 
+  // H7: cadence gating. Weekly/biweekly only progress weight when the full
+  // window has elapsed since the last session; otherwise hold honestly.
+  if (
+    (cadenceRate === "weekly" || cadenceRate === "biweekly") &&
+    params.lastSessionAt != null
+  ) {
+    const windowMs = (cadenceRate === "weekly" ? 7 : 14) * 86400 * 1000;
+    if (Date.now() - params.lastSessionAt < windowMs) {
+      return {
+        suggestedWeightKg: lastWeight,
+        suggestedReps: Math.min(maxReps, Math.max(minReps, lastReps)),
+        reason: `Cadence hold: ${cadenceRate} progression was already applied within the last ${
+          cadenceRate === "weekly" ? "7" : "14"
+        } days`,
+        incrementKg,
+        isOverload: false,
+        deltaKg: 0,
+      };
+    }
+  }
+
   if (model === "double_progression") {
-    // Double Progression logic:
-    // If completed reps hit or exceeded maxReps with good RPE (<= 8.5), increase weight & reset reps to minReps.
-    if (lastReps >= maxReps && rpe <= 8.5) {
+    // Double Progression logic (thresholds are relative to targetRpe):
+    // If completed reps hit or exceeded maxReps with RPE at/below target+0.5,
+    // increase weight & reset reps to minReps.
+    if (lastReps >= maxReps && rpe <= targetRpe + 0.5) {
       const newWeight = roundToPlate(lastWeight + unitStep, unit);
       const delta = Math.round((newWeight - lastWeight) * 100) / 100;
       return {
@@ -152,7 +199,7 @@ export function computeProgressionSuggestion(params: {
         isOverload: true,
         deltaKg: delta,
       };
-    } else if (lastReps >= targetReps && lastReps < maxReps && rpe <= 8.0) {
+    } else if (lastReps >= targetReps && lastReps < maxReps && rpe <= targetRpe) {
       // Still in rep progression phase
       const nextReps = Math.min(maxReps, lastReps + 1);
       return {
@@ -163,7 +210,7 @@ export function computeProgressionSuggestion(params: {
         isOverload: false,
         deltaKg: 0,
       };
-    } else if (rpe >= 9.5 || lastReps < minReps) {
+    } else if (rpe >= targetRpe + 1.5 || lastReps < minReps) {
       // High effort or missed lower bound
       return {
         suggestedWeightKg: lastWeight,
@@ -190,16 +237,16 @@ export function computeProgressionSuggestion(params: {
     let factor = 0;
     let explanation = "";
 
-    if (rpe <= 7.0 && lastReps >= targetReps) {
+    if (rpe <= targetRpe - 1.0 && lastReps >= targetReps) {
       factor = 1.5;
       explanation = `Easy effort (RPE ${rpe}) -> Accelerated jump (+${(incrementKg * 1.5).toFixed(1)} kg)`;
-    } else if (rpe <= 8.5 && lastReps >= targetReps) {
+    } else if (rpe <= targetRpe + 0.5 && lastReps >= targetReps) {
       factor = 1.0;
       explanation = `Target RPE met (${rpe}) -> Progressive overload (+${incrementKg} kg)`;
-    } else if (rpe === 9.0 && lastReps >= targetReps) {
+    } else if (rpe <= targetRpe + 1.0 && lastReps >= targetReps) {
       factor = 0.5;
-      explanation = `RPE 9.0 -> Microload increment (+${(incrementKg * 0.5).toFixed(1)} kg)`;
-    } else if (rpe >= 9.5) {
+      explanation = `RPE ${rpe} -> Microload increment (+${(incrementKg * 0.5).toFixed(1)} kg)`;
+    } else if (rpe >= targetRpe + 1.5) {
       factor = 0;
       explanation = `High RPE (${rpe}) -> Hold current weight`;
     } else {
@@ -233,14 +280,24 @@ export function computeProgressionSuggestion(params: {
 }
 
 /**
- * Suggests the next set weight for an in-progress exercise using completed sets in the current workout.
+ * Suggests the next set weight for an in-progress exercise using the
+ * completed sets in the current workout. Only sets the user actually
+ * completed (completedAt != null) feed the engine — prefilled-but-untouched
+ * sets must never trigger progression.
  */
 export function suggestNextSetWeight(
-  currentSets: Array<{ weightKg: number | null; reps: number | null; rpe: number | null }>,
+  currentSets: Array<{
+    weightKg: number | null;
+    reps: number | null;
+    rpe: number | null;
+    completedAt: number | null;
+  }>,
   rule: ProgressionRule,
   unit: WeightUnit = "kg"
 ): number | null {
-  const completedSets = currentSets.filter((s) => s.weightKg != null && s.reps != null);
+  const completedSets = currentSets.filter(
+    (s) => s.completedAt != null && s.weightKg != null && s.reps != null
+  );
   if (completedSets.length === 0) return null;
 
   const last = completedSets[completedSets.length - 1];
