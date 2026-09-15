@@ -437,6 +437,49 @@ export async function deleteSet(id: string) {
   await logMutation("sets", id, "delete", { id, isDeleted: true, clientTimestamp: now, deviceId });
 }
 
+/**
+ * Soft-deletes every set belonging to an exercise inside a workout.
+ * Called when an exercise is removed or replaced so no orphaned set rows
+ * survive in SQLite after the exercise disappears from the UI (H1/H2).
+ */
+export async function deleteSetsForExerciseInWorkout(
+  workoutId: string,
+  exerciseId: string
+) {
+  await ensureDbReady();
+  const rows = await db
+    .select({ id: sets.id })
+    .from(sets)
+    .where(
+      and(
+        eq(sets.workoutId, workoutId),
+        eq(sets.exerciseId, exerciseId),
+        eq(sets.isDeleted, false)
+      )
+    );
+  if (rows.length === 0) return;
+  const now = Date.now();
+  const deviceId = await getDeviceId();
+  await db
+    .update(sets)
+    .set({ isDeleted: true, updatedAt: now, clientTimestamp: now, deviceId })
+    .where(
+      and(
+        eq(sets.workoutId, workoutId),
+        eq(sets.exerciseId, exerciseId),
+        eq(sets.isDeleted, false)
+      )
+    );
+  for (const r of rows) {
+    await logMutation("sets", r.id, "delete", {
+      id: r.id,
+      isDeleted: true,
+      clientTimestamp: now,
+      deviceId,
+    });
+  }
+}
+
 /* ========================================================================= */
 /*                              TEMPLATES QUERIES                            */
 /* ========================================================================= */

@@ -40,6 +40,7 @@ import {
   createSet,
   updateSet,
   deleteSet,
+  deleteSetsForExerciseInWorkout,
   type TemplateWithExercises,
 } from "../../db/queries";
 import { useWorkoutStore } from "../../store/useWorkoutStore";
@@ -47,7 +48,11 @@ import {
   suggestNextSetWeight,
   defaultEquipmentIncrement,
 } from "../../lib/progression";
-import { effectiveWeightKg, effectiveReps } from "../../lib/unilateral";
+import {
+  effectiveWeightKg,
+  effectiveReps,
+  hasRequiredDataForCompletion,
+} from "../../lib/unilateral";
 import type { Exercise, Workout, Set as WorkoutSet } from "../../db/schema";
 
 export default function WorkoutScreen() {
@@ -199,6 +204,19 @@ export default function WorkoutScreen() {
 
   const handleAddExercise = async (ex: Exercise) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
+
+    // H2: when replacing, consume the pending replacement — remove the old
+    // exercise (and soft-delete its sets) instead of adding alongside it.
+    const replacingId = replacingExerciseId;
+    if (replacingId && replacingId !== ex.id) {
+      setExercisesList((prev) => prev.filter((e) => e.id !== replacingId));
+      removeExerciseFromWorkout(replacingId);
+      if (workout) {
+        await deleteSetsForExerciseInWorkout(workout.id, replacingId);
+      }
+    }
+    setReplacingExerciseId(null);
+
     if (!exercisesList.some((e) => e.id === ex.id)) {
       setExercisesList((prev) => [...prev, ex]);
       addExerciseToWorkout(ex.id);
@@ -206,7 +224,7 @@ export default function WorkoutScreen() {
       if (workout) {
         await createSet(workout.id, ex.id, 1, {
           weightKg: null,
-          reps: 10,
+          reps: null,
           setType: "standard",
         });
         await refreshSets();
@@ -215,11 +233,16 @@ export default function WorkoutScreen() {
     setPickingExercise(false);
   };
 
-  const handleRemoveExercise = (exerciseId: string) => {
+  const handleRemoveExercise = async (exerciseId: string) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
     const nextList = exercisesList.filter((e) => e.id !== exerciseId);
     setExercisesList(nextList);
     removeExerciseFromWorkout(exerciseId);
+    // H1: soft-delete the exercise's sets in SQLite so no orphaned rows remain
+    if (workout) {
+      await deleteSetsForExerciseInWorkout(workout.id, exerciseId);
+      await refreshSets();
+    }
   };
 
   const handleTitleBlur = async () => {
@@ -391,7 +414,7 @@ export default function WorkoutScreen() {
         "Unfinished Sets",
         `You have ${uncompletedSets.length} unfinished set${
           uncompletedSets.length > 1 ? "s" : ""
-        }. Would you like to mark them as completed or discard them?`,
+        }. Sets with complete data will be marked completed; incomplete ones will be discarded.`,
         [
           {
             text: "Keep Editing",
@@ -410,15 +433,26 @@ export default function WorkoutScreen() {
             },
           },
           {
-            text: "Finish Unfinished",
+            // H3: never fabricate weight/reps. Only sets that already have
+            // the required data (per the exercise's tracking mode) may be
+            // completed; the rest are discarded.
+            text: "Complete Valid Only",
             onPress: async () => {
               const now = Date.now();
+              const modeByExercise = new Map<string, "unilateral" | "bilateral">();
+              for (const ex of exercisesList) {
+                modeByExercise.set(
+                  ex.id,
+                  ex.trackingMode === "unilateral" ? "unilateral" : "bilateral"
+                );
+              }
               for (const s of uncompletedSets) {
-                await updateSet(s.id, {
-                  completedAt: now,
-                  weightKg: s.weightKg ?? 0,
-                  reps: s.reps ?? 10,
-                });
+                const mode = modeByExercise.get(s.exerciseId) ?? "bilateral";
+                if (hasRequiredDataForCompletion(s, mode)) {
+                  await updateSet(s.id, { completedAt: now });
+                } else {
+                  await deleteSet(s.id);
+                }
               }
               const updated = await getSetsForWorkout(workout.id);
               setAllSets(updated);

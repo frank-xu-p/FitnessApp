@@ -34,6 +34,7 @@ import {
   effectiveWeightKg,
   effectiveReps,
   isUnilateralSet,
+  hasRequiredDataForCompletion,
 } from "../lib/unilateral";
 import {
   suggestNextSetWeight,
@@ -226,7 +227,8 @@ export function WorkoutExerciseCard({
     const lastSet = sets[sets.length - 1];
 
     let nextWeightKg = lastSet?.weightKg ?? null;
-    let nextReps = lastSet?.reps ?? 10;
+    // New sets are provisional — reps stay blank until the user enters them
+    let nextReps = lastSet?.reps ?? null;
 
     // Apply auto progressive overload suggestion if enabled
     if (autoOverloadEnabled && sets.length > 0) {
@@ -273,13 +275,24 @@ export function WorkoutExerciseCard({
     onSetsChange();
   };
 
-  // Toggle complete set
+  // Toggle complete set — H4: a set can only be marked complete when it
+  // actually has the required data for the exercise's tracking mode.
   const handleToggleComplete = async (set: WorkoutSet) => {
     const isCompleted = !!set.completedAt;
     const now = Date.now();
     if (isCompleted) {
       await updateSet(set.id, { completedAt: null });
     } else {
+      const mode = isIsolateral ? "unilateral" : "bilateral";
+      if (!hasRequiredDataForCompletion(set, mode)) {
+        Alert.alert(
+          "Incomplete set",
+          mode === "unilateral"
+            ? "Enter weight and reps for both sides before completing this set."
+            : "Enter weight and reps before completing this set."
+        );
+        return;
+      }
       await updateSet(set.id, { completedAt: now });
       const restSec = set.restSeconds ?? defaultRestSeconds;
       onTriggerRestTimer(restSec);
