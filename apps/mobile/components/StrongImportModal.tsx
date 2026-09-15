@@ -46,9 +46,15 @@ export function StrongImportModal({
 }: StrongImportModalProps) {
   const [inputText, setInputText] = useState("");
   const [candidateExercises, setCandidateExercises] = useState<Exercise[]>([]);
-  const [parsed, setParsed] = useState<ParsedWorkout | null>(null);
+  // H6: keep every parsed workout — the CSV can contain many, and the old
+  // code silently discarded all but the first.
+  const [parsedList, setParsedList] = useState<ParsedWorkout[]>([]);
+  const [selectedIdx, setSelectedIdx] = useState(0);
   const [importing, setImporting] = useState(false);
+  const [importProgress, setImportProgress] = useState<string | null>(null);
   const [templateName, setTemplateName] = useState("");
+
+  const parsed = parsedList[selectedIdx] ?? null;
 
   useEffect(() => {
     if (visible) {
@@ -60,25 +66,23 @@ export function StrongImportModal({
 
   useEffect(() => {
     if (!inputText.trim()) {
-      setParsed(null);
+      setParsedList([]);
       return;
     }
 
     if (inputText.includes(",") && inputText.toLowerCase().includes("workout name")) {
       const csvResults = parseStrongCsv(inputText, candidateExercises);
-      if (csvResults.length > 0) {
-        setParsed(csvResults[0]);
-        setTemplateName(csvResults[0].title);
-      } else {
-        setParsed(null);
-      }
+      setParsedList(csvResults);
+      setSelectedIdx(0);
+      setTemplateName(csvResults[0]?.title ?? "");
     } else {
       const result = parseStrongText(inputText, candidateExercises);
       if (result.exercises.length > 0) {
-        setParsed(result);
+        setParsedList([result]);
+        setSelectedIdx(0);
         setTemplateName(result.title);
       } else {
-        setParsed(null);
+        setParsedList([]);
       }
     }
   }, [inputText, candidateExercises]);
@@ -95,23 +99,35 @@ export function StrongImportModal({
     }
   };
 
+  const resetForm = () => {
+    setInputText("");
+    setParsedList([]);
+    setSelectedIdx(0);
+    setImportProgress(null);
+  };
+
   const handleImportAsWorkout = async () => {
-    if (!parsed) return;
+    if (parsedList.length === 0) return;
     setImporting(true);
+    setImportProgress(null);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => undefined);
 
     try {
-      await importStrongAsWorkout(parsed, "local", db);
+      let imported = 0;
+      for (let i = 0; i < parsedList.length; i++) {
+        setImportProgress(`Importing workout ${i + 1} of ${parsedList.length}…`);
+        await importStrongAsWorkout(parsedList[i], "local", db);
+        imported++;
+      }
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => undefined);
       Alert.alert(
         "Import Successful",
-        `Imported "${parsed.title}" with ${parsed.exercises.length} exercises into your workout history!`,
+        `Imported ${imported} workout${imported === 1 ? "" : "s"} into your workout history!`,
         [
           {
             text: "Done",
             onPress: () => {
-              setInputText("");
-              setParsed(null);
+              resetForm();
               onClose();
               if (onImportSuccess) onImportSuccess();
             },
@@ -123,6 +139,7 @@ export function StrongImportModal({
       Alert.alert("Import Failed", err?.message || "Failed to import workout.");
     } finally {
       setImporting(false);
+      setImportProgress(null);
     }
   };
 
@@ -141,8 +158,7 @@ export function StrongImportModal({
           {
             text: "Done",
             onPress: () => {
-              setInputText("");
-              setParsed(null);
+              resetForm();
               onClose();
               if (onImportSuccess) onImportSuccess();
             },
@@ -230,6 +246,47 @@ export function StrongImportModal({
             />
           </View>
 
+          {/* Workout selector — shown when the CSV contained multiple workouts */}
+          {parsedList.length > 1 && (
+            <View className="mb-4">
+              <Text className="text-xs font-black uppercase text-zinc-400 tracking-wider mb-2">
+                {parsedList.length} workouts found — previewing {selectedIdx + 1} of {parsedList.length}
+              </Text>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
+                {parsedList.map((w, idx) => (
+                  <TouchableOpacity
+                    key={idx}
+                    onPress={() => {
+                      setSelectedIdx(idx);
+                      setTemplateName(w.title);
+                    }}
+                    activeOpacity={0.8}
+                    className={`mr-2 rounded-xl border px-3 py-2 ${
+                      idx === selectedIdx
+                        ? "border-cyan-500/60 bg-cyan-500/15"
+                        : "border-zinc-800 bg-zinc-900"
+                    }`}
+                  >
+                    <Text
+                      className={`text-xs font-bold ${
+                        idx === selectedIdx ? "text-cyan-300" : "text-zinc-400"
+                      }`}
+                      numberOfLines={1}
+                    >
+                      {w.title}
+                    </Text>
+                    <Text className="text-[10px] font-mono text-zinc-500">
+                      {new Date(w.startedAt).toLocaleDateString()}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+              <Text className="mt-2 text-[11px] text-zinc-500">
+                Importing as a workout log will import all {parsedList.length} workouts. Templates are created from the selected workout.
+              </Text>
+            </View>
+          )}
+
           {/* Parsing Live Preview Card */}
           {parsed && (
             <View className="rounded-2xl border border-zinc-800/80 bg-zinc-900 p-4 mb-5">
@@ -308,6 +365,11 @@ export function StrongImportModal({
           {/* Import Action Buttons */}
           {parsed && (
             <View className="gap-2.5 pb-12">
+              {importProgress && (
+                <Text className="text-center text-xs font-mono text-cyan-400">
+                  {importProgress}
+                </Text>
+              )}
               <TouchableOpacity
                 testID="import-as-workout-btn"
                 onPress={handleImportAsWorkout}
@@ -321,7 +383,10 @@ export function StrongImportModal({
                   <>
                     <Dumbbell size={18} color="#000000" />
                     <Text className="text-sm font-black text-black uppercase tracking-wider">
-                      Import as Completed Workout Log
+                      Import{" "}
+                      {parsedList.length > 1
+                        ? `All ${parsedList.length} Workouts`
+                        : "as Completed Workout Log"}
                     </Text>
                   </>
                 )}
@@ -336,7 +401,9 @@ export function StrongImportModal({
               >
                 <Layers size={18} color="#CCFF00" />
                 <Text className="text-sm font-black text-[#CCFF00] uppercase tracking-wider">
-                  Save as Reusable Routine Template
+                  {parsedList.length > 1
+                    ? "Save Selected as Routine Template"
+                    : "Save as Reusable Routine Template"}
                 </Text>
               </TouchableOpacity>
             </View>

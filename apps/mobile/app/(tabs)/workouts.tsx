@@ -187,14 +187,39 @@ export default function WorkoutsScreen() {
     }
   };
 
-  const handleDeleteWorkoutHistory = async (workoutId: string) => {
+  // H5: workout-history deletion requires explicit confirmation
+  const handleDeleteWorkoutHistory = async (
+    workoutId: string,
+    alreadyConfirmed = false
+  ) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
-    try {
-      await deleteWorkout(workoutId);
-      await loadData();
-    } catch (err) {
-      Alert.alert("Error", "Could not delete workout");
+    const doDelete = async () => {
+      try {
+        await deleteWorkout(workoutId);
+        await loadData();
+      } catch (err) {
+        Alert.alert("Error", "Could not delete workout");
+      }
+    };
+    // Callers that already showed their own confirmation (detail modal)
+    // pass alreadyConfirmed to avoid a redundant second prompt.
+    if (alreadyConfirmed) {
+      await doDelete();
+      return;
     }
+    const item = workouts.find((w) => w.id === workoutId);
+    Alert.alert(
+      "Delete workout?",
+      item
+        ? `This will permanently delete "${item.title}" from ${new Date(
+            item.startedAt
+          ).toLocaleDateString()} and all of its sets. This cannot be undone.`
+        : "This will permanently delete this workout and all of its sets. This cannot be undone.",
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Delete", style: "destructive", onPress: doDelete },
+      ]
+    );
   };
 
   const handleDeleteTemplate = (template: TemplateWithExercises) => {
@@ -719,7 +744,7 @@ export default function WorkoutsScreen() {
         workout={selectedHistoryWorkout}
         onClose={() => setSelectedHistoryWorkout(null)}
         onRepeatWorkout={handleRepeatWorkout}
-        onDeleteWorkout={handleDeleteWorkoutHistory}
+        onDeleteWorkout={(id) => handleDeleteWorkoutHistory(id, true)}
       />
 
       {/* Strong App Importer Modal */}

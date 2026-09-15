@@ -2,7 +2,9 @@ import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { Workout, Exercise, Set } from "../db/schema";
 import type { ProgressionModel, CadenceRate } from "../lib/progression";
-import { getWorkout, getSetsForWorkout } from "../db/queries";
+// NOTE: db/queries is imported dynamically inside hydrateActiveWorkout.
+// expo-sqlite's build uses syntax this repo's Vitest/Vite toolchain cannot
+// parse in Node, so a static import would break the store's test suite.
 
 /**
  * Persisted across cold starts so an unfinished workout can be offered
@@ -189,6 +191,9 @@ export const useWorkoutStore = create<WorkoutStore>()((set, get) => ({
     try {
       const storedId = await AsyncStorage.getItem(ACTIVE_WORKOUT_STORAGE_KEY);
       if (!storedId) return null;
+      // Dynamic import: keeps expo-sqlite out of the store's static module
+      // graph so the Zustand unit tests can run under Vitest/Node.
+      const { getWorkout, getSetsForWorkout } = await import("../db/queries");
       // getWorkout filters deleted rows; also refuse completed ones.
       const workout = await getWorkout(storedId);
       if (!workout || workout.completedAt != null) {
