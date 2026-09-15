@@ -1,6 +1,27 @@
 import { create } from "zustand";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { Workout, Exercise, Set } from "../db/schema";
 import type { ProgressionModel, CadenceRate } from "../lib/progression";
+import { getWorkout, getSetsForWorkout } from "../db/queries";
+
+/**
+ * Persisted across cold starts so an unfinished workout can be offered
+ * for resume (B3). Only the workout id is stored; the row itself is
+ * re-validated from SQLite on boot (never restores completed/deleted).
+ */
+const ACTIVE_WORKOUT_STORAGE_KEY = "@fitnessapp:active_workout_id";
+
+async function persistActiveWorkoutId(id: string | null) {
+  try {
+    if (id) {
+      await AsyncStorage.setItem(ACTIVE_WORKOUT_STORAGE_KEY, id);
+    } else {
+      await AsyncStorage.removeItem(ACTIVE_WORKOUT_STORAGE_KEY);
+    }
+  } catch (err) {
+    console.warn("Failed to persist active workout id", err);
+  }
+}
 
 export type ActiveWorkoutState = Workout & {
   exerciseIds: string[];
@@ -33,6 +54,12 @@ type WorkoutStore = {
     rate?: CadenceRate;
     incrementKg?: number | null;
   }) => void;
+  /**
+   * Cold-start recovery (B3): restores the persisted active workout if it
+   * still exists and is unfinished in SQLite. Returns the workout id when
+   * resumed, null otherwise.
+   */
+  hydrateActiveWorkout: () => Promise<string | null>;
   clearWorkout: () => void;
 };
 
@@ -48,8 +75,9 @@ export const useWorkoutStore = create<WorkoutStore>()((set, get) => ({
   sourceTemplateId: null,
   isFromTemplate: false,
 
-  setActiveWorkout: (workout, initialExerciseIds = []) =>
-    set((state) => {
+  setActiveWorkout: (workout, initialExerciseIds = []) => {
+    void persistActiveWorkoutId(workout?.id ?? null);
+    return set((state) => {
       const activeState: ActiveWorkoutState | null = workout
         ? {
             ...workout,
@@ -73,10 +101,12 @@ export const useWorkoutStore = create<WorkoutStore>()((set, get) => ({
         cadenceRate: workout ? (workout.cadenceRate ?? "session") : "session",
         cadenceIncrementKg: workout ? (workout.cadenceIncrementKg ?? 2.5) : 2.5,
       };
-    }),
+    });
+  },
 
-  startEmptyWorkout: (workout) =>
-    set(() => ({
+  startEmptyWorkout: (workout) => {
+    void persistActiveWorkoutId(workout.id);
+    return set(() => ({
       activeWorkout: {
         ...workout,
         sourceTemplateId: null,
@@ -90,10 +120,12 @@ export const useWorkoutStore = create<WorkoutStore>()((set, get) => ({
       cadenceModel: workout.cadenceModel ?? "double_progression",
       cadenceRate: workout.cadenceRate ?? "session",
       cadenceIncrementKg: workout.cadenceIncrementKg ?? 2.5,
-    })),
+    }));
+  },
 
   startWorkoutFromTemplate: (workout, initialExerciseIds) => {
     const exIds = Array.from(new Set(initialExerciseIds));
+    void persistActiveWorkoutId(workout.id);
     set(() => ({
       activeWorkout: {
         ...workout,
@@ -153,12 +185,34 @@ export const useWorkoutStore = create<WorkoutStore>()((set, get) => ({
         config.incrementKg !== undefined ? config.incrementKg : state.cadenceIncrementKg,
     })),
 
-  clearWorkout: () =>
-    set({
+  hydrateActiveWorkout: async () => {
+    try {
+      const storedId = await AsyncStorage.getItem(ACTIVE_WORKOUT_STORAGE_KEY);
+      if (!storedId) return null;
+      // getWorkout filters deleted rows; also refuse completed ones.
+      const workout = await getWorkout(storedId);
+      if (!workout || workout.completedAt != null) {
+        await AsyncStorage.removeItem(ACTIVE_WORKOUT_STORAGE_KEY);
+        return null;
+      }
+      const rows = await getSetsForWorkout(workout.id);
+      const exIds = Array.from(new Set(rows.map((s) => s.exerciseId)));
+      get().setActiveWorkout(workout, exIds);
+      return workout.id;
+    } catch (err) {
+      console.warn("Failed to hydrate active workout", err);
+      return null;
+    }
+  },
+
+  clearWorkout: () => {
+    void persistActiveWorkoutId(null);
+    return set({
       activeWorkout: null,
       activeWorkoutId: null,
       sourceTemplateId: null,
       isFromTemplate: false,
       activeExerciseId: null,
-    }),
+    });
+  },
 }));

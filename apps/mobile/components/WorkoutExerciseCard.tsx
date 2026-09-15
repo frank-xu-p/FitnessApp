@@ -124,6 +124,8 @@ type WorkoutExerciseCardProps = {
   onReplaceExercise?: () => void;
   onTriggerRestTimer: (seconds: number) => void;
   defaultRestSeconds?: number;
+  /** When true the card renders completed history: no add/toggle/edit. */
+  readOnly?: boolean;
 };
 
 export function WorkoutExerciseCard({
@@ -135,6 +137,7 @@ export function WorkoutExerciseCard({
   onReplaceExercise,
   onTriggerRestTimer,
   defaultRestSeconds = 120,
+  readOnly = false,
 }: WorkoutExerciseCardProps) {
   const { displayUnit } = useAuthStore();
   const { autoOverloadEnabled, cadenceModel, cadenceRate, cadenceIncrementKg } =
@@ -378,12 +381,14 @@ export function WorkoutExerciseCard({
             <Link2 size={16} color="#38BDF8" />
           </TouchableOpacity>
 
+          {!readOnly && (
           <TouchableOpacity
             onPress={() => setShowOptionsMenu(true)}
             className="rounded-full bg-gray-800 p-2"
           >
             <MoreHorizontal size={16} color="#38BDF8" />
           </TouchableOpacity>
+          )}
         </View>
       </View>
 
@@ -406,7 +411,8 @@ export function WorkoutExerciseCard({
         </Text>
       </View>
 
-      {/* Set Rows */}
+      {/* Set Rows — pointer events disabled in read-only mode (H11) */}
+      <View pointerEvents={readOnly ? "none" : "auto"}>
       {sets.map((set, index) => {
         const isCompleted = !!set.completedAt;
         const setType = (set.setType ?? "standard") as SetType;
@@ -640,8 +646,10 @@ export function WorkoutExerciseCard({
           </View>
         );
       })}
+      </View>
 
       {/* Add Set Button */}
+      {!readOnly && (
       <View className="mt-3 items-center">
         <TouchableOpacity
           onPress={handleAddSet}
@@ -652,6 +660,7 @@ export function WorkoutExerciseCard({
           </Text>
         </TouchableOpacity>
       </View>
+      )}
 
       {/* Set Type Picker Modal */}
       {activeTypeSet && (

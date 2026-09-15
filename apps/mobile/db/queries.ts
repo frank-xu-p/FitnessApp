@@ -1,4 +1,4 @@
-import { eq, ne, and, desc, asc, sql, inArray } from "drizzle-orm";
+import { eq, ne, and, desc, asc, sql, inArray, isNull } from "drizzle-orm";
 import { db, ensureDbReady } from "./client";
 import { exercises, workouts, sets, workoutTemplates, templateExercises } from "./schema";
 import type { Workout, Set, Exercise, WorkoutTemplate, TemplateExercise } from "./schema";
@@ -228,6 +228,27 @@ export async function getWorkouts(userId: string) {
       )
     )
     .orderBy(desc(workouts.startedAt));
+}
+
+/**
+ * Returns the most recent unfinished, non-deleted workout for cold-start
+ * recovery (B3). Completed or deleted workouts are never offered for resume.
+ */
+export async function getLatestUnfinishedWorkout(userId: string) {
+  await ensureDbReady();
+  const rows = await db
+    .select()
+    .from(workouts)
+    .where(
+      and(
+        sql`(${workouts.userId} = ${userId} OR ${workouts.userId} = 'local')`,
+        eq(workouts.isDeleted, false),
+        isNull(workouts.completedAt)
+      )
+    )
+    .orderBy(desc(workouts.startedAt))
+    .limit(1);
+  return rows[0] ?? null;
 }
 
 export type WorkoutHistoryItem = Workout & {

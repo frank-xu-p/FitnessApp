@@ -74,6 +74,8 @@ export default function WorkoutScreen() {
   } = useWorkoutStore();
 
   const [workout, setWorkout] = useState<Workout | null>(activeWorkout);
+  // H11: completed workouts are read-only history — timer frozen, no edits.
+  const isCompleted = workout?.completedAt != null;
   const [exercisesList, setExercisesList] = useState<Exercise[]>([]);
   const [allSets, setAllSets] = useState<WorkoutSet[]>([]);
   const [template, setTemplate] = useState<TemplateWithExercises | null>(null);
@@ -93,6 +95,9 @@ export default function WorkoutScreen() {
   const [restTimerSeconds, setRestTimerSeconds] = useState(0);
   const [restTimerTotal, setRestTimerTotal] = useState(120);
   const [isRestTimerRunning, setIsRestTimerRunning] = useState(false);
+  // H10: dock visibility is separate from running — pausing keeps the dock
+  // mounted so the user can resume instead of losing the timer.
+  const [isRestTimerVisible, setIsRestTimerVisible] = useState(false);
 
   // Rest Timer Interval
   useEffect(() => {
@@ -102,6 +107,7 @@ export default function WorkoutScreen() {
         setRestTimerSeconds((prev) => {
           if (prev <= 1) {
             setIsRestTimerRunning(false);
+            setIsRestTimerVisible(false);
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => undefined);
             return 0;
           }
@@ -121,6 +127,7 @@ export default function WorkoutScreen() {
     setRestTimerTotal(seconds);
     setRestTimerSeconds(seconds);
     setIsRestTimerRunning(true);
+    setIsRestTimerVisible(true);
   }, []);
 
   const load = useCallback(async () => {
@@ -160,9 +167,11 @@ export default function WorkoutScreen() {
     setExercisesList(loadedExercises);
     setActiveWorkout(loadedWorkout, combinedIds);
 
+    // H11: freeze the timer at the final duration for completed workouts
+    const endTime = loadedWorkout.completedAt ?? Date.now();
     const initialElapsed = Math.max(
       0,
-      Math.floor((Date.now() - loadedWorkout.startedAt) / 1000)
+      Math.floor((endTime - loadedWorkout.startedAt) / 1000)
     );
     setElapsedSeconds(initialElapsed);
 
@@ -173,8 +182,9 @@ export default function WorkoutScreen() {
     load();
   }, []);
 
-  // Workout duration stopwatch interval
+  // Workout duration stopwatch interval — frozen for completed workouts (H11)
   useEffect(() => {
+    if (isCompleted) return;
     timerRef.current = setInterval(() => {
       setElapsedSeconds((prev) => prev + 1);
     }, 1000);
@@ -182,7 +192,7 @@ export default function WorkoutScreen() {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, []);
+  }, [isCompleted]);
 
   const formatTimer = (totalSecs: number) => {
     const hrs = Math.floor(totalSecs / 3600);
@@ -493,6 +503,7 @@ export default function WorkoutScreen() {
           </View>
 
           {/* Right: High-contrast FINISH Button with Neon Lime accent */}
+          {!isCompleted && (
           <TouchableOpacity
             onPress={handleInitiateFinish}
             activeOpacity={0.8}
@@ -503,6 +514,7 @@ export default function WorkoutScreen() {
               FINISH
             </Text>
           </TouchableOpacity>
+          )}
         </View>
 
         {/* Title Bar & Auto-Overload Pill */}
@@ -594,13 +606,14 @@ export default function WorkoutScreen() {
                   setPickingExercise(true);
                 }}
                 onTriggerRestTimer={triggerRestTimer}
+                readOnly={isCompleted}
               />
             );
           })
         )}
 
         {/* Bottom Actions */}
-        {exercisesList.length > 0 && (
+        {exercisesList.length > 0 && !isCompleted && (
           <View className="mb-12 gap-3">
             <TouchableOpacity
               onPress={() => {
@@ -631,7 +644,7 @@ export default function WorkoutScreen() {
       </ScrollView>
 
       {/* Floating Active Rest Timer Dock */}
-      {isRestTimerRunning && (
+      {isRestTimerVisible && (
         <View className="absolute bottom-6 left-4 right-4 rounded-3xl border border-zinc-800 bg-zinc-900/95 p-4 shadow-2xl">
           <View className="flex-row items-center justify-between">
             <View className="flex-row items-center gap-3">
@@ -640,7 +653,7 @@ export default function WorkoutScreen() {
               </View>
               <View>
                 <Text className="text-[10px] font-black font-mono text-zinc-400 uppercase tracking-wider">
-                  Rest Timer
+                  Rest Timer{!isRestTimerRunning ? " — Paused" : ""}
                 </Text>
                 <Text className="text-xl font-mono font-black text-white">
                   {formatTimer(restTimerSeconds)}
@@ -678,6 +691,7 @@ export default function WorkoutScreen() {
                 onPress={() => {
                   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
                   setIsRestTimerRunning(false);
+                  setIsRestTimerVisible(false);
                   setRestTimerSeconds(0);
                 }}
                 className="rounded-xl bg-zinc-800 p-2.5 border border-zinc-700/60"
