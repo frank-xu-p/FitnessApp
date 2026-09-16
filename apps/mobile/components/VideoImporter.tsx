@@ -17,8 +17,18 @@ import { useRouter } from "expo-router";
 
 import { useAuthStore } from "../store/useAuthStore";
 import { upsertExercise } from "../db/queries";
-import { StickFigureView } from "./StickFigureView";
+import { SegmentedFigurine } from "./SegmentedFigurine";
+import { SvgXml } from "react-native-svg";
 import { renderStickFigureSvg, SkeletalPose } from "../lib/stickFigure";
+import { decode as decodeJpeg } from "jpeg-js";
+import {
+  computeGifPlan,
+  encodeGif,
+  base64ToBytes,
+  bytesToBase64,
+  resizeRgbaBilinear,
+  type RgbaFrame,
+} from "../lib/gifExport";
 import {
   Camera,
   Upload,
@@ -31,6 +41,7 @@ import {
   Scissors,
   Clock,
   Trash2,
+  Film,
 } from "lucide-react-native";
 import type { Exercise } from "../db/schema";
 
@@ -51,6 +62,22 @@ const PHASES: KeyframePhase[] = [
 type VideoImporterProps = {
   onImported?: (exercise: Exercise) => void;
 };
+
+/** Decode a backend-AI SVG frame (raw `<svg` or data-URI) to raw SVG markup. */
+function decodeSvgFrame(frame?: string | null): string | null {
+  if (!frame) return null;
+  if (frame.startsWith("<svg")) return frame;
+  if (frame.startsWith("data:image/svg+xml")) {
+    const comma = frame.indexOf(",");
+    const payload = comma >= 0 ? frame.slice(comma + 1) : frame;
+    try {
+      return decodeURIComponent(payload);
+    } catch {
+      return payload;
+    }
+  }
+  return null;
+}
 
 export function VideoImporter({ onImported }: VideoImporterProps) {
   const router = useRouter();
@@ -75,6 +102,11 @@ export function VideoImporter({ onImported }: VideoImporterProps) {
   const [cues, setCues] = useState<string[]>([]);
   const [animationFrames, setAnimationFrames] = useState<string[]>([]);
   const [activeFrameIndex, setActiveFrameIndex] = useState(0);
+  // Poses for the unified vector renderer (local kinematic fallback path)
+  const [previewPoses, setPreviewPoses] = useState<SkeletalPose[] | null>(null);
+  // Exported motion GIF (real video frames) — saved as the exercise imageUrl
+  const [gifUri, setGifUri] = useState<string | null>(null);
+  const [gifExporting, setGifExporting] = useState(false);
 
   // Auto-play animation loop in preview
   useEffect(() => {
@@ -173,6 +205,9 @@ export function VideoImporter({ onImported }: VideoImporterProps) {
     if (!picked.canceled && picked.assets && picked.assets.length > 0) {
       const uris = picked.assets.map((a) => a.uri);
       setThumbnails(uris);
+      setVideoUri(null);
+      setGifUri(null);
+      setPreviewPoses(null);
       setStep("keyframes");
     }
   };
@@ -181,6 +216,8 @@ export function VideoImporter({ onImported }: VideoImporterProps) {
   const extractKeyframesFromVideo = async (uri: string, durationSec: number | null) => {
     setVideoUri(uri);
     setThumbnails([]);
+    setGifUri(null);
+    setPreviewPoses(null);
     setError(null);
     setLoading(true);
 
@@ -453,7 +490,94 @@ export function VideoImporter({ onImported }: VideoImporterProps) {
         "Drive through full range of motion to peak contraction.",
       ],
       animationFrames: generatedSvgs,
+      poses,
     };
+  };
+
+
+  // Export real video frames as an animated GIF (even sampling across full clip)
+  const handleExportGif = async () => {
+    if (!videoUri) {
+      setError("Pick a video first to export a motion GIF.");
+      return;
+    }
+    if (!videoDuration || videoDuration <= 0) {
+      setError("Could not read the video duration.");
+      return;
+    }
+    setGifExporting(true);
+    setError(null);
+    try {
+      const durationMs = videoDuration * 1000;
+
+      // Pass 1: measure aspect from the first frame so output dims are exact.
+      const firstThumb = await VideoThumbnails.getThumbnailAsync(videoUri, { time: 1 });
+      const firstManip = await ImageManipulator.manipulateAsync(
+        firstThumb.uri,
+        [{ resize: { width: 320 } }],
+        { format: ImageManipulator.SaveFormat.JPEG, compress: 0.85, base64: true }
+      );
+      if (!firstManip.base64 || !firstManip.width || !firstManip.height) {
+        throw new Error("Could not decode the first video frame.");
+      }
+      const firstDecoded = decodeJpeg(base64ToBytes(firstManip.base64), { useTArray: true });
+
+      const plan = computeGifPlan(durationMs, {
+        aspectRatio: firstDecoded.width / firstDecoded.height,
+      });
+
+      // Pass 2: evenly sample the full clip (segment centers), preserving order.
+      // The pass-1 probe frame is aspect measurement only — every output frame
+      // comes from plan.sampleTimesMs, starting at index 0.
+      const frames: RgbaFrame[] = [];
+      for (let i = 0; i < plan.sampleTimesMs.length; i++) {
+        const thumb = await VideoThumbnails.getThumbnailAsync(videoUri, {
+          time: plan.sampleTimesMs[i],
+        });
+        const manip = await ImageManipulator.manipulateAsync(
+          thumb.uri,
+          [{ resize: { width: 320 } }],
+          { format: ImageManipulator.SaveFormat.JPEG, compress: 0.85, base64: true }
+        );
+        if (!manip.base64) throw new Error(`Could not decode frame ${i + 1}.`);
+        const decoded = decodeJpeg(base64ToBytes(manip.base64), { useTArray: true });
+        frames.push({
+          data: resizeRgbaBilinear(
+            decoded.data as Uint8Array,
+            decoded.width,
+            decoded.height,
+            plan.width,
+            plan.height
+          ),
+          width: plan.width,
+          height: plan.height,
+        });
+      }
+
+      const gifBytes = encodeGif(frames, plan.frameDelayMs);
+
+      const dir = `${FileSystem.documentDirectory}exercise_gifs/`;
+      const dirInfo = await FileSystem.getInfoAsync(dir).catch(() => null);
+      if (!dirInfo?.exists) {
+        await FileSystem.makeDirectoryAsync(dir, { intermediates: true });
+      }
+      const outPath = `${dir}gif_${Date.now()}.gif`;
+      await FileSystem.writeAsStringAsync(outPath, bytesToBase64(gifBytes), {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+
+      setGifUri(outPath);
+      // GIF path skips AI synthesis: seed the editable metadata from hints.
+      if (!name.trim() && hints.trim()) {
+        setName(hints.split(",")[0].trim());
+      }
+      setStep("preview");
+    } catch (err) {
+      console.error("GIF export failed", err);
+      setError("Could not export the motion GIF. Try a shorter clip or the 2D demo instead.");
+    } finally {
+      setGifExporting(false);
+    }
   };
 
 
@@ -547,6 +671,13 @@ export function VideoImporter({ onImported }: VideoImporterProps) {
         ? [exerciseData.imageUrl]
         : thumbnails;
       setAnimationFrames(frames);
+      // Local fallback carries poses for the unified vector renderer;
+      // backend AI frames are SVG strings rendered inline.
+      setPreviewPoses(
+        Array.isArray(exerciseData.poses) && exerciseData.poses.length > 0
+          ? exerciseData.poses
+          : null
+      );
 
       setStep("preview");
     } catch (err) {
@@ -561,6 +692,7 @@ export function VideoImporter({ onImported }: VideoImporterProps) {
       setSecondaryMuscles(fallback.secondaryMuscles);
       setCues(fallback.cues);
       setAnimationFrames(fallback.animationFrames);
+      setPreviewPoses(fallback.poses ?? null);
       setStep("preview");
     } finally {
       setLoading(false);
@@ -585,7 +717,9 @@ export function VideoImporter({ onImported }: VideoImporterProps) {
         primaryMuscles,
         secondaryMuscles,
         cues,
-        imageUrl: animationFrames[0] || null,
+        // Real motion GIF wins; vector-demo customs need no imageUrl;
+        // backend-AI SVG frames keep legacy storage.
+        imageUrl: gifUri ?? (previewPoses ? null : animationFrames[0] ?? null),
         trackingMode: "bilateral",
         source: "community",
         visibility: "private",
@@ -761,24 +895,54 @@ export function VideoImporter({ onImported }: VideoImporterProps) {
           </View>
 
           {/* Action Buttons */}
-          <View className="flex-row gap-3 pb-8">
-            <TouchableOpacity
-              onPress={() => setStep("input")}
-              activeOpacity={0.8}
-              className="flex-1 items-center justify-center rounded-2xl bg-gray-900 py-3.5 border border-gray-800"
-            >
-              <Text className="text-xs font-bold text-gray-300">Choose Different</Text>
-            </TouchableOpacity>
+          <View className="gap-3 pb-8">
+            <View className="flex-row gap-3">
+              <TouchableOpacity
+                onPress={() => setStep("input")}
+                activeOpacity={0.8}
+                className="flex-1 items-center justify-center rounded-2xl bg-gray-900 py-3.5 border border-gray-800"
+              >
+                <Text className="text-xs font-bold text-gray-300">Choose Different</Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              testID="btn-generate-ai"
-              onPress={handleRunAiAnalysis}
-              activeOpacity={0.8}
-              className="flex-1 flex-row items-center justify-center gap-2 rounded-2xl bg-sky-500 py-3.5 shadow-lg shadow-sky-500/30"
-            >
-              <Sparkles size={16} color="white" />
-              <Text className="text-xs font-black text-white">Synthesize 2D Demo</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                testID="btn-generate-ai"
+                onPress={handleRunAiAnalysis}
+                activeOpacity={0.8}
+                className="flex-1 flex-row items-center justify-center gap-2 rounded-2xl bg-sky-500 py-3.5 shadow-lg shadow-sky-500/30"
+              >
+                <Sparkles size={16} color="white" />
+                <Text className="text-xs font-black text-white">Synthesize 2D Demo</Text>
+              </TouchableOpacity>
+            </View>
+
+            {videoUri && (
+              <TouchableOpacity
+                testID="btn-export-gif"
+                onPress={handleExportGif}
+                disabled={gifExporting}
+                activeOpacity={0.8}
+                className={`flex-row items-center justify-center gap-2 rounded-2xl py-3.5 border ${
+                  gifExporting
+                    ? "bg-gray-900 border-gray-800"
+                    : "bg-emerald-500/15 border-emerald-500/40"
+                }`}
+              >
+                {gifExporting ? (
+                  <ActivityIndicator size="small" color="#34D399" />
+                ) : (
+                  <Film size={16} color="#34D399" />
+                )}
+                <Text className="text-xs font-black text-emerald-300">
+                  {gifExporting ? "Exporting Motion GIF…" : "Export Motion GIF"}
+                </Text>
+              </TouchableOpacity>
+            )}
+            {videoUri && (
+              <Text className="text-[11px] text-gray-500 text-center -mt-1">
+                Samples 10 frames evenly across the full clip into a looping GIF.
+              </Text>
+            )}
           </View>
         </ScrollView>
       )}
@@ -862,27 +1026,35 @@ export function VideoImporter({ onImported }: VideoImporterProps) {
       {/* STEP 4: Interactive Demonstration Preview & Quick Edit */}
       {step === "preview" && (
         <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
-          {/* Top Looping Mannequin Demonstration Hero */}
+          {/* Top Looping Demonstration Hero */}
           <View className="mb-5 overflow-hidden rounded-3xl bg-gray-900 border border-gray-800">
             <View className="h-56 w-full items-center justify-center bg-[#0B0F19]">
-              {animationFrames.length > 0 ? (
-                <StickFigureView
-                  svgContent={
-                    animationFrames[activeFrameIndex]?.startsWith("<svg")
-                      ? animationFrames[activeFrameIndex]
-                      : animationFrames[activeFrameIndex]?.startsWith("data:image/svg+xml;utf8,")
-                      ? decodeURIComponent(
-                          animationFrames[activeFrameIndex].replace("data:image/svg+xml;utf8,", "")
-                        )
-                      : undefined
-                  }
-                  imageUrl={
-                    !animationFrames[activeFrameIndex]?.startsWith("<svg") &&
-                    !animationFrames[activeFrameIndex]?.startsWith("data:image/svg+xml")
-                      ? animationFrames[activeFrameIndex]
-                      : undefined
-                  }
+              {gifUri ? (
+                <Image
+                  source={{ uri: gifUri }}
+                  style={{ width: "100%", height: "100%" }}
+                  contentFit="contain"
                 />
+              ) : previewPoses && previewPoses.length > 0 ? (
+                <SegmentedFigurine customPoses={previewPoses} size={224} />
+              ) : animationFrames.length > 0 ? (
+                (() => {
+                  const frame = animationFrames[activeFrameIndex];
+                  const svg = decodeSvgFrame(frame);
+                  if (svg) {
+                    return <SvgXml xml={svg} width="100%" height="100%" />;
+                  }
+                  if (frame) {
+                    return (
+                      <Image
+                        source={{ uri: frame }}
+                        style={{ width: "100%", height: "100%" }}
+                        contentFit="contain"
+                      />
+                    );
+                  }
+                  return <Dumbbell size={48} color="#64748B" />;
+                })()
               ) : (
                 <Dumbbell size={48} color="#64748B" />
               )}
@@ -892,7 +1064,11 @@ export function VideoImporter({ onImported }: VideoImporterProps) {
               <View className="absolute bottom-3 right-3 flex-row items-center gap-1.5 rounded-full bg-black/70 px-2.5 py-1 border border-gray-700">
                 <Play size={10} color="#38BDF8" fill="#38BDF8" />
                 <Text className="text-[10px] font-black text-sky-400">
-                  Frame {activeFrameIndex + 1}/{animationFrames.length}
+                  {gifUri
+                    ? "Motion GIF"
+                    : previewPoses && previewPoses.length > 0
+                    ? "Vector Demo"
+                    : `Frame ${activeFrameIndex + 1}/${animationFrames.length}`}
                 </Text>
               </View>
             </View>

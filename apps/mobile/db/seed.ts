@@ -142,7 +142,6 @@ export async function seedBaseExercises(database: any) {
   const now = Date.now();
   const dataset = loadExercises();
   const rows = dataset.map((ex, idx) => {
-    const primaryImg = (ex.images ?? [])[0];
     return {
       id: String(ex.id ?? `ex_${idx}_${generateId()}`),
       name: ex.name,
@@ -150,9 +149,10 @@ export async function seedBaseExercises(database: any) {
       primaryMuscles: ex.primaryMuscles ?? [],
       secondaryMuscles: ex.secondaryMuscles ?? [],
       cues: ex.instructions ?? [],
-      imageUrl: primaryImg
-        ? `https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/${primaryImg}`
-        : null,
+      // No remote photos: all built-in exercises use the in-house vector
+      // mannequin renderer (offline-first, consistent style). imageUrl is
+      // reserved for user-created media (e.g. GIFs from VideoImporter).
+      imageUrl: null,
       trackingMode: "bilateral" as const,
       source: "base" as const,
       visibility: "global" as const,

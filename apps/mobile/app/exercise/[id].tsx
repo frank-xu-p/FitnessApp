@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -11,7 +11,6 @@ import { Image } from "expo-image";
 import * as Haptics from "expo-haptics";
 import {
   ArrowLeft,
-  Dumbbell,
   Target,
   Trophy,
   History as HistoryIcon,
@@ -51,10 +50,6 @@ export default function ExerciseDetailScreen() {
   const [tab, setTab] = useState<TabMode>("about");
   const [loading, setLoading] = useState(true);
 
-  // Animated demonstration frame toggle
-  const [frameIdx, setFrameIdx] = useState(0);
-  const animTimer = useRef<any>(null);
-
   const loadData = useCallback(async () => {
     if (!id) return;
     setLoading(true);
@@ -79,26 +74,6 @@ export default function ExerciseDetailScreen() {
   useEffect(() => {
     loadData();
   }, [loadData]);
-
-  // Two-frame alternating animation loop if image URL is available
-  useEffect(() => {
-    if (!exercise?.imageUrl) return;
-    animTimer.current = setInterval(() => {
-      setFrameIdx((prev) => (prev === 0 ? 1 : 0));
-    }, 1200);
-
-    return () => {
-      if (animTimer.current) clearInterval(animTimer.current);
-    };
-  }, [exercise?.imageUrl]);
-
-  const getCurrentImageUrl = () => {
-    if (!exercise?.imageUrl) return null;
-    if (frameIdx === 1) {
-      return exercise.imageUrl.replace("/0.jpg", "/1.jpg");
-    }
-    return exercise.imageUrl;
-  };
 
   const handleAddToActiveWorkout = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
@@ -129,9 +104,6 @@ export default function ExerciseDetailScreen() {
     : [];
   const instructions = Array.isArray(exercise.cues) ? exercise.cues : [];
   const lastSession = history.length > 0 ? history[0] : null;
-
-  const [viewMode, setViewMode] = useState<"vector" | "photo">("vector");
-
   return (
     <View className="flex-1 bg-black">
       {/* Top Header */}
@@ -174,28 +146,18 @@ export default function ExerciseDetailScreen() {
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
-        {/* Style 2: 2D Segmented Muscular Figurine Vector Demonstration Hero */}
+        {/* Exercise Hero: user GIF (animated) or 2D vector figurine demo */}
         <View className="w-full bg-zinc-950 p-4 border-b border-zinc-800/80 relative">
-          {viewMode === "vector" ? (
-            <SegmentedFigurine exercise={exercise} size={280} autoPlay={true} />
-          ) : (
+          {exercise.imageUrl?.endsWith(".gif") ? (
             <View className="h-[280px] w-full rounded-3xl overflow-hidden bg-black items-center justify-center border border-zinc-800">
-              {getCurrentImageUrl() ? (
-                <Image
-                  source={{ uri: getCurrentImageUrl()! }}
-                  style={{ width: "100%", height: "100%" }}
-                  contentFit="contain"
-                  transition={200}
-                />
-              ) : (
-                <View className="items-center justify-center">
-                  <Dumbbell size={56} color="#71717A" />
-                  <Text className="mt-2 text-xs font-bold text-zinc-500">
-                    No photo reference available
-                  </Text>
-                </View>
-              )}
+              <Image
+                source={{ uri: exercise.imageUrl }}
+                style={{ width: "100%", height: "100%" }}
+                contentFit="contain"
+              />
             </View>
+          ) : (
+            <SegmentedFigurine exercise={exercise} size={280} autoPlay={true} />
           )}
 
           {/* Toggle between Style 2 Vector Demonstration and Photo Reference */}
@@ -203,22 +165,11 @@ export default function ExerciseDetailScreen() {
             <View className="flex-row items-center gap-1.5">
               <View className="h-2 w-2 rounded-full bg-[#CCFF00]" />
               <Text className="text-[11px] font-mono font-bold text-zinc-400">
-                {viewMode === "vector" ? "2D Segmented Muscular Figurine (Style 2)" : "Original Reference"}
+                {exercise.imageUrl?.endsWith(".gif")
+                  ? "Your Motion GIF"
+                  : "Motion Demo"}
               </Text>
             </View>
-
-            <TouchableOpacity
-              onPress={() => {
-                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
-                setViewMode((prev) => (prev === "vector" ? "photo" : "vector"));
-              }}
-              activeOpacity={0.8}
-              className="rounded-xl bg-zinc-900 px-3 py-1 border border-zinc-700/60"
-            >
-              <Text className="text-[11px] font-mono font-bold text-cyan-400">
-                Switch to {viewMode === "vector" ? "Photo" : "Style 2 Vector"}
-              </Text>
-            </TouchableOpacity>
           </View>
         </View>
 

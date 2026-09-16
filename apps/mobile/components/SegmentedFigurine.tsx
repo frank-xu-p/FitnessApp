@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { Play, Pause, RotateCw, Sparkles } from "lucide-react-native";
@@ -12,6 +12,13 @@ export type SegmentedFigurineProps = {
   size?: number;
   autoPlay?: boolean;
   className?: string;
+  /**
+   * When false, renders a single static frame with no playback chrome
+   * (badge/controls). Used for list thumbnails.
+   */
+  interactive?: boolean;
+  /** When false, no frame animation timer runs. */
+  animated?: boolean;
 };
 
 /**
@@ -298,27 +305,40 @@ export function SegmentedFigurine({
   size = 320,
   autoPlay = true,
   className = "",
+  interactive = true,
+  animated = true,
 }: SegmentedFigurineProps) {
   const [frameIdx, setFrameIdx] = useState(0);
   const [isPlaying, setIsPlaying] = useState(autoPlay);
 
-  const frames =
-    customPoses && customPoses.length > 0
-      ? customPoses
-      : getKinematicMotionFrames(
-          exercise?.name || "",
-          (exercise?.primaryMuscles as string[]) || [],
-          exercise?.equipment || ""
-        );
+  const frames = useMemo(
+    () =>
+      customPoses && customPoses.length > 0
+        ? customPoses
+        : getKinematicMotionFrames(
+            exercise?.name || "",
+            (exercise?.primaryMuscles as string[]) || [],
+            exercise?.equipment || ""
+          ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      customPoses,
+      exercise?.name,
+      exercise?.equipment,
+      Array.isArray(exercise?.primaryMuscles)
+        ? (exercise?.primaryMuscles as string[]).join(",")
+        : "",
+    ]
+  );
 
   useEffect(() => {
-    if (!isPlaying || frames.length <= 1) return;
+    if (!animated || !isPlaying || frames.length <= 1) return;
     const timer = setInterval(() => {
       setFrameIdx((prev) => (prev + 1) % frames.length);
     }, 1100);
 
     return () => clearInterval(timer);
-  }, [isPlaying, frames.length]);
+  }, [animated, isPlaying, frames.length]);
 
   const currentPose = frames[frameIdx] || frames[0];
   const svgXmlString = renderStickFigureSvg(currentPose, size);
@@ -338,39 +358,43 @@ export function SegmentedFigurine({
       className={`relative items-center justify-center overflow-hidden rounded-3xl bg-[#0B0F19] border border-zinc-800 ${className}`}
       style={{ width: "100%", height: size }}
     >
-      {/* 2D Segmented Muscular Figurine Vector Render (Style 2) */}
+      {/* 2D Segmented Muscular Figurine Vector Render */}
       <SvgXml xml={svgXmlString} width="100%" height="100%" />
 
-      {/* Top Floating Badge: Motion Phase */}
-      <View className="absolute top-3 left-3 flex-row items-center gap-1.5 rounded-full bg-black/70 px-3 py-1 border border-cyan-500/30">
-        <Sparkles size={12} color="#38BDF8" />
-        <Text className="text-[10px] font-mono font-bold uppercase text-cyan-400">
-          Style 2 Vector · Phase {frameIdx + 1}/{frames.length}
-        </Text>
-      </View>
+      {interactive && (
+        <>
+          {/* Top Floating Badge: Motion Phase */}
+          <View className="absolute top-3 left-3 flex-row items-center gap-1.5 rounded-full bg-black/70 px-3 py-1 border border-cyan-500/30">
+            <Sparkles size={12} color="#38BDF8" />
+            <Text className="text-[10px] font-mono font-bold uppercase text-cyan-400">
+              Demo · {frameIdx + 1}/{frames.length}
+            </Text>
+          </View>
 
-      {/* Bottom Floating Playback Controls */}
-      <View className="absolute bottom-3 right-3 flex-row items-center gap-1.5 rounded-2xl bg-black/80 p-1.5 border border-zinc-700/60">
-        <TouchableOpacity
-          onPress={handleStep}
-          activeOpacity={0.8}
-          className="rounded-xl bg-zinc-900 p-2 border border-zinc-800"
-        >
-          <RotateCw size={14} color="#A1A1AA" />
-        </TouchableOpacity>
+          {/* Bottom Floating Playback Controls */}
+          <View className="absolute bottom-3 right-3 flex-row items-center gap-1.5 rounded-2xl bg-black/80 p-1.5 border border-zinc-700/60">
+            <TouchableOpacity
+              onPress={handleStep}
+              activeOpacity={0.8}
+              className="rounded-xl bg-zinc-900 p-2 border border-zinc-800"
+            >
+              <RotateCw size={14} color="#A1A1AA" />
+            </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={handleTogglePlay}
-          activeOpacity={0.8}
-          className="rounded-xl bg-cyan-500 p-2"
-        >
-          {isPlaying ? (
-            <Pause size={14} color="#000000" />
-          ) : (
-            <Play size={14} color="#000000" fill="#000000" />
-          )}
-        </TouchableOpacity>
-      </View>
+            <TouchableOpacity
+              onPress={handleTogglePlay}
+              activeOpacity={0.8}
+              className="rounded-xl bg-cyan-500 p-2"
+            >
+              {isPlaying ? (
+                <Pause size={14} color="#000000" />
+              ) : (
+                <Play size={14} color="#000000" fill="#000000" />
+              )}
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
     </View>
   );
 }

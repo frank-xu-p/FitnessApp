@@ -289,13 +289,24 @@ export function renderStickFigureSvg(pose: SkeletalPose, size: number = 400): st
   <!-- Upper Body / Arms -->
   <circle cx="${lShoulder.x}" cy="${lShoulder.y}" r="13" ${getStyle(isShouldersActive)} />
   <path d="${buildMuscleSegment(lShoulder, lElbow, 20, 24, 14, 1.2, 1.0)}" ${getStyle(isArmsActive || isShouldersActive)} />
+  <circle cx="${lElbow.x}" cy="${lElbow.y}" r="7" ${getStyle(isArmsActive || isShouldersActive)} />
   <path d="${buildMuscleSegment(lElbow, lWrist, 15, 18, 10, 1.1, 0.9)}" ${getStyle(isArmsActive)} />
+  <circle cx="${lWrist.x}" cy="${lWrist.y}" r="6" ${getStyle(isArmsActive)} />
   <path d="${lHandGeo}" ${getStyle(isArmsActive)} />
 
   <circle cx="${rShoulder.x}" cy="${rShoulder.y}" r="13" ${getStyle(isShouldersActive)} />
   <path d="${buildMuscleSegment(rShoulder, rElbow, 20, 24, 14, 1.2, 1.0)}" ${getStyle(isArmsActive || isShouldersActive)} />
+  <circle cx="${rElbow.x}" cy="${rElbow.y}" r="7" ${getStyle(isArmsActive || isShouldersActive)} />
   <path d="${buildMuscleSegment(rElbow, rWrist, 15, 18, 10, 1.1, 0.9)}" ${getStyle(isArmsActive)} />
+  <circle cx="${rWrist.x}" cy="${rWrist.y}" r="6" ${getStyle(isArmsActive)} />
   <path d="${rHandGeo}" ${getStyle(isArmsActive)} />
+
+  <!-- Hip & Knee Articulation -->
+  <circle cx="${hip.x}" cy="${hip.y}" r="10" ${getStyle(isLegsActive || isCoreActive)} />
+  <circle cx="${lKnee.x}" cy="${lKnee.y}" r="8" ${getStyle(isLegsActive)} />
+  <circle cx="${rKnee.x}" cy="${rKnee.y}" r="8" ${getStyle(isLegsActive)} />
+  <circle cx="${lAnkle.x}" cy="${lAnkle.y}" r="6" ${getStyle(isLegsActive)} />
+  <circle cx="${rAnkle.x}" cy="${rAnkle.y}" r="6" ${getStyle(isLegsActive)} />
 
   <!-- Anatomical Head & Neck -->
   <polygon points="${neck.x - 7},${neck.y} ${neck.x + 7},${neck.y} ${head.x + 5},${head.y + 8} ${head.x - 5},${head.y + 8}" fill="#1E293B" stroke="#475569" stroke-width="1.8" />

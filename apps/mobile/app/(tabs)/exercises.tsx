@@ -25,6 +25,7 @@ import { getExercises } from "../../db/queries";
 import { useWorkoutStore } from "../../store/useWorkoutStore";
 import { AnatomicalDummy } from "../../components/AnatomicalDummy";
 import { StrongImportModal } from "../../components/StrongImportModal";
+import { SegmentedFigurine } from "../../components/SegmentedFigurine";
 import type { Exercise } from "../../db/schema";
 
 const EQUIPMENT_CHIPS = [
@@ -344,7 +345,6 @@ export default function ExercisesScreen() {
           <FlashList
             data={exercises}
             keyExtractor={(item) => item.id}
-            estimatedItemSize={68}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 32 }}
             renderItem={({ item }) => {
@@ -360,17 +360,21 @@ export default function ExercisesScreen() {
                   className="mb-2.5 flex-row items-center justify-between rounded-2xl border border-zinc-800/80 bg-zinc-900 p-3 shadow-sm"
                 >
                   <View className="flex-row items-center gap-3 flex-1 pr-2">
-                    {/* 44x44 Static Image Thumbnail */}
+                    {/* 44x44 Vector Figurine Thumbnail */}
                     <View className="h-11 w-11 rounded-xl bg-zinc-950 items-center justify-center overflow-hidden border border-zinc-800">
-                      {item.imageUrl ? (
+                      {item.imageUrl?.endsWith(".gif") ? (
                         <Image
                           source={{ uri: item.imageUrl }}
                           style={{ width: 44, height: 44 }}
                           contentFit="cover"
-                          transition={100}
                         />
                       ) : (
-                        <Dumbbell size={20} color="#71717A" />
+                        <SegmentedFigurine
+                          exercise={item}
+                          size={44}
+                          interactive={false}
+                          animated={false}
+                        />
                       )}
                     </View>
 
