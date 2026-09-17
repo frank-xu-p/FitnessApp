@@ -33,6 +33,8 @@ import { useWorkoutStore } from "../../store/useWorkoutStore";
 import { toDisplay } from "../../lib/units";
 import { SET_TYPE_CONFIG } from "../../lib/set-types";
 import { SegmentedFigurine } from "../../components/SegmentedFigurine";
+import { DemoVideoPlayer } from "../../components/DemoVideoPlayer";
+import { getDemoVideoSlug } from "../../lib/demoVideos";
 import type { Exercise } from "../../db/schema";
 
 type TabMode = "about" | "history" | "charts" | "records";
@@ -146,31 +148,49 @@ export default function ExerciseDetailScreen() {
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
-        {/* Exercise Hero: user GIF (animated) or 2D vector figurine demo */}
+        {/* Exercise Hero: user GIF > bundle demo video > vector figurine */}
         <View className="w-full bg-zinc-950 p-4 border-b border-zinc-800/80 relative">
-          {exercise.imageUrl?.endsWith(".gif") ? (
-            <View className="h-[280px] w-full rounded-3xl overflow-hidden bg-black items-center justify-center border border-zinc-800">
-              <Image
-                source={{ uri: exercise.imageUrl }}
-                style={{ width: "100%", height: "100%" }}
-                contentFit="contain"
-              />
-            </View>
-          ) : (
-            <SegmentedFigurine exercise={exercise} size={280} autoPlay={true} />
-          )}
+          {(() => {
+            const isGif = !!exercise.imageUrl?.endsWith(".gif");
+            const demoSlug = getDemoVideoSlug(exercise.id);
+            return (
+              <>
+                {isGif ? (
+                  <View className="h-[280px] w-full rounded-3xl overflow-hidden bg-black items-center justify-center border border-zinc-800">
+                    <Image
+                      source={{ uri: exercise.imageUrl ?? "" }}
+                      style={{ width: "100%", height: "100%" }}
+                      contentFit="contain"
+                    />
+                  </View>
+                ) : demoSlug ? (
+                  <DemoVideoPlayer
+                    exerciseId={exercise.id}
+                    height={280}
+                    testID="demo-video-player"
+                  />
+                ) : (
+                  <SegmentedFigurine
+                    exercise={exercise}
+                    size={280}
+                    autoPlay={true}
+                  />
+                )}
 
-          {/* Toggle between Style 2 Vector Demonstration and Photo Reference */}
-          <View className="mt-2.5 flex-row items-center justify-between">
-            <View className="flex-row items-center gap-1.5">
-              <View className="h-2 w-2 rounded-full bg-[#CCFF00]" />
-              <Text className="text-[11px] font-mono font-bold text-zinc-400">
-                {exercise.imageUrl?.endsWith(".gif")
-                  ? "Your Motion GIF"
-                  : "Motion Demo"}
-              </Text>
-            </View>
-          </View>
+                {/* Label row (the demo player renders its own label + toggle) */}
+                {!demoSlug && (
+                  <View className="mt-2.5 flex-row items-center justify-between">
+                    <View className="flex-row items-center gap-1.5">
+                      <View className="h-2 w-2 rounded-full bg-[#CCFF00]" />
+                      <Text className="text-[11px] font-mono font-bold text-zinc-400">
+                        {isGif ? "Your Motion GIF" : "Motion Demo"}
+                      </Text>
+                    </View>
+                  </View>
+                )}
+              </>
+            );
+          })()}
         </View>
 
         {/* Tab Switcher */}

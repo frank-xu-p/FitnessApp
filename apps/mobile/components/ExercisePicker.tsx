@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, FlatList } from "react-native"
 import { Image } from "expo-image";
 import { Search, Plus, Dumbbell, X } from "lucide-react-native";
 import { getExercises } from "../db/queries";
-import { SegmentedFigurine } from "./SegmentedFigurine";
+import { ExerciseThumb } from "./ExerciseThumb";
 import type { Exercise } from "../db/schema";
 
 type ExercisePickerProps = {
@@ -67,22 +67,9 @@ export function ExercisePicker({ onSelect, onCreate }: ExercisePickerProps) {
               className="mb-2 flex-row items-center justify-between rounded-2xl border border-gray-200 bg-white p-3 dark:border-gray-800 dark:bg-gray-900 shadow-sm"
             >
               <View className="flex-row items-center gap-3 flex-1 pr-2">
-                {/* 44x44 Vector Figurine Thumbnail */}
+                {/* 44x44 thumbnail: user GIF > demo poster > mannequin */}
                 <View className="h-11 w-11 rounded-xl bg-gray-100 dark:bg-gray-800 items-center justify-center overflow-hidden border border-gray-200 dark:border-gray-700/60">
-                  {item.imageUrl?.endsWith(".gif") ? (
-                    <Image
-                      source={{ uri: item.imageUrl }}
-                      style={{ width: 44, height: 44 }}
-                      contentFit="cover"
-                    />
-                  ) : (
-                    <SegmentedFigurine
-                      exercise={item}
-                      size={44}
-                      interactive={false}
-                      animated={false}
-                    />
-                  )}
+                  <ExerciseThumb exercise={item} size={44} />
                 </View>
 
                 <View className="flex-1">

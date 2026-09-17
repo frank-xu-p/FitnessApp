@@ -1,0 +1,710 @@
+{
+ "Ab_Crunch_Machine": {
+  "slug": "lever-seated-crunch-1",
+  "poster": true,
+  "female": false,
+  "bundle": "Lever Seated Crunch"
+ },
+ "Band_Assisted_Pull-Up": {
+  "slug": "band-assisted-pull-up",
+  "poster": true,
+  "female": true,
+  "bundle": "Band Assisted Pull-up"
+ },
+ "Band_Hip_Adductions": {
+  "slug": "band-hip-adduction",
+  "poster": true,
+  "female": true,
+  "bundle": "Band Hip Adduction"
+ },
+ "Barbell_Bench_Press_-_Medium_Grip": {
+  "slug": "barbell-bench-press",
+  "poster": true,
+  "female": true,
+  "bundle": "Barbell Bench Press"
+ },
+ "Barbell_Curl": {
+  "slug": "barbell-curl",
+  "poster": true,
+  "female": true,
+  "bundle": "Barbell Curl"
+ },
+ "Barbell_Incline_Bench_Press_-_Medium_Grip": {
+  "slug": "barbell-incline-bench-press",
+  "poster": true,
+  "female": true,
+  "bundle": "Barbell Incline Bench Press"
+ },
+ "Barbell_Lunge": {
+  "slug": "barbell-lunge",
+  "poster": true,
+  "female": true,
+  "bundle": "Barbell Lunge"
+ },
+ "Barbell_Shrug": {
+  "slug": "barbell-shrug",
+  "poster": true,
+  "female": true,
+  "bundle": "Barbell Shrug"
+ },
+ "Barbell_Squat": {
+  "slug": "classic-barbell-squat",
+  "poster": true,
+  "female": true,
+  "bundle": "Barbell Back Squat"
+ },
+ "Battling_Ropes": {
+  "slug": "battling-ropes",
+  "poster": true,
+  "female": true,
+  "bundle": "Battling Ropes"
+ },
+ "Behind_Head_Chest_Stretch": {
+  "slug": "stretching-above-head-chest-stretch",
+  "poster": true,
+  "female": true,
+  "bundle": "Overhead Chest Stretch"
+ },
+ "Bench_Dips": {
+  "slug": "bench-dips",
+  "poster": true,
+  "female": true,
+  "bundle": "Bench Dips"
+ },
+ "Bench_Press_-_Powerlifting": {
+  "slug": "barbell-bench-press",
+  "poster": true,
+  "female": true,
+  "bundle": "Barbell Bench Press"
+ },
+ "Bench_Press_-_With_Bands": {
+  "slug": "barbell-bench-press",
+  "poster": true,
+  "female": true,
+  "bundle": "Barbell Bench Press"
+ },
+ "Bench_Press_with_Chains": {
+  "slug": "barbell-bench-press",
+  "poster": true,
+  "female": true,
+  "bundle": "Barbell Bench Press"
+ },
+ "Bent_Over_Two-Dumbbell_Row": {
+  "slug": "dumbbell-bent-over-row",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Bent-Over Row"
+ },
+ "Bodyweight_Squat": {
+  "slug": "squat",
+  "poster": true,
+  "female": true,
+  "bundle": "Squat"
+ },
+ "Cable_Crunch": {
+  "slug": "cable-standing-crunch",
+  "poster": true,
+  "female": true,
+  "bundle": "Cable Standing Crunch"
+ },
+ "Cable_Lying_Triceps_Extension": {
+  "slug": "cable-lying-triceps-extension",
+  "poster": true,
+  "female": true,
+  "bundle": "Cable Lying Triceps Extension"
+ },
+ "Cable_Rear_Delt_Fly": {
+  "slug": "cable-crossover-reverse-fly",
+  "poster": true,
+  "female": true,
+  "bundle": "Cable Crossover Reverse Fly"
+ },
+ "Cable_Rope_Overhead_Triceps_Extension": {
+  "slug": "cable-rope-high-pulley-overhead-triceps-extension",
+  "poster": true,
+  "female": true,
+  "bundle": "Cable Rope Overhead Triceps Extension"
+ },
+ "Chin-Up": {
+  "slug": "chin-ups-pull-ups",
+  "poster": true,
+  "female": true,
+  "bundle": "Pull-Up / Chin-Up"
+ },
+ "Chin_To_Chest_Stretch": {
+  "slug": "stretching-chin-to-chest-stretch",
+  "poster": true,
+  "female": true,
+  "bundle": "Chin-to-Chest Stretch"
+ },
+ "Clean_and_Press": {
+  "slug": "barbell-clean-and-press",
+  "poster": true,
+  "female": true,
+  "bundle": "Barbell Clean And Press"
+ },
+ "Close-Grip_Dumbbell_Press": {
+  "slug": "dumbbell-close-grip-press",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Close-Grip Press"
+ },
+ "Concentration_Curls": {
+  "slug": "dumbbell-concentration-curl",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Concentration Curl"
+ },
+ "Cross-Body_Crunch": {
+  "slug": "twisting-crunch",
+  "poster": true,
+  "female": true,
+  "bundle": "Twisting Crunch"
+ },
+ "Cross_Body_Hammer_Curl": {
+  "slug": "dumbbell-cross-body-hammer-curl",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Cross Body Hammer Curl"
+ },
+ "Decline_Barbell_Bench_Press": {
+  "slug": "barbell-decline-bench-press",
+  "poster": true,
+  "female": true,
+  "bundle": "Barbell Decline Bench Press"
+ },
+ "Decline_Dumbbell_Bench_Press": {
+  "slug": "decline-dumbbell-bench-press-45-degree",
+  "poster": true,
+  "female": true,
+  "bundle": "Decline Dumbbell Bench Press"
+ },
+ "Decline_Dumbbell_Flyes": {
+  "slug": "dumbbell-decline-fly-45-degree-1",
+  "poster": true,
+  "female": false,
+  "bundle": "Decline Dumbbell Fly"
+ },
+ "Donkey_Calf_Raises": {
+  "slug": "donkey-calf-raise",
+  "poster": true,
+  "female": true,
+  "bundle": "Donkey Calf Raise"
+ },
+ "Drag_Curl": {
+  "slug": "barbell-drag-curl",
+  "poster": true,
+  "female": true,
+  "bundle": "Barbell Drag Curl"
+ },
+ "Dumbbell_Alternate_Bicep_Curl": {
+  "slug": "dumbbell-alternate-seated-biceps-curl",
+  "poster": true,
+  "female": true,
+  "bundle": "Seated Alternating Dumbbell Curl"
+ },
+ "Dumbbell_Bench_Press": {
+  "slug": "dumbbell-bench-seated-press",
+  "poster": true,
+  "female": true,
+  "bundle": "Seated Dumbbell Shoulder Press"
+ },
+ "Dumbbell_Bench_Press_with_Neutral_Grip": {
+  "slug": "dumbbell-bench-seated-press",
+  "poster": true,
+  "female": true,
+  "bundle": "Seated Dumbbell Shoulder Press"
+ },
+ "Dumbbell_Bicep_Curl": {
+  "slug": "dumbbell-biceps-curl",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Biceps Curl"
+ },
+ "Dumbbell_Incline_Row": {
+  "slug": "dumbbell-incline-row",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Incline Row"
+ },
+ "Dumbbell_Lunges": {
+  "slug": "dumbbell-lunge",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Lunge"
+ },
+ "Dumbbell_One-Arm_Shoulder_Press": {
+  "slug": "dumbbell-alternate-shoulder-press",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Alternating Shoulder Press"
+ },
+ "Dumbbell_One-Arm_Triceps_Extension": {
+  "slug": "dumbbell-one-arm-triceps-extension",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell One-Arm Triceps Extension"
+ },
+ "Dumbbell_Prone_Incline_Curl": {
+  "slug": "dumbbell-prone-incline-curl",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Prone Incline Curl"
+ },
+ "Dumbbell_Shrug": {
+  "slug": "dumbbell-shrug",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Shrug"
+ },
+ "Dumbbell_Side_Bend": {
+  "slug": "dumbbell-side-bend",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Side Bend"
+ },
+ "Dumbbell_Squat": {
+  "slug": "dumbbell-goblet-squat",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Goblet Squat"
+ },
+ "Dynamic_Chest_Stretch": {
+  "slug": "stretching-dynamic-chest-stretch",
+  "poster": true,
+  "female": true,
+  "bundle": "Dynamic Chest Stretch"
+ },
+ "EZ-Bar_Curl": {
+  "slug": "ez-barbell-biceps-curl",
+  "poster": true,
+  "female": true,
+  "bundle": "EZ Bar Biceps Curl"
+ },
+ "EZ-Bar_Skullcrusher": {
+  "slug": "ez-barbell-lying-triceps-extension",
+  "poster": true,
+  "female": true,
+  "bundle": "EZ Bar Lying Triceps Extension"
+ },
+ "Elliptical_Trainer": {
+  "slug": "elliptical",
+  "poster": true,
+  "female": true,
+  "bundle": "Elliptical Trainer"
+ },
+ "Flat_Bench_Cable_Flyes": {
+  "slug": "cable-lying-fly-flat-bench-cable-fly",
+  "poster": true,
+  "female": true,
+  "bundle": "Flat Bench Cable Fly"
+ },
+ "Front_Squat_Clean_Grip": {
+  "slug": "barbell-front-chest-squat",
+  "poster": true,
+  "female": true,
+  "bundle": "Barbell Front Squat"
+ },
+ "Goblet_Squat": {
+  "slug": "dumbbell-goblet-squat",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Goblet Squat"
+ },
+ "Hack_Squat": {
+  "slug": "sled-hack-squat",
+  "poster": true,
+  "female": true,
+  "bundle": "Sled Hack Squat"
+ },
+ "Hamstring_Stretch": {
+  "slug": "stretching-front-toe-touch",
+  "poster": true,
+  "female": true,
+  "bundle": "Front Toe Touch Stretch"
+ },
+ "Hanging_Leg_Raise": {
+  "slug": "hanging-leg-hip-raise",
+  "poster": true,
+  "female": true,
+  "bundle": "Hanging Leg Hip Raise"
+ },
+ "Incline_Dumbbell_Curl": {
+  "slug": "dumbbell-incline-biceps-curl",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Incline Biceps Curl"
+ },
+ "Incline_Dumbbell_Flyes": {
+  "slug": "dumbbell-incline-fly",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Incline Fly"
+ },
+ "Incline_Dumbbell_Press": {
+  "slug": "dumbbell-incline-bench-press",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Incline Bench Press"
+ },
+ "Incline_Hammer_Curls": {
+  "slug": "dumbbell-incline-hammer-curl",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Incline Hammer Curl"
+ },
+ "Incline_Push-Up": {
+  "slug": "incline-push-ups",
+  "poster": true,
+  "female": true,
+  "bundle": "Incline Push-Up"
+ },
+ "Intermediate_Hip_Flexor_and_Quad_Stretch": {
+  "slug": "stretching-hip-flexor-and-quad-stretch",
+  "poster": true,
+  "female": true,
+  "bundle": "Hip Flexor and Quadriceps Stretch"
+ },
+ "Inverted_Row": {
+  "slug": "inverted-row-between-chairs",
+  "poster": true,
+  "female": true,
+  "bundle": "Inverted Row Between Chairs"
+ },
+ "Inverted_Row_with_Straps": {
+  "slug": "inverted-row-with-straps",
+  "poster": true,
+  "female": true,
+  "bundle": "Inverted Row With Straps"
+ },
+ "Iron_Crosses_stretch": {
+  "slug": "stretching-iron-cross-stretch",
+  "poster": true,
+  "female": true,
+  "bundle": "Iron Cross Stretch"
+ },
+ "Landmine_180s": {
+  "slug": "landmine-180",
+  "poster": true,
+  "female": true,
+  "bundle": "Landmine 180"
+ },
+ "Lateral_Raise_-_With_Bands": {
+  "slug": "dumbbell-lateral-raise",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Lateral Raise"
+ },
+ "Leg_Extensions": {
+  "slug": "lever-leg-extension",
+  "poster": true,
+  "female": true,
+  "bundle": "Lever Leg Extension"
+ },
+ "Lying_Leg_Curls": {
+  "slug": "lever-lying-leg-curl",
+  "poster": true,
+  "female": true,
+  "bundle": "Lever Lying Leg Curl"
+ },
+ "Lying_Supine_Dumbbell_Curl": {
+  "slug": "lying-supine-dumbbell-curl",
+  "poster": true,
+  "female": true,
+  "bundle": "Supine Dumbbell Biceps Curl"
+ },
+ "Machine_Bench_Press": {
+  "slug": "lever-lying-chest-press",
+  "poster": true,
+  "female": true,
+  "bundle": "Lever Lying Chest Press"
+ },
+ "Machine_Preacher_Curls": {
+  "slug": "lever-preacher-curl",
+  "poster": true,
+  "female": true,
+  "bundle": "Lever Preacher Curl"
+ },
+ "Machine_Triceps_Extension": {
+  "slug": "lever-triceps-extension",
+  "poster": true,
+  "female": true,
+  "bundle": "Lever Triceps Extension"
+ },
+ "Middle_Back_Stretch": {
+  "slug": "stretching-middle-back-stretch-1",
+  "poster": true,
+  "female": false,
+  "bundle": "Middle Back Stretch"
+ },
+ "Narrow_Stance_Leg_Press": {
+  "slug": "close-feet-leg-press",
+  "poster": true,
+  "female": true,
+  "bundle": "Close Feet Leg Press"
+ },
+ "Oblique_Crunches": {
+  "slug": "twisting-crunch",
+  "poster": true,
+  "female": true,
+  "bundle": "Twisting Crunch"
+ },
+ "Otis-Up": {
+  "slug": "otis-ups",
+  "poster": true,
+  "female": true,
+  "bundle": "Otis-Up"
+ },
+ "Parallel_Bar_Dip": {
+  "slug": "chest-dips",
+  "poster": true,
+  "female": true,
+  "bundle": "Chest Dips"
+ },
+ "Peroneals_Stretch": {
+  "slug": "stretching-peroneals-stretch",
+  "poster": true,
+  "female": true,
+  "bundle": "Peroneals Stretch"
+ },
+ "Preacher_Curl": {
+  "slug": "dumbbell-seated-preacher-curl",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Seated Preacher Curl"
+ },
+ "Pullups": {
+  "slug": "chin-ups-pull-ups",
+  "poster": true,
+  "female": true,
+  "bundle": "Pull-Up / Chin-Up"
+ },
+ "Push-Ups_-_Close_Triceps_Position": {
+  "slug": "push-ups",
+  "poster": true,
+  "female": true,
+  "bundle": "Push-Up"
+ },
+ "Pushups": {
+  "slug": "push-ups",
+  "poster": true,
+  "female": true,
+  "bundle": "Push-Up"
+ },
+ "Pushups_Close_and_Wide_Hand_Positions": {
+  "slug": "push-ups",
+  "poster": true,
+  "female": true,
+  "bundle": "Push-Up"
+ },
+ "Quad_Stretch": {
+  "slug": "stretching-quadriceps-stretch",
+  "poster": true,
+  "female": true,
+  "bundle": "Standing Quadriceps Stretch"
+ },
+ "Recumbent_Bike": {
+  "slug": "stationary-bike",
+  "poster": true,
+  "female": true,
+  "bundle": "Stationary Bike"
+ },
+ "Runners_Stretch": {
+  "slug": "stretching-hip-flexor-and-quad-stretch",
+  "poster": true,
+  "female": true,
+  "bundle": "Hip Flexor and Quadriceps Stretch"
+ },
+ "Seated_Calf_Raise": {
+  "slug": "lever-seated-calf-raise",
+  "poster": true,
+  "female": true,
+  "bundle": "Lever Seated Calf Raise"
+ },
+ "Seated_Calf_Stretch": {
+  "slug": "stretching-calf-stretch-with-strap",
+  "poster": true,
+  "female": true,
+  "bundle": "Calf Stretch with Strap"
+ },
+ "Seated_Leg_Curl": {
+  "slug": "lever-seated-leg-curl",
+  "poster": true,
+  "female": true,
+  "bundle": "Lever Seated Leg Curl"
+ },
+ "Seated_Triceps_Press": {
+  "slug": "dumbbell-seated-triceps-extension",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Seated Triceps Extension"
+ },
+ "Shoulder_Press_-_With_Bands": {
+  "slug": "military-press",
+  "poster": true,
+  "female": true,
+  "bundle": "Military Press"
+ },
+ "Side_Bridge": {
+  "slug": "side-bridge-side-plank",
+  "poster": true,
+  "female": true,
+  "bundle": "Side Plank"
+ },
+ "Side_Neck_Stretch": {
+  "slug": "stretching-neck-side-stretch",
+  "poster": true,
+  "female": true,
+  "bundle": "Neck Side Stretch"
+ },
+ "Sit-Up": {
+  "slug": "sit-ups",
+  "poster": true,
+  "female": true,
+  "bundle": "Sit-Up"
+ },
+ "Smith_Machine_Calf_Raise": {
+  "slug": "smith-calf-raise",
+  "poster": true,
+  "female": true,
+  "bundle": "Smith Machine Calf Raise"
+ },
+ "Smith_Machine_Leg_Press": {
+  "slug": "smith-leg-press",
+  "poster": true,
+  "female": true,
+  "bundle": "Smith Machine Leg Press"
+ },
+ "Smith_Machine_Squat": {
+  "slug": "smith-chair-squat",
+  "poster": true,
+  "female": true,
+  "bundle": "Smith Chair Squat"
+ },
+ "Spell_Caster": {
+  "slug": "spell-caster",
+  "poster": true,
+  "female": true,
+  "bundle": "Spell Caster"
+ },
+ "Spinal_Stretch": {
+  "slug": "stretching-sitting-bent-over-back-stretch",
+  "poster": true,
+  "female": true,
+  "bundle": "Seated Bent Over Back Stretch"
+ },
+ "Squat_with_Bands": {
+  "slug": "squat",
+  "poster": true,
+  "female": true,
+  "bundle": "Squat"
+ },
+ "Squat_with_Chains": {
+  "slug": "squat",
+  "poster": true,
+  "female": true,
+  "bundle": "Squat"
+ },
+ "Squat_with_Plate_Movers": {
+  "slug": "squat",
+  "poster": true,
+  "female": true,
+  "bundle": "Squat"
+ },
+ "Standing_Cable_Lift": {
+  "slug": "cable-standing-lift",
+  "poster": true,
+  "female": true,
+  "bundle": "Cable Standing Lift"
+ },
+ "Standing_Calf_Raises": {
+  "slug": "dumbbell-standing-calf-raise",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Standing Calf Raise"
+ },
+ "Standing_Dumbbell_Calf_Raise": {
+  "slug": "dumbbell-standing-calf-raise",
+  "poster": true,
+  "female": true,
+  "bundle": "Dumbbell Standing Calf Raise"
+ },
+ "Standing_Dumbbell_Upright_Row": {
+  "slug": "dumbbell-upright-row",
+  "poster": true,
+  "female": false,
+  "bundle": "Dumbbell Upright Row"
+ },
+ "Standing_Lateral_Stretch": {
+  "slug": "stretching-standing-lateral-stretch-1",
+  "poster": true,
+  "female": false,
+  "bundle": "Standing Lateral Stretch"
+ },
+ "Standing_One-Arm_Cable_Curl": {
+  "slug": "cable-one-arm-curl",
+  "poster": true,
+  "female": true,
+  "bundle": "Cable One Arm Curl"
+ },
+ "Standing_Toe_Touches": {
+  "slug": "stretching-front-toe-touch",
+  "poster": true,
+  "female": true,
+  "bundle": "Front Toe Touch Stretch"
+ },
+ "Star_Jump": {
+  "slug": "jumping-jack",
+  "poster": true,
+  "female": true,
+  "bundle": "Jumping Jack"
+ },
+ "Stiff-Legged_Barbell_Deadlift": {
+  "slug": "barbell-straight-leg-deadlift",
+  "poster": true,
+  "female": true,
+  "bundle": "Barbell Straight Leg Deadlift"
+ },
+ "Straight-Arm_Pulldown": {
+  "slug": "cable-straight-arm-pulldown",
+  "poster": true,
+  "female": true,
+  "bundle": "Cable Straight Arm Pulldown"
+ },
+ "T-Bar_Row_with_Handle": {
+  "slug": "lever-t-bar-row",
+  "poster": true,
+  "female": true,
+  "bundle": "Lever T-Bar Row"
+ },
+ "Upright_Row_-_With_Bands": {
+  "slug": "dumbbell-upright-row",
+  "poster": true,
+  "female": false,
+  "bundle": "Dumbbell Upright Row"
+ },
+ "V-Bar_Pulldown": {
+  "slug": "cable-close-grip-front-lat-pulldown",
+  "poster": true,
+  "female": true,
+  "bundle": "Cable Close Grip Lat Pulldown"
+ },
+ "Weighted_Sissy_Squat": {
+  "slug": "weighted-sissy-squat",
+  "poster": true,
+  "female": true,
+  "bundle": "Weighted Sissy Squat"
+ },
+ "Wrist_Circles": {
+  "slug": "stretching-wrist-circles",
+  "poster": true,
+  "female": true,
+  "bundle": "Wrist Circles"
+ },
+ "Wrist_Rotations_with_Straight_Bar": {
+  "slug": "stretching-wrist-circles",
+  "poster": true,
+  "female": true,
+  "bundle": "Wrist Circles"
+ }
+}
