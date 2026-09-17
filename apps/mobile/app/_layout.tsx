@@ -4,6 +4,7 @@ import { Stack, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useColorScheme, LogBox, Alert } from "react-native";
 import { initDatabase } from "../db/client";
+import { ThemeProvider } from "../lib/theme";
 import { loadSessionCookie, getSession } from "../lib/auth";
 import { useAuthStore } from "../store/useAuthStore";
 import { useWorkoutStore } from "../store/useWorkoutStore";
@@ -81,7 +82,7 @@ export default function RootLayout() {
   }, [apiUrl]);
 
   return (
-    <>
+    <ThemeProvider>
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="workout/[id]" options={{ title: "Workout" }} />
@@ -90,6 +91,6 @@ export default function RootLayout() {
         <Stack.Screen name="import-video" options={{ title: "Import exercise" }} />
       </Stack>
       <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
-    </>
+    </ThemeProvider>
   );
 }

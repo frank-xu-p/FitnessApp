@@ -1,17 +1,19 @@
 import { Tabs } from "expo-router";
 import { Home, Dumbbell, List } from "lucide-react-native";
 import * as Haptics from "expo-haptics";
+import { useCleanUI } from "../../lib/theme";
 
 export default function TabLayout() {
+  const cleanUI = useCleanUI();
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "#CCFF00",
-        tabBarInactiveTintColor: "#71717A",
+        tabBarActiveTintColor: cleanUI ? "#0A84FF" : "#CCFF00",
+        tabBarInactiveTintColor: cleanUI ? "#636366" : "#71717A",
         tabBarStyle: {
           backgroundColor: "#000000",
-          borderTopColor: "#27272A",
+          borderTopColor: cleanUI ? "#2C2C2E" : "#27272A",
           borderTopWidth: 1,
           elevation: 0,
           shadowOpacity: 0,

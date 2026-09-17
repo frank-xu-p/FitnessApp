@@ -5,6 +5,8 @@ import {
   parseSetLine,
   parseStrongDate,
   matchExerciseName,
+  matchExerciseDetailed,
+  resolveOrCreateExercise,
   importStrongAsWorkout,
   importStrongAsTemplate,
 } from "../../lib/importers/strongImporter";
@@ -69,6 +71,13 @@ const mockDatabaseExercises: any[] = [
     equipment: "dumbbell",
     primaryMuscles: ["chest"],
     secondaryMuscles: ["shoulders"],
+  },
+  {
+    id: "ex_upper_back_stretch",
+    name: "Upper Back Stretch",
+    equipment: "bodyweight",
+    primaryMuscles: ["back"],
+    secondaryMuscles: [],
   },
 ];
 
@@ -191,15 +200,86 @@ F: 275 lb × 4 reps`;
     });
   });
 
-  describe("Fuzzy Exercise Matcher (`matchExerciseName`)", () => {
-    it("matches exact and parenthetical variations with high confidence", () => {
-      const match1 = matchExerciseName("Shoulder Press (Machine)", mockDatabaseExercises);
-      expect(match1.exercise?.id).toBe("ex_shoulder_press");
-      expect(match1.confidence).toBeGreaterThanOrEqual(0.9);
+  describe("Exercise Matcher (`matchExerciseDetailed`)", () => {
+    it("auto-matches exact names and never silently fuzzy-matches", () => {
+      const exact = matchExerciseDetailed(
+        "Shoulder Press (Machine)",
+        mockDatabaseExercises
+      );
+      expect(exact.exact?.id).toBe("ex_shoulder_press");
+      expect(exact.suggestions).toEqual([]);
 
-      const match2 = matchExerciseName("Triceps Pushdown (Cable-Rope)", mockDatabaseExercises);
+      // Close but not exact: no auto-match, suggestions offered instead.
+      // (Real-world case: "Upper Back Row" must NOT silently become
+      // "Upper Back Stretch".)
+      const fuzzy = matchExerciseDetailed(
+        "Upper Back Row",
+        mockDatabaseExercises
+      );
+      expect(fuzzy.exact).toBeNull();
+      expect(
+        fuzzy.suggestions.some((s) => s.id === "ex_upper_back_stretch")
+      ).toBe(true);
+    });
+
+    it("offers no suggestions for completely unknown names", () => {
+      const res = matchExerciseDetailed(
+        "Quantum Flux Capacitor Lift",
+        mockDatabaseExercises
+      );
+      expect(res.exact).toBeNull();
+      expect(res.suggestions).toEqual([]);
+    });
+
+    it("legacy matchExerciseName still returns the top suggestion", () => {
+      const match2 = matchExerciseName(
+        "Triceps Pushdown (Cable-Rope)",
+        mockDatabaseExercises
+      );
       expect(match2.exercise?.id).toBe("ex_triceps_pushdown");
-      expect(match2.confidence).toBeGreaterThanOrEqual(0.6);
+      expect(match2.confidence).toBeGreaterThanOrEqual(0.45);
+    });
+  });
+
+  describe("User-resolved import (`resolveOrCreateExercise`)", () => {
+    const chosenDb = (rows: any[]) => ({
+      select: () => ({
+        from: () => ({
+          where: () => ({
+            limit: () => rows,
+          }),
+        }),
+      }),
+      insert: () => ({
+        values: (val: any) => ({
+          onConflictDoNothing: () => Promise.resolve(val),
+        }),
+      }),
+    });
+
+    it("uses the user's chosen suggestion over the automatic match", async () => {
+      const picked = { id: "ex_chosen", name: "Chosen One" };
+      const block: any = {
+        rawExerciseName: "Triceps Pushdown (Cable-Rope)",
+        matchedExerciseId: undefined,
+        suggestions: [{ id: "ex_chosen", name: "Chosen One", score: 0.8 }],
+        chosenExerciseId: "ex_chosen",
+        sets: [],
+      };
+      const ex = await resolveOrCreateExercise(block, chosenDb([picked]));
+      expect(ex.id).toBe("ex_chosen");
+    });
+
+    it("creates a new exercise when the user rejects all suggestions", async () => {
+      const block: any = {
+        rawExerciseName: "Upper Back Row",
+        suggestions: [{ id: "ex_stretch", name: "Upper Back Stretch", score: 0.7 }],
+        createNewExercise: true,
+        sets: [],
+      };
+      const ex = await resolveOrCreateExercise(block, chosenDb([]));
+      expect(ex.name).toBe("Upper Back Row");
+      expect(ex.id.startsWith("custom_")).toBe(true);
     });
   });
 

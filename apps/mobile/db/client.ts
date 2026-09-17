@@ -2,7 +2,7 @@ import { openDatabaseSync } from "expo-sqlite";
 import { drizzle } from "drizzle-orm/expo-sqlite";
 import * as schema from "./schema";
 import { runMigrations } from "./migrations";
-import { seedBaseExercises, seedBundleExercises, seedStarterTemplates } from "./seed";
+import { seedBaseExercises, seedBundleExercises, seedStarterTemplates, remapPresetTemplateExercises, pruneNonDemoExercises } from "./seed";
 
 const expoDb = openDatabaseSync("fitness.db");
 export const db = drizzle(expoDb, { schema });
@@ -16,6 +16,8 @@ export function ensureDbReady(): Promise<void> {
       await seedBaseExercises(db);
       await seedBundleExercises(db);
       await seedStarterTemplates(db);
+      await remapPresetTemplateExercises(db);
+      await pruneNonDemoExercises(db);
     })().catch((err) => {
       console.error("Database initialization failed:", err);
       initPromise = null;

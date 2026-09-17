@@ -13,6 +13,7 @@ import { X, Plus, Trash2, ChevronUp, ChevronDown, Dumbbell, Zap, Check } from "l
 import { ExercisePicker } from "./ExercisePicker";
 import { useAuthStore } from "../store/useAuthStore";
 import { toDisplay, toCanonical, kgToLb, lbToKg } from "../lib/units";
+import { useCleanUI, cx } from "../lib/theme";
 import type { ProgressionModel, CadenceRate } from "../lib/progression";
 import type { TemplateWithExercises } from "../db/queries";
 import type { Exercise } from "../db/schema";
@@ -60,6 +61,7 @@ export function TemplateEditorModal({
   onSave,
 }: TemplateEditorModalProps) {
   const { displayUnit } = useAuthStore();
+  const cleanUI = useCleanUI();
   const [name, setName] = useState(template?.name ?? "");
   const [category, setCategory] = useState(template?.category ?? "Custom");
   const [notes, setNotes] = useState(template?.notes ?? "");
@@ -206,13 +208,31 @@ export function TemplateEditorModal({
   if (pickingExercise) {
     return (
       <Modal visible={visible} animationType="slide" onRequestClose={() => setPickingExercise(false)}>
-        <View className="flex-1 bg-white pt-10 dark:bg-gray-950">
-          <View className="flex-row items-center justify-between border-b border-gray-200 px-4 pb-3 dark:border-gray-800">
-            <Text className="text-lg font-bold text-gray-900 dark:text-gray-100">
+        <View
+          className={cx(
+            cleanUI,
+            "flex-1 bg-black pt-10",
+            "flex-1 bg-white pt-10 dark:bg-gray-950"
+          )}
+        >
+          <View
+            className={cx(
+              cleanUI,
+              "flex-row items-center justify-between border-b border-[#2C2C2E] px-4 pb-3",
+              "flex-row items-center justify-between border-b border-gray-200 px-4 pb-3 dark:border-gray-800"
+            )}
+          >
+            <Text
+              className={cx(
+                cleanUI,
+                "text-[17px] font-semibold text-white",
+                "text-lg font-bold text-gray-900 dark:text-gray-100"
+              )}
+            >
               Add Exercise to Template
             </Text>
             <TouchableOpacity onPress={() => setPickingExercise(false)} className="p-1">
-              <X size={24} color="#6B7280" />
+              <X size={24} color={cleanUI ? "#98989F" : "#6B7280"} />
             </TouchableOpacity>
           </View>
           <ExercisePicker onSelect={handleAddExercise} onCreate={() => setPickingExercise(false)} />
@@ -223,24 +243,54 @@ export function TemplateEditorModal({
 
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={onClose}>
-      <View className="flex-1 bg-white pt-10 dark:bg-gray-950">
+      <View
+        className={cx(
+          cleanUI,
+          "flex-1 bg-black pt-10",
+          "flex-1 bg-white pt-10 dark:bg-gray-950"
+        )}
+      >
         {/* Header */}
-        <View className="flex-row items-center justify-between border-b border-gray-200 px-4 pb-3 dark:border-gray-800">
+        <View
+          className={cx(
+            cleanUI,
+            "flex-row items-center justify-between border-b border-[#2C2C2E] px-4 pb-3",
+            "flex-row items-center justify-between border-b border-gray-200 px-4 pb-3 dark:border-gray-800"
+          )}
+        >
           <TouchableOpacity onPress={onClose} className="p-1">
-            <X size={24} color="#6B7280" />
+            <X size={24} color={cleanUI ? "#98989F" : "#6B7280"} />
           </TouchableOpacity>
-          <Text className="text-lg font-bold text-gray-900 dark:text-gray-100">
+          <Text
+            className={cx(
+              cleanUI,
+              "text-[17px] font-semibold text-white",
+              "text-lg font-bold text-gray-900 dark:text-gray-100"
+            )}
+          >
             {template ? "Edit Template" : "New Template"}
           </Text>
           <TouchableOpacity
             onPress={handleSave}
             disabled={!name.trim() || loading}
-            className="rounded-xl bg-primary px-4 py-2 disabled:opacity-40"
+            className={cx(
+              cleanUI,
+              "rounded-xl bg-[#0A84FF] px-4 py-2 disabled:opacity-40",
+              "rounded-xl bg-primary px-4 py-2 disabled:opacity-40"
+            )}
           >
             {loading ? (
               <ActivityIndicator color="white" size="small" />
             ) : (
-              <Text className="font-semibold text-white">Save</Text>
+              <Text
+                className={cx(
+                  cleanUI,
+                  "text-[15px] font-semibold text-white",
+                  "font-semibold text-white"
+                )}
+              >
+                Save
+              </Text>
             )}
           </TouchableOpacity>
         </View>
@@ -248,20 +298,37 @@ export function TemplateEditorModal({
         <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
           {/* Template Name */}
           <View className="mb-4">
-            <Text className="mb-1 text-sm font-semibold text-gray-800 dark:text-gray-200">
+            <Text
+              className={cx(
+                cleanUI,
+                "mb-1 text-[15px] font-medium text-white",
+                "mb-1 text-sm font-semibold text-gray-800 dark:text-gray-200"
+              )}
+            >
               Template Name
             </Text>
             <TextInput
               value={name}
               onChangeText={setName}
               placeholder="e.g. Upper Body Hypertrophy"
-              className="rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 text-base text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
+              placeholderTextColor={cleanUI ? "#636366" : undefined}
+              className={cx(
+                cleanUI,
+                "rounded-xl bg-[#1C1C1E] px-4 py-3 text-[16px] text-white",
+                "rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 text-base text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
+              )}
             />
           </View>
 
           {/* Category */}
           <View className="mb-4">
-            <Text className="mb-2 text-sm font-semibold text-gray-800 dark:text-gray-200">
+            <Text
+              className={cx(
+                cleanUI,
+                "mb-2 text-[15px] font-medium text-white",
+                "mb-2 text-sm font-semibold text-gray-800 dark:text-gray-200"
+              )}
+            >
               Category
             </Text>
             <View className="flex-row flex-wrap gap-2">
@@ -269,16 +336,26 @@ export function TemplateEditorModal({
                 <TouchableOpacity
                   key={cat}
                   onPress={() => setCategory(cat)}
-                  className={`rounded-full px-3 py-1.5 border ${
-                    category === cat
-                      ? "border-primary bg-primary"
-                      : "border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800"
-                  }`}
+                  className={cx(
+                    cleanUI,
+                    `rounded-full px-3 py-1.5 ${category === cat ? "bg-[#0A84FF]" : "bg-[#1C1C1E]"}`,
+                    `rounded-full px-3 py-1.5 border ${
+                      category === cat
+                        ? "border-primary bg-primary"
+                        : "border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800"
+                    }`
+                  )}
                 >
                   <Text
-                    className={`text-xs font-semibold ${
-                      category === cat ? "text-white" : "text-gray-700 dark:text-gray-300"
-                    }`}
+                    className={cx(
+                      cleanUI,
+                      `text-[13px] font-medium ${
+                        category === cat ? "text-white" : "text-[#98989F]"
+                      }`,
+                      `text-xs font-semibold ${
+                        category === cat ? "text-white" : "text-gray-700 dark:text-gray-300"
+                      }`
+                    )}
                   >
                     {cat}
                   </Text>
@@ -288,15 +365,33 @@ export function TemplateEditorModal({
           </View>
 
           {/* Auto Progressive Overload Switch */}
-          <View className="mb-5 flex-row items-center justify-between rounded-2xl bg-amber-50 p-4 dark:bg-amber-950/40">
+          <View
+            className={cx(
+              cleanUI,
+              "mb-4 flex-row items-center justify-between rounded-xl bg-[#141414] p-4",
+              "mb-5 flex-row items-center justify-between rounded-2xl bg-amber-50 p-4 dark:bg-amber-950/40"
+            )}
+          >
             <View className="flex-1 pr-3">
               <View className="flex-row items-center gap-1.5">
-                <Zap size={16} color="#D97706" />
-                <Text className="text-sm font-bold text-amber-900 dark:text-amber-200">
+                <Zap size={16} color="#F59E0B" />
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "text-[16px] font-medium text-white",
+                    "text-sm font-bold text-amber-900 dark:text-amber-200"
+                  )}
+                >
                   Auto Progressive Overload
                 </Text>
               </View>
-              <Text className="text-xs text-amber-700 dark:text-amber-300">
+              <Text
+                className={cx(
+                  cleanUI,
+                  "text-[13px] text-[#98989F] mt-0.5",
+                  "text-xs text-amber-700 dark:text-amber-300"
+                )}
+              >
                 Automatically loads progressive target weights for each session.
               </Text>
             </View>
@@ -309,8 +404,20 @@ export function TemplateEditorModal({
           </View>
 
           {autoOverloadEnabled && (
-            <View className="mb-4 rounded-2xl border border-amber-200 bg-amber-50/60 p-4 dark:border-amber-900/40 dark:bg-amber-950/20">
-              <Text className="mb-1 text-xs font-semibold text-gray-700 dark:text-gray-300">
+            <View
+              className={cx(
+                cleanUI,
+                "mb-4 rounded-xl bg-[#141414] p-4",
+                "mb-4 rounded-2xl border border-amber-200 bg-amber-50/60 p-4 dark:border-amber-900/40 dark:bg-amber-950/20"
+              )}
+            >
+              <Text
+                className={cx(
+                  cleanUI,
+                  "mb-1 text-[13px] text-[#98989F]",
+                  "mb-1 text-xs font-semibold text-gray-700 dark:text-gray-300"
+                )}
+              >
                 Overload increment ({displayUnit}) — blank = equipment default
               </Text>
               <TextInput
@@ -319,36 +426,82 @@ export function TemplateEditorModal({
                 placeholder="e.g. 2.5"
                 placeholderTextColor="#9CA3AF"
                 keyboardType="decimal-pad"
-                className="rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
+                className={cx(
+                  cleanUI,
+                  "rounded-xl bg-[#1C1C1E] px-3 py-2 text-[15px] text-white",
+                  "rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
+                )}
               />
             </View>
           )}
 
           {/* Exercises Section */}
           <View className="mb-4 flex-row items-center justify-between">
-            <Text className="text-base font-bold text-gray-900 dark:text-gray-100">
+            <Text
+              className={cx(
+                cleanUI,
+                "text-[17px] font-semibold text-white",
+                "text-base font-bold text-gray-900 dark:text-gray-100"
+              )}
+            >
               Exercises ({exercisesList.length})
             </Text>
             <TouchableOpacity
               onPress={() => setPickingExercise(true)}
-              className="flex-row items-center gap-1 rounded-xl bg-blue-50 px-3 py-1.5 dark:bg-blue-950/40"
+              className={cx(
+                cleanUI,
+                "flex-row items-center gap-1 rounded-xl bg-[#0A84FF]/20 px-3 py-1.5",
+                "flex-row items-center gap-1 rounded-xl bg-blue-50 px-3 py-1.5 dark:bg-blue-950/40"
+              )}
             >
-              <Plus size={16} color="#3B82F6" />
-              <Text className="text-xs font-semibold text-primary">Add Exercise</Text>
+              <Plus size={16} color={cleanUI ? "#0A84FF" : "#3B82F6"} />
+              <Text
+                className={cx(
+                  cleanUI,
+                  "text-[13px] font-medium text-[#0A84FF]",
+                  "text-xs font-semibold text-primary"
+                )}
+              >
+                Add Exercise
+              </Text>
             </TouchableOpacity>
           </View>
 
           {exercisesList.length === 0 ? (
-            <View className="items-center rounded-2xl border border-dashed border-gray-300 p-8 dark:border-gray-700">
-              <Dumbbell size={32} color="#9CA3AF" />
-              <Text className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+            <View
+              className={cx(
+                cleanUI,
+                "items-center rounded-xl border border-dashed border-[#2C2C2E] p-8",
+                "items-center rounded-2xl border border-dashed border-gray-300 p-8 dark:border-gray-700"
+              )}
+            >
+              <Dumbbell size={32} color={cleanUI ? "#636366" : "#9CA3AF"} />
+              <Text
+                className={cx(
+                  cleanUI,
+                  "mt-2 text-[15px] text-[#98989F]",
+                  "mt-2 text-sm text-gray-500 dark:text-gray-400"
+                )}
+              >
                 No exercises added yet.
               </Text>
               <TouchableOpacity
                 onPress={() => setPickingExercise(true)}
-                className="mt-3 rounded-xl bg-primary px-4 py-2"
+                className={cx(
+                  cleanUI,
+                  "mt-3 rounded-xl bg-[#0A84FF] px-4 py-2",
+                  "mt-3 rounded-xl bg-primary px-4 py-2"
+                )}
               >
-                <Text className="text-xs font-semibold text-white">+ Add Exercise</Text>
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "text-[15px] font-semibold text-white",
+                    "text-xs font-semibold text-white"
+                  )}
+                >
+                  + Add Exercise
+                </Text>
               </TouchableOpacity>
             </View>
           ) : (
@@ -356,14 +509,30 @@ export function TemplateEditorModal({
               {exercisesList.map((item, index) => (
                 <View
                   key={`${item.exerciseId}_${index}`}
-                  className="rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900"
+                  className={cx(
+                    cleanUI,
+                    "rounded-xl bg-[#141414] p-4",
+                    "rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900"
+                  )}
                 >
                   <View className="mb-3 flex-row items-center justify-between">
                     <View className="flex-1 pr-2">
-                      <Text className="text-base font-bold text-gray-900 dark:text-gray-100">
+                      <Text
+                        className={cx(
+                          cleanUI,
+                          "text-[16px] font-semibold text-white",
+                          "text-base font-bold text-gray-900 dark:text-gray-100"
+                        )}
+                      >
                         {index + 1}. {item.exercise.name}
                       </Text>
-                      <Text className="text-xs text-gray-500 dark:text-gray-400">
+                      <Text
+                        className={cx(
+                          cleanUI,
+                          "text-[13px] text-[#98989F]",
+                          "text-xs text-gray-500 dark:text-gray-400"
+                        )}
+                      >
                         {item.exercise.equipment ?? "Free weight"}
                       </Text>
                     </View>
@@ -373,14 +542,14 @@ export function TemplateEditorModal({
                         disabled={index === 0}
                         className="rounded p-1 disabled:opacity-20"
                       >
-                        <ChevronUp size={20} color="#6B7280" />
+                        <ChevronUp size={20} color={cleanUI ? "#98989F" : "#6B7280"} />
                       </TouchableOpacity>
                       <TouchableOpacity
                         onPress={() => handleMoveExercise(index, "down")}
                         disabled={index === exercisesList.length - 1}
                         className="rounded p-1 disabled:opacity-20"
                       >
-                        <ChevronDown size={20} color="#6B7280" />
+                        <ChevronDown size={20} color={cleanUI ? "#98989F" : "#6B7280"} />
                       </TouchableOpacity>
                       <TouchableOpacity
                         onPress={() => handleRemoveExercise(index)}
@@ -394,7 +563,13 @@ export function TemplateEditorModal({
                   {/* Target configuration inputs */}
                   <View className="flex-row gap-2">
                     <View className="flex-1">
-                      <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
+                      <Text
+                        className={cx(
+                          cleanUI,
+                          "mb-1 text-[13px] text-[#98989F]",
+                          "mb-1 text-xs text-gray-500 dark:text-gray-400"
+                        )}
+                      >
                         Sets
                       </Text>
                       <TextInput
@@ -403,12 +578,22 @@ export function TemplateEditorModal({
                           handleUpdateExercise(index, { targetSets: parseInt(val, 10) || 0 })
                         }
                         keyboardType="number-pad"
-                        className="rounded-lg border border-gray-300 bg-white px-2 py-1.5 text-center text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+                        className={cx(
+                          cleanUI,
+                          "rounded-lg bg-[#1C1C1E] px-2 py-1.5 text-center text-[15px] text-white",
+                          "rounded-lg border border-gray-300 bg-white px-2 py-1.5 text-center text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+                        )}
                       />
                     </View>
 
                     <View className="flex-1">
-                      <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
+                      <Text
+                        className={cx(
+                          cleanUI,
+                          "mb-1 text-[13px] text-[#98989F]",
+                          "mb-1 text-xs text-gray-500 dark:text-gray-400"
+                        )}
+                      >
                         Target Reps
                       </Text>
                       <TextInput
@@ -417,12 +602,22 @@ export function TemplateEditorModal({
                           handleUpdateExercise(index, { targetReps: parseInt(val, 10) || 0 })
                         }
                         keyboardType="number-pad"
-                        className="rounded-lg border border-gray-300 bg-white px-2 py-1.5 text-center text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+                        className={cx(
+                          cleanUI,
+                          "rounded-lg bg-[#1C1C1E] px-2 py-1.5 text-center text-[15px] text-white",
+                          "rounded-lg border border-gray-300 bg-white px-2 py-1.5 text-center text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+                        )}
                       />
                     </View>
 
                     <View className="flex-1">
-                      <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
+                      <Text
+                        className={cx(
+                          cleanUI,
+                          "mb-1 text-[13px] text-[#98989F]",
+                          "mb-1 text-xs text-gray-500 dark:text-gray-400"
+                        )}
+                      >
                         Base Wt ({displayUnit})
                       </Text>
                       <TextInput
@@ -432,12 +627,22 @@ export function TemplateEditorModal({
                         }
                         keyboardType="decimal-pad"
                         placeholder="0"
-                        className="rounded-lg border border-gray-300 bg-white px-2 py-1.5 text-center text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+                        className={cx(
+                          cleanUI,
+                          "rounded-lg bg-[#1C1C1E] px-2 py-1.5 text-center text-[15px] text-white",
+                          "rounded-lg border border-gray-300 bg-white px-2 py-1.5 text-center text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+                        )}
                       />
                     </View>
 
                     <View className="flex-1">
-                      <Text className="mb-1 text-xs text-gray-500 dark:text-gray-400">
+                      <Text
+                        className={cx(
+                          cleanUI,
+                          "mb-1 text-[13px] text-[#98989F]",
+                          "mb-1 text-xs text-gray-500 dark:text-gray-400"
+                        )}
+                      >
                         Target RPE
                       </Text>
                       <TextInput
@@ -446,7 +651,11 @@ export function TemplateEditorModal({
                           handleUpdateExercise(index, { targetRpe: parseFloat(val) || 8 })
                         }
                         keyboardType="decimal-pad"
-                        className="rounded-lg border border-gray-300 bg-white px-2 py-1.5 text-center text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+                        className={cx(
+                          cleanUI,
+                          "rounded-lg bg-[#1C1C1E] px-2 py-1.5 text-center text-[15px] text-white",
+                          "rounded-lg border border-gray-300 bg-white px-2 py-1.5 text-center text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
+                        )}
                       />
                     </View>
                   </View>

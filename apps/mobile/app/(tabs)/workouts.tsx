@@ -50,11 +50,13 @@ import { TemplateEditorModal } from "../../components/TemplateEditorModal";
 import { WorkoutDetailModal } from "../../components/WorkoutDetailModal";
 import { StrongImportModal } from "../../components/StrongImportModal";
 import { toDisplay } from "../../lib/units";
+import { useCleanUI, cx } from "../../lib/theme";
 
 type TabMode = "templates" | "history";
 
 export default function WorkoutsScreen() {
   const router = useRouter();
+  const cleanUI = useCleanUI();
   const { user, displayUnit } = useAuthStore();
   const {
     activeWorkout,
@@ -281,10 +283,22 @@ export default function WorkoutsScreen() {
       <View className="px-4 pb-3">
         <View className="flex-row items-center justify-between">
           <View>
-            <Text className="text-2xl font-black text-white">
+            <Text
+              className={cx(
+                cleanUI,
+                "text-[22px] font-semibold text-white tracking-tight",
+                "text-2xl font-black text-white"
+              )}
+            >
               Workouts
             </Text>
-            <Text className="text-xs font-mono font-bold text-zinc-400">
+            <Text
+              className={cx(
+                cleanUI,
+                "text-[13px] text-[#98989F] mt-0.5",
+                "text-xs font-mono font-bold text-zinc-400"
+              )}
+            >
               Templates & Logged Sessions
             </Text>
           </View>
@@ -298,10 +312,22 @@ export default function WorkoutsScreen() {
                 setShowStrongModal(true);
               }}
               activeOpacity={0.8}
-              className="flex-row items-center gap-1 rounded-xl bg-cyan-500/20 px-3 py-2 border border-cyan-500/40"
+              className={cx(
+                cleanUI,
+                "flex-row items-center gap-1 rounded-xl bg-[#1C1C1E] px-3 py-2",
+                "flex-row items-center gap-1 rounded-xl bg-cyan-500/20 px-3 py-2 border border-cyan-500/40"
+              )}
             >
-              <FileText size={15} color="#38BDF8" />
-              <Text className="text-xs font-bold text-cyan-400">Strong Import</Text>
+              <FileText size={15} color={cleanUI ? "#0A84FF" : "#38BDF8"} />
+              <Text
+                className={cx(
+                  cleanUI,
+                  "text-[13px] font-medium text-[#0A84FF]",
+                  "text-xs font-bold text-cyan-400"
+                )}
+              >
+                Strong Import
+              </Text>
             </TouchableOpacity>
 
             {/* New Template CTA */}
@@ -312,10 +338,22 @@ export default function WorkoutsScreen() {
                 setShowTemplateModal(true);
               }}
               activeOpacity={0.8}
-              className="flex-row items-center gap-1 rounded-xl bg-zinc-900 px-3 py-2 border border-zinc-800"
+              className={cx(
+                cleanUI,
+                "flex-row items-center gap-1 rounded-xl bg-[#1C1C1E] px-3 py-2",
+                "flex-row items-center gap-1 rounded-xl bg-zinc-900 px-3 py-2 border border-zinc-800"
+              )}
             >
               <Plus size={16} color="#E4E4E7" />
-              <Text className="text-xs font-bold text-white">New</Text>
+              <Text
+                className={cx(
+                  cleanUI,
+                  "text-[13px] font-medium text-white",
+                  "text-xs font-bold text-white"
+                )}
+              >
+                New
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -328,23 +366,59 @@ export default function WorkoutsScreen() {
               router.push(`/workout/${activeWorkout.id}`);
             }}
             activeOpacity={0.8}
-            className="mt-3 flex-row items-center justify-between rounded-2xl bg-amber-500 p-4 shadow-sm"
+            className={cx(
+              cleanUI,
+              "mt-3 flex-row items-center justify-between rounded-xl bg-[#0A84FF]/15 p-4",
+              "mt-3 flex-row items-center justify-between rounded-2xl bg-amber-500 p-4 shadow-sm"
+            )}
           >
             <View className="flex-row items-center gap-3">
-              <View className="h-3 w-3 rounded-full bg-white opacity-80" />
+              <View
+                className={cx(
+                  cleanUI,
+                  "h-2.5 w-2.5 rounded-full bg-[#0A84FF]",
+                  "h-3 w-3 rounded-full bg-white opacity-80"
+                )}
+              />
               <View>
-                <Text className="text-[11px] font-black text-amber-950 uppercase tracking-wider">
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "text-[13px] text-[#0A84FF] font-medium",
+                    "text-[11px] font-black text-amber-950 uppercase tracking-wider"
+                  )}
+                >
                   Workout In Progress
                 </Text>
-                <Text className="text-base font-bold text-black">
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "text-[16px] font-semibold text-white",
+                    "text-base font-bold text-black"
+                  )}
+                >
                   {activeWorkout.title}
                 </Text>
               </View>
             </View>
 
-            <View className="flex-row items-center gap-1 rounded-xl bg-black/20 px-3 py-1.5">
-              <Text className="text-xs font-black text-black uppercase">Resume</Text>
-              <ChevronRight size={14} color="#000000" />
+            <View
+              className={cx(
+                cleanUI,
+                "flex-row items-center gap-1",
+                "flex-row items-center gap-1 rounded-xl bg-black/20 px-3 py-1.5"
+              )}
+            >
+              <Text
+                className={cx(
+                  cleanUI,
+                  "text-[15px] font-medium text-[#0A84FF]",
+                  "text-xs font-black text-black uppercase"
+                )}
+              >
+                Resume
+              </Text>
+              <ChevronRight size={14} color={cleanUI ? "#0A84FF" : "#000000"} />
             </View>
           </TouchableOpacity>
         )}
@@ -353,22 +427,44 @@ export default function WorkoutsScreen() {
         <TouchableOpacity
           onPress={handleStartEmptyWorkout}
           activeOpacity={0.8}
-          className="mt-3 flex-row items-center justify-between rounded-2xl bg-[#CCFF00] p-4 shadow-lg shadow-[#CCFF00]/10"
+          className={cx(
+            cleanUI,
+            "mt-3 flex-row items-center justify-between rounded-xl bg-[#0A84FF] p-4",
+            "mt-3 flex-row items-center justify-between rounded-2xl bg-[#CCFF00] p-4 shadow-lg shadow-[#CCFF00]/10"
+          )}
         >
           <View className="flex-row items-center gap-3">
-            <View className="rounded-xl bg-black p-2.5">
-              <Plus size={22} color="#CCFF00" />
+            <View
+              className={cx(
+                cleanUI,
+                "rounded-xl p-2.5",
+                "rounded-xl bg-black p-2.5"
+              )}
+            >
+              <Plus size={22} color={cleanUI ? "#FFFFFF" : "#CCFF00"} />
             </View>
             <View>
-              <Text className="text-base font-black text-black tracking-tight">
+              <Text
+                className={cx(
+                  cleanUI,
+                  "text-[17px] font-semibold text-white tracking-tight",
+                  "text-base font-black text-black tracking-tight"
+                )}
+              >
                 Start Empty Workout
               </Text>
-              <Text className="text-xs font-bold text-black/70">
+              <Text
+                className={cx(
+                  cleanUI,
+                  "text-[13px] text-white/80",
+                  "text-xs font-bold text-black/70"
+                )}
+              >
                 Log freeform sets or build a custom routine on the fly
               </Text>
             </View>
           </View>
-          <ChevronRight size={20} color="#000000" />
+          <ChevronRight size={20} color={cleanUI ? "#FFFFFF" : "#000000"} />
         </TouchableOpacity>
 
         {/* Quick Action Hero 2: Import Strong Workout / Routine */}
@@ -378,55 +474,99 @@ export default function WorkoutsScreen() {
             setShowStrongModal(true);
           }}
           activeOpacity={0.8}
-          className="mt-2.5 flex-row items-center justify-between rounded-2xl border border-cyan-500/40 bg-zinc-900 p-3.5 shadow-md"
+          className={cx(
+            cleanUI,
+            "mt-2.5 flex-row items-center justify-between rounded-xl bg-[#141414] p-4",
+            "mt-2.5 flex-row items-center justify-between rounded-2xl border border-cyan-500/40 bg-zinc-900 p-3.5 shadow-md"
+          )}
         >
           <View className="flex-row items-center gap-3">
-            <View className="rounded-xl bg-cyan-500/20 p-2.5 border border-cyan-500/40">
-              <Download size={20} color="#38BDF8" />
+            <View
+              className={cx(
+                cleanUI,
+                "rounded-xl p-2.5",
+                "rounded-xl bg-cyan-500/20 p-2.5 border border-cyan-500/40"
+              )}
+            >
+              <Download size={20} color={cleanUI ? "#0A84FF" : "#38BDF8"} />
             </View>
             <View>
               <View className="flex-row items-center gap-2">
-                <Text className="text-sm font-black text-white tracking-tight">
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "text-[16px] font-medium text-white tracking-tight",
+                    "text-sm font-black text-white tracking-tight"
+                  )}
+                >
                   Import Workout or Routine
                 </Text>
-                <View className="rounded-md bg-cyan-500/20 px-1.5 py-0.2">
-                  <Text className="text-[9px] font-mono font-bold text-cyan-400">
+                <View className={cx(cleanUI, "", "rounded-md bg-cyan-500/20 px-1.5 py-0.2")}>
+                  <Text
+                    className={cx(
+                      cleanUI,
+                      "text-[13px] text-[#98989F]",
+                      "text-[9px] font-mono font-bold text-cyan-400"
+                    )}
+                  >
                     STRONG / CSV
                   </Text>
                 </View>
               </View>
-              <Text className="text-[11px] font-mono text-zinc-400">
+              <Text
+                className={cx(
+                  cleanUI,
+                  "text-[13px] text-[#98989F]",
+                  "text-[11px] font-mono text-zinc-400"
+                )}
+              >
                 Paste Strong clipboard share or CSV export
               </Text>
             </View>
           </View>
-          <ChevronRight size={18} color="#38BDF8" />
+          <ChevronRight size={18} color={cleanUI ? "#636366" : "#38BDF8"} />
         </TouchableOpacity>
 
         {/* Segmented Tab Switcher */}
-        <View className="mt-4 flex-row rounded-2xl bg-zinc-900 p-1 border border-zinc-800/80">
+        <View
+          className={cx(
+            cleanUI,
+            "mt-4 flex-row rounded-xl bg-[#141414] p-1",
+            "mt-4 flex-row rounded-2xl bg-zinc-900 p-1 border border-zinc-800/80"
+          )}
+        >
           <TouchableOpacity
             onPress={() => {
               Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
               setTab("templates");
             }}
             activeOpacity={0.8}
-            className={`flex-1 flex-row items-center justify-center gap-2 rounded-xl py-2.5 ${
-              tab === "templates"
-                ? "bg-zinc-800 border border-zinc-700/60"
-                : "bg-transparent"
-            }`}
+            className={cx(
+              cleanUI,
+              `flex-1 flex-row items-center justify-center gap-2 rounded-xl py-2.5 ${
+                tab === "templates" ? "bg-[#1C1C1E]" : "bg-transparent"
+              }`,
+              `flex-1 flex-row items-center justify-center gap-2 rounded-xl py-2.5 ${
+                tab === "templates"
+                  ? "bg-zinc-800 border border-zinc-700/60"
+                  : "bg-transparent"
+              }`
+            )}
           >
             <Bookmark
               size={16}
-              color={tab === "templates" ? "#38BDF8" : "#71717A"}
+              color={cleanUI ? (tab === "templates" ? "#0A84FF" : "#98989F") : (tab === "templates" ? "#38BDF8" : "#71717A")}
             />
             <Text
-              className={`text-xs font-bold ${
-                tab === "templates"
-                  ? "text-cyan-400 font-black"
-                  : "text-zinc-400"
-              }`}
+              className={cx(
+                cleanUI,
+                `text-[13px] font-medium ${
+                  tab === "templates" ? "text-[#0A84FF]" : "text-[#98989F]"
+                }`,
+                `text-xs font-bold ${
+                  tab === "templates" ? "text-cyan-400 font-black" : "text-zinc-400"
+                }`
+              )}
             >
               Templates ({templates.length})
             </Text>
@@ -438,22 +578,32 @@ export default function WorkoutsScreen() {
               setTab("history");
             }}
             activeOpacity={0.8}
-            className={`flex-1 flex-row items-center justify-center gap-2 rounded-xl py-2.5 ${
-              tab === "history"
-                ? "bg-zinc-800 border border-zinc-700/60"
-                : "bg-transparent"
-            }`}
+            className={cx(
+              cleanUI,
+              `flex-1 flex-row items-center justify-center gap-2 rounded-xl py-2.5 ${
+                tab === "history" ? "bg-[#1C1C1E]" : "bg-transparent"
+              }`,
+              `flex-1 flex-row items-center justify-center gap-2 rounded-xl py-2.5 ${
+                tab === "history"
+                  ? "bg-zinc-800 border border-zinc-700/60"
+                  : "bg-transparent"
+              }`
+            )}
           >
             <History
               size={16}
-              color={tab === "history" ? "#38BDF8" : "#71717A"}
+              color={cleanUI ? (tab === "history" ? "#0A84FF" : "#98989F") : (tab === "history" ? "#38BDF8" : "#71717A")}
             />
             <Text
-              className={`text-xs font-bold ${
-                tab === "history"
-                  ? "text-cyan-400 font-black"
-                  : "text-zinc-400"
-              }`}
+              className={cx(
+                cleanUI,
+                `text-[13px] font-medium ${
+                  tab === "history" ? "text-[#0A84FF]" : "text-[#98989F]"
+                }`,
+                `text-xs font-bold ${
+                  tab === "history" ? "text-cyan-400 font-black" : "text-zinc-400"
+                }`
+              )}
             >
               History ({workouts.length})
             </Text>
@@ -464,7 +614,7 @@ export default function WorkoutsScreen() {
       {/* Main Content */}
       {loading ? (
         <View className="flex-1 items-center justify-center">
-          <ActivityIndicator size="large" color="#38BDF8" />
+          <ActivityIndicator size="large" color={cleanUI ? "#0A84FF" : "#38BDF8"} />
         </View>
       ) : tab === "templates" ? (
         <View className="flex-1 px-4">
@@ -484,18 +634,28 @@ export default function WorkoutsScreen() {
                       setSelectedCategory(cat);
                     }}
                     activeOpacity={0.8}
-                    className={`rounded-full px-3.5 py-1.5 border ${
-                      selectedCategory === cat
-                        ? "border-cyan-500 bg-cyan-500/20"
-                        : "border-zinc-800 bg-zinc-900"
-                    }`}
+                    className={cx(
+                      cleanUI,
+                      `rounded-full px-3.5 py-1.5 ${
+                        selectedCategory === cat ? "bg-[#0A84FF]/20" : "bg-[#1C1C1E]"
+                      }`,
+                      `rounded-full px-3.5 py-1.5 border ${
+                        selectedCategory === cat
+                          ? "border-cyan-500 bg-cyan-500/20"
+                          : "border-zinc-800 bg-zinc-900"
+                      }`
+                    )}
                   >
                     <Text
-                      className={`text-xs font-bold ${
-                        selectedCategory === cat
-                          ? "text-cyan-400"
-                          : "text-zinc-400"
-                      }`}
+                      className={cx(
+                        cleanUI,
+                        `text-[13px] font-medium ${
+                          selectedCategory === cat ? "text-[#0A84FF]" : "text-[#98989F]"
+                        }`,
+                        `text-xs font-bold ${
+                          selectedCategory === cat ? "text-cyan-400" : "text-zinc-400"
+                        }`
+                      )}
                     >
                       {cat}
                     </Text>
@@ -511,22 +671,46 @@ export default function WorkoutsScreen() {
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 32 }}
             renderItem={({ item }) => (
-              <View className="mb-3 rounded-2xl border border-zinc-800/80 bg-zinc-900 p-4 shadow-sm">
+              <View
+                className={cx(
+                  cleanUI,
+                  "mb-3 rounded-xl bg-[#141414] p-4",
+                  "mb-3 rounded-2xl border border-zinc-800/80 bg-zinc-900 p-4 shadow-sm"
+                )}
+              >
                 <View className="flex-row items-center justify-between">
                   <View className="flex-1 pr-2">
                     <View className="flex-row items-center gap-2">
-                      <Text className="text-base font-bold text-white">
+                      <Text
+                        className={cx(
+                          cleanUI,
+                          "text-[17px] font-semibold text-white",
+                          "text-base font-bold text-white"
+                        )}
+                      >
                         {item.name}
                       </Text>
                       {item.isPreset && (
-                        <View className="rounded-full bg-cyan-500/20 px-2 py-0.5 border border-cyan-500/40">
-                          <Text className="text-[10px] font-mono font-bold text-cyan-300">
+                        <View className={cx(cleanUI, "", "rounded-full bg-cyan-500/20 px-2 py-0.5 border border-cyan-500/40")}>
+                          <Text
+                            className={cx(
+                              cleanUI,
+                              "text-[12px] font-medium text-[#98989F]",
+                              "text-[10px] font-mono font-bold text-cyan-300"
+                            )}
+                          >
                             PRESET
                           </Text>
                         </View>
                       )}
                     </View>
-                    <Text className="text-xs text-zinc-400 mt-0.5">
+                    <Text
+                      className={cx(
+                        cleanUI,
+                        "text-[13px] text-[#98989F] mt-0.5",
+                        "text-xs text-zinc-400 mt-0.5"
+                      )}
+                    >
                       {item.category} · {item.exercises.length} exercises
                     </Text>
                   </View>
@@ -537,7 +721,7 @@ export default function WorkoutsScreen() {
                       className="rounded-lg p-2"
                       accessibilityLabel="Duplicate Template"
                     >
-                      <Copy size={16} color="#38BDF8" />
+                      <Copy size={16} color={cleanUI ? "#0A84FF" : "#38BDF8"} />
                     </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() => {
@@ -548,7 +732,7 @@ export default function WorkoutsScreen() {
                       className="rounded-lg p-2"
                       accessibilityLabel="Edit Template"
                     >
-                      <Edit2 size={16} color="#71717A" />
+                      <Edit2 size={16} color={cleanUI ? "#98989F" : "#71717A"} />
                     </TouchableOpacity>
                     {!item.isPreset && (
                       <TouchableOpacity
@@ -564,22 +748,44 @@ export default function WorkoutsScreen() {
 
                 {/* Auto Overload Badge */}
                 {item.autoOverloadEnabled && (
-                  <View className="mt-2 flex-row items-center gap-1 self-start rounded-md bg-amber-500/10 px-2 py-0.5 border border-amber-500/20">
+                  <View
+                    className={cx(
+                      cleanUI,
+                      "mt-2 flex-row items-center gap-1 self-start",
+                      "mt-2 flex-row items-center gap-1 self-start rounded-md bg-amber-500/10 px-2 py-0.5 border border-amber-500/20"
+                    )}
+                  >
                     <Zap size={11} color="#F59E0B" />
-                    <Text className="text-[11px] font-bold text-amber-400">
+                    <Text
+                      className={cx(
+                        cleanUI,
+                        "text-[13px] font-medium text-[#F59E0B]",
+                        "text-[11px] font-bold text-amber-400"
+                      )}
+                    >
                       Auto Overload ({item.cadenceModel.replace("_", " ")})
                     </Text>
                   </View>
                 )}
 
                 {/* Exercise Preview List */}
-                <View className="mt-3 border-t border-zinc-800 pt-2.5">
+                <View
+                  className={cx(
+                    cleanUI,
+                    "mt-3 border-t border-[#2C2C2E] pt-2.5",
+                    "mt-3 border-t border-zinc-800 pt-2.5"
+                  )}
+                >
                   {item.exercises.slice(0, 3).map((te) => {
                     const dispWeight = toDisplay(te.targetWeightKg, displayUnit);
                     return (
                       <Text
                         key={te.id}
-                        className="text-xs text-zinc-400 mb-1 font-mono"
+                        className={cx(
+                          cleanUI,
+                          "text-[13px] text-[#98989F] mb-1",
+                          "text-xs text-zinc-400 mb-1 font-mono"
+                        )}
                         numberOfLines={1}
                       >
                         • {te.exercise?.name ?? "Exercise"} (
@@ -589,7 +795,13 @@ export default function WorkoutsScreen() {
                     );
                   })}
                   {item.exercises.length > 3 && (
-                    <Text className="text-[11px] font-medium text-zinc-500 italic">
+                    <Text
+                      className={cx(
+                        cleanUI,
+                        "text-[13px] text-[#636366]",
+                        "text-[11px] font-medium text-zinc-500 italic"
+                      )}
+                    >
                       + {item.exercises.length - 3} more exercises
                     </Text>
                   )}
@@ -600,14 +812,24 @@ export default function WorkoutsScreen() {
                   onPress={() => handleStartFromTemplate(item.id)}
                   disabled={startingTemplateId === item.id}
                   activeOpacity={0.8}
-                  className="mt-3 flex-row items-center justify-center gap-2 rounded-xl bg-cyan-500 py-3 shadow-sm"
+                  className={cx(
+                    cleanUI,
+                    "mt-3 flex-row items-center justify-center gap-2 rounded-xl bg-[#0A84FF] py-3",
+                    "mt-3 flex-row items-center justify-center gap-2 rounded-xl bg-cyan-500 py-3 shadow-sm"
+                  )}
                 >
                   {startingTemplateId === item.id ? (
-                    <ActivityIndicator size="small" color="#000000" />
+                    <ActivityIndicator size="small" color={cleanUI ? "#FFFFFF" : "#000000"} />
                   ) : (
                     <>
-                      <Play size={16} color="#000000" fill="#000000" />
-                      <Text className="text-xs font-black text-black uppercase tracking-wider">
+                      <Play size={16} color={cleanUI ? "#FFFFFF" : "#000000"} fill={cleanUI ? "#FFFFFF" : "#000000"} />
+                      <Text
+                        className={cx(
+                          cleanUI,
+                          "text-[15px] font-semibold text-white",
+                          "text-xs font-black text-black uppercase tracking-wider"
+                        )}
+                      >
                         Start Workout
                       </Text>
                     </>
@@ -617,11 +839,23 @@ export default function WorkoutsScreen() {
             )}
             ListEmptyComponent={
               <View className="items-center py-12">
-                <Dumbbell size={40} color="#71717A" />
-                <Text className="mt-3 text-base font-bold text-zinc-300">
+                <Dumbbell size={40} color={cleanUI ? "#636366" : "#71717A"} />
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "mt-3 text-[17px] font-semibold text-white",
+                    "mt-3 text-base font-bold text-zinc-300"
+                  )}
+                >
                   No routines found
                 </Text>
-                <Text className="mt-1 text-xs text-zinc-500">
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "mt-1 text-[13px] text-[#98989F]",
+                    "mt-1 text-xs text-zinc-500"
+                  )}
+                >
                   Tap "+ Strong Import" or "+ New" to add your training routines.
                 </Text>
               </View>
@@ -645,16 +879,34 @@ export default function WorkoutsScreen() {
               const exerciseCount = new Set(item.sets.map((s) => s.exerciseId)).size;
 
               return (
-                <View className="mb-3 rounded-2xl border border-zinc-800/80 bg-zinc-900 p-4 shadow-sm">
+                <View
+                  className={cx(
+                    cleanUI,
+                    "mb-3 rounded-xl bg-[#141414] p-4",
+                    "mb-3 rounded-2xl border border-zinc-800/80 bg-zinc-900 p-4 shadow-sm"
+                  )}
+                >
                   <View className="flex-row items-center justify-between">
                     <View className="flex-1 pr-2">
-                      <Text className="text-base font-bold text-white">
+                      <Text
+                        className={cx(
+                          cleanUI,
+                          "text-[17px] font-semibold text-white",
+                          "text-base font-bold text-white"
+                        )}
+                      >
                         {item.title}
                       </Text>
                       <View className="mt-1 flex-row items-center gap-3">
                         <View className="flex-row items-center gap-1">
-                          <Calendar size={12} color="#71717A" />
-                          <Text className="text-xs text-zinc-400 font-mono">
+                          <Calendar size={12} color={cleanUI ? "#98989F" : "#71717A"} />
+                          <Text
+                            className={cx(
+                              cleanUI,
+                              "text-[13px] text-[#98989F]",
+                              "text-xs text-zinc-400 font-mono"
+                            )}
+                          >
                             {completedDate
                               ? completedDate.toLocaleDateString(undefined, {
                                   month: "short",
@@ -665,13 +917,25 @@ export default function WorkoutsScreen() {
                         </View>
                         {durationMinutes && (
                           <View className="flex-row items-center gap-1">
-                            <Clock size={12} color="#71717A" />
-                            <Text className="text-xs text-zinc-400 font-mono">
+                            <Clock size={12} color={cleanUI ? "#98989F" : "#71717A"} />
+                            <Text
+                              className={cx(
+                                cleanUI,
+                                "text-[13px] text-[#98989F]",
+                                "text-xs text-zinc-400 font-mono"
+                              )}
+                            >
                               {durationMinutes} min
                             </Text>
                           </View>
                         )}
-                        <Text className="text-xs text-zinc-400 font-mono">
+                        <Text
+                          className={cx(
+                            cleanUI,
+                            "text-[13px] text-[#98989F]",
+                            "text-xs text-zinc-400 font-mono"
+                          )}
+                        >
                           {exerciseCount} {exerciseCount === 1 ? "exercise" : "exercises"} · {item.sets.length} sets
                         </Text>
                       </View>
@@ -683,27 +947,47 @@ export default function WorkoutsScreen() {
                         className="rounded-lg p-2"
                         accessibilityLabel="View Workout Details"
                       >
-                        <ChevronRight size={18} color="#71717A" />
+                        <ChevronRight size={18} color={cleanUI ? "#636366" : "#71717A"} />
                       </TouchableOpacity>
                     </View>
                   </View>
 
                   {/* Actions: Repeat Workout */}
-                  <View className="mt-3 flex-row items-center gap-2 border-t border-zinc-800 pt-2.5">
+                  <View
+                    className={cx(
+                      cleanUI,
+                      "mt-3 flex-row items-center gap-2 border-t border-[#2C2C2E] pt-2.5",
+                      "mt-3 flex-row items-center gap-2 border-t border-zinc-800 pt-2.5"
+                    )}
+                  >
                     <TouchableOpacity
                       onPress={() => handleRepeatWorkout(item)}
                       activeOpacity={0.8}
-                      className="flex-1 flex-row items-center justify-center gap-1.5 rounded-xl bg-zinc-800 py-2.5 border border-zinc-700/60"
+                      className={cx(
+                        cleanUI,
+                        "flex-1 flex-row items-center justify-center gap-1.5 rounded-xl bg-[#1C1C1E] py-2.5",
+                        "flex-1 flex-row items-center justify-center gap-1.5 rounded-xl bg-zinc-800 py-2.5 border border-zinc-700/60"
+                      )}
                     >
-                      <RotateCcw size={14} color="#38BDF8" />
-                      <Text className="text-xs font-bold text-cyan-400">
+                      <RotateCcw size={14} color={cleanUI ? "#0A84FF" : "#38BDF8"} />
+                      <Text
+                        className={cx(
+                          cleanUI,
+                          "text-[15px] font-medium text-[#0A84FF]",
+                          "text-xs font-bold text-cyan-400"
+                        )}
+                      >
                         Repeat Workout
                       </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                       onPress={() => handleDeleteWorkoutHistory(item.id)}
-                      className="rounded-xl bg-red-500/10 p-2.5 border border-red-500/20"
+                      className={cx(
+                        cleanUI,
+                        "rounded-xl bg-[#1C1C1E] p-2.5",
+                        "rounded-xl bg-red-500/10 p-2.5 border border-red-500/20"
+                      )}
                       accessibilityLabel="Delete Workout"
                     >
                       <Trash2 size={16} color="#EF4444" />
@@ -714,11 +998,23 @@ export default function WorkoutsScreen() {
             }}
             ListEmptyComponent={
               <View className="items-center py-12">
-                <History size={40} color="#71717A" />
-                <Text className="mt-3 text-base font-bold text-zinc-300">
+                <History size={40} color={cleanUI ? "#636366" : "#71717A"} />
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "mt-3 text-[17px] font-semibold text-white",
+                    "mt-3 text-base font-bold text-zinc-300"
+                  )}
+                >
                   No workout history yet
                 </Text>
-                <Text className="mt-1 text-xs text-zinc-500">
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "mt-1 text-[13px] text-[#98989F]",
+                    "mt-1 text-xs text-zinc-500"
+                  )}
+                >
                   Start an empty workout or import your Strong history!
                 </Text>
               </View>

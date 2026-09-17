@@ -29,6 +29,12 @@ export type ParsedExerciseBlock = {
   rawExerciseName: string;
   matchedExerciseId?: string;
   matchedExerciseName?: string;
+  /** Close-but-not-exact candidates for the user to pick from. */
+  suggestions: ExerciseSuggestion[];
+  /** Set by the import UI when the user picks a suggestion. */
+  chosenExerciseId?: string | null;
+  /** Set by the import UI when the user chooses to create a new exercise. */
+  createNewExercise?: boolean;
   sets: ParsedSet[];
 };
 
@@ -39,6 +45,16 @@ export type ParsedWorkout = {
   notes?: string | null;
   exercises: ParsedExerciseBlock[];
 };
+
+/** A close-but-not-exact catalog candidate for the user to review. */
+export type ExerciseSuggestion = {
+  id: string;
+  name: string;
+  score: number;
+};
+
+const SUGGESTION_THRESHOLD = 0.45;
+const MAX_SUGGESTIONS = 3;
 
 /**
  * Normalizes a string by lowercasing, removing punctuation, and collapsing whitespace.
@@ -98,56 +114,104 @@ function computeSimilarity(a: string, b: string): number {
 }
 
 /**
- * Matches an exercise name against existing database exercises using exact and fuzzy matching.
+ * Matches an exercise name against the catalog.
+ *
+ * Only exact matches (ignoring case, and ignoring parenthetical equipment
+ * tags like "(Machine)") auto-match. Anything else returns ranked
+ * suggestions for the user to pick from — or to reject in favor of creating
+ * a brand-new exercise. Never silently fuzzy-matches.
  */
-export function matchExerciseName(
+export function matchExerciseDetailed(
   rawName: string,
   candidateExercises: Exercise[] = []
-): { exercise: Exercise | null; confidence: number } {
+): { exact: Exercise | null; suggestions: ExerciseSuggestion[] } {
   if (!rawName || candidateExercises.length === 0) {
-    return { exercise: null, confidence: 0 };
+    return { exact: null, suggestions: [] };
   }
 
   const trimmed = rawName.trim();
   const lower = trimmed.toLowerCase();
 
-  const exact = candidateExercises.find(
-    (e) => e.name.toLowerCase() === lower || e.id.toLowerCase() === lower
-  );
+  const exact =
+    candidateExercises.find(
+      (e) => e.name.toLowerCase() === lower || e.id.toLowerCase() === lower
+    ) ?? null;
   if (exact) {
-    return { exercise: exact, confidence: 1.0 };
+    return { exact, suggestions: [] };
   }
 
   const cleanRaw = trimmed.replace(/\s*\([^)]*\)/g, "").trim().toLowerCase();
-  const cleanMatch = candidateExercises.find((e) => {
-    const cleanCandidate = e.name.replace(/\s*\([^)]*\)/g, "").trim().toLowerCase();
-    return cleanCandidate === cleanRaw;
-  });
-  if (cleanMatch) {
-    return { exercise: cleanMatch, confidence: 0.95 };
+  const cleanExact =
+    candidateExercises.find((e) => {
+      const cleanCandidate = e.name
+        .replace(/\s*\([^)]*\)/g, "")
+        .trim()
+        .toLowerCase();
+      return cleanCandidate === cleanRaw;
+    }) ?? null;
+  if (cleanExact) {
+    return { exact: cleanExact, suggestions: [] };
   }
 
-  let bestMatch: Exercise | null = null;
-  let highestScore = 0;
-
+  const scored: ExerciseSuggestion[] = [];
   for (const ex of candidateExercises) {
     const score = Math.max(
       computeSimilarity(trimmed, ex.name),
       computeSimilarity(cleanRaw, ex.name),
       ex.equipment ? computeSimilarity(trimmed, `${ex.name} ${ex.equipment}`) : 0
     );
-
-    if (score > highestScore) {
-      highestScore = score;
-      bestMatch = ex;
+    if (score >= SUGGESTION_THRESHOLD) {
+      scored.push({ id: ex.id, name: ex.name, score });
     }
   }
+  scored.sort((a, b) => b.score - a.score);
 
-  if (highestScore >= 0.45 && bestMatch) {
-    return { exercise: bestMatch, confidence: highestScore };
+  const seen = new Set<string>();
+  const suggestions = scored
+    .filter((s) => (seen.has(s.id) ? false : (seen.add(s.id), true)))
+    .slice(0, MAX_SUGGESTIONS);
+
+  return { exact: null, suggestions };
+}
+
+/**
+ * Legacy matcher kept for compatibility: exact match when possible,
+ * otherwise the top suggestion (callers that need user review should use
+ * matchExerciseDetailed instead).
+ */
+export function matchExerciseName(
+  rawName: string,
+  candidateExercises: Exercise[] = []
+): { exercise: Exercise | null; confidence: number } {
+  const { exact, suggestions } = matchExerciseDetailed(
+    rawName,
+    candidateExercises
+  );
+  if (exact) {
+    return { exercise: exact, confidence: 1.0 };
   }
+  if (suggestions.length > 0) {
+    const top = suggestions[0];
+    const exercise = candidateExercises.find((e) => e.id === top.id) ?? null;
+    return { exercise, confidence: top.score };
+  }
+  return { exercise: null, confidence: 0 };
+}
 
-  return { exercise: null, confidence: highestScore };
+/** Builds a ParsedExerciseBlock with exact-match / suggestions resolved. */
+function makeExerciseBlock(
+  rawName: string,
+  candidateExercises: Exercise[],
+  sets: ParsedSet[]
+): ParsedExerciseBlock {
+  const { exact, suggestions } = matchExerciseDetailed(rawName, candidateExercises);
+  return {
+    rawExerciseName: rawName,
+    matchedExerciseId: exact?.id,
+    matchedExerciseName: exact?.name,
+    suggestions,
+    sets,
+  };
 }
 
 /**
@@ -333,13 +397,7 @@ export function parseStrongText(
         exerciseBlocks.push(currentExercise);
       }
 
-      const match = matchExerciseName(line, candidateExercises);
-      currentExercise = {
-        rawExerciseName: line,
-        matchedExerciseId: match.exercise?.id,
-        matchedExerciseName: match.exercise?.name,
-        sets: [],
-      };
+      currentExercise = makeExerciseBlock(line, candidateExercises, []);
     }
   }
 
@@ -446,13 +504,7 @@ export function parseStrongCsv(
 
     const exercisesList: ParsedExerciseBlock[] = [];
     for (const [rawExName, setsList] of exerciseMap.entries()) {
-      const match = matchExerciseName(rawExName, candidateExercises);
-      exercisesList.push({
-        rawExerciseName: rawExName,
-        matchedExerciseId: match.exercise?.id,
-        matchedExerciseName: match.exercise?.name,
-        sets: setsList,
-      });
+      exercisesList.push(makeExerciseBlock(rawExName, candidateExercises, setsList));
     }
 
     results.push({
@@ -468,12 +520,28 @@ export function parseStrongCsv(
 
 /**
  * Ensures that an exercise exists in SQLite database, creating a new local/community exercise if unmatched.
+ *
+ * Honors the user's import-time choice: a picked suggestion (chosenExerciseId)
+ * or an explicit "create new" (createNewExercise) wins over the automatic
+ * exact match. Without a choice, falls back to the exact match, then a
+ * case-insensitive name lookup, then creation.
  */
 export async function resolveOrCreateExercise(
   block: ParsedExerciseBlock,
   database: any
 ): Promise<Exercise> {
-  if (block.matchedExerciseId) {
+  if (block.chosenExerciseId) {
+    const chosen = await database
+      .select()
+      .from(exercises)
+      .where(eq(exercises.id, block.chosenExerciseId))
+      .limit(1);
+    if (chosen.length > 0) {
+      return chosen[0];
+    }
+  }
+
+  if (!block.createNewExercise && block.matchedExerciseId) {
     const existing = await database
       .select()
       .from(exercises)
@@ -485,14 +553,16 @@ export async function resolveOrCreateExercise(
     }
   }
 
-  const byName = await database
-    .select()
-    .from(exercises)
-    .where(eq(sql`lower(${exercises.name})`, block.rawExerciseName.toLowerCase().trim()))
-    .limit(1);
+  if (!block.createNewExercise) {
+    const byName = await database
+      .select()
+      .from(exercises)
+      .where(eq(sql`lower(${exercises.name})`, block.rawExerciseName.toLowerCase().trim()))
+      .limit(1);
 
-  if (byName.length > 0) {
-    return byName[0];
+    if (byName.length > 0) {
+      return byName[0];
+    }
   }
 
   const now = Date.now();

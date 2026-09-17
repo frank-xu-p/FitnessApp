@@ -1,5 +1,35 @@
-import { sql } from "drizzle-orm";
-import { exercises, workoutTemplates, templateExercises } from "./schema";
+import { sql, and, eq, inArray } from "drizzle-orm";
+import { exercises, sets, workoutTemplates, templateExercises } from "./schema";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+import demoVideoSlugs from "../assets/data/demo-video-slugs.json";
+
+/**
+ * Ids of every exercise with a demo video (the bundle catalog). The app's
+ * built-in catalog is exactly this set: nothing without a demo is seeded.
+ */
+function loadDemoCatalogIds(): Set<string> {
+  return new Set(Object.keys(demoVideoSlugs));
+}
+
+/**
+ * Starter-template / fallback ids that had no demo video, remapped to the
+ * closest catalog exercise that does.
+ */
+const DEMO_ID_REMAP: Record<string, string> = {
+  "barbell-bench-press": "Barbell_Bench_Press_-_Medium_Grip",
+  "incline-dumbbell-press": "Incline_Dumbbell_Press",
+  "lateral-raise": "Lateral_Raise_-_With_Bands",
+  "triceps-pushdown": "bundle_cable_triceps_pushdown",
+  deadlift: "bundle_dumbbell_deadlift",
+  "lat-pulldown": "bundle_cable_pulldown",
+  "barbell-row": "bundle_barbell_underhand_bent_over_row",
+  "bicep-curl": "Dumbbell_Bicep_Curl",
+  "back-squat": "Barbell_Squat",
+  "romanian-deadlift": "Stiff-Legged_Barbell_Deadlift",
+  "leg-extension": "Leg_Extensions",
+  "overhead-press": "bundle_smith_seated_shoulder_press",
+  "standing-calf-raises": "Standing_Calf_Raises",
+};
 
 type SourceExercise = {
   id?: string;
@@ -141,7 +171,12 @@ export async function seedBaseExercises(database: any) {
   if ((existing[0]?.count ?? 0) >= 800) return;
 
   const now = Date.now();
-  const dataset = loadExercises();
+  const demoIds = loadDemoCatalogIds();
+  // The built-in catalog is exactly the demo-video catalog: skip everything
+  // without a demo.
+  const dataset = loadExercises().filter((ex) =>
+    demoIds.has(String(ex.id ?? ""))
+  );
   const rows = dataset.map((ex, idx) => {
     return {
       id: String(ex.id ?? `ex_${idx}_${generateId()}`),
@@ -166,11 +201,13 @@ export async function seedBaseExercises(database: any) {
     };
   });
 
-  // Ensure standard fallback IDs exist for preset templates
+  // Ensure standard fallback IDs exist for preset templates (remapped to
+  // demo-video catalog ids).
   for (const fb of FALLBACK_EXERCISES) {
-    if (fb.id && !rows.some((r) => r.id === fb.id)) {
+    const demoId = (fb.id && DEMO_ID_REMAP[fb.id]) || fb.id;
+    if (demoId && !rows.some((r) => r.id === demoId)) {
       rows.unshift({
-        id: fb.id,
+        id: demoId,
         name: fb.name,
         equipment: fb.equipment ?? null,
         primaryMuscles: fb.primaryMuscles ?? [],
@@ -196,6 +233,68 @@ export async function seedBaseExercises(database: any) {
       .insert(exercises)
       .values(rows.slice(i, i + batchSize))
       .onConflictDoNothing();
+  }
+}
+
+const PRESET_TEMPLATE_IDS = [
+  "tpl_push_day",
+  "tpl_pull_day",
+  "tpl_leg_day",
+  "tpl_upper_body",
+  "tpl_lower_body",
+];
+
+/**
+ * Re-points the built-in preset templates at the demo-video catalog.
+ * Only touches preset templates (which users cannot edit); custom templates
+ * are left alone. Runs on every launch; idempotent.
+ */
+export async function remapPresetTemplateExercises(database: any) {
+  for (const [oldId, newId] of Object.entries(DEMO_ID_REMAP)) {
+    await database
+      .update(templateExercises)
+      .set({ exerciseId: newId })
+      .where(
+        and(
+          eq(templateExercises.exerciseId, oldId),
+          inArray(templateExercises.templateId, PRESET_TEMPLATE_IDS)
+        )
+      );
+  }
+}
+
+/**
+ * Removes built-in (source='base') exercises that have no demo video, so the
+ * catalog is exactly the demo-video catalog. Never touches user-created
+ * exercises, and never removes an exercise referenced by a logged set or a
+ * template — history stays intact. Runs on every launch; idempotent.
+ */
+export async function pruneNonDemoExercises(database: any) {
+  const demoIds = loadDemoCatalogIds();
+  if (demoIds.size === 0) return;
+
+  const [setRefs, tplRefs] = await Promise.all([
+    database.select({ id: sets.exerciseId }).from(sets),
+    database.select({ id: templateExercises.exerciseId }).from(templateExercises),
+  ]);
+  const referenced = new Set<string>([
+    ...(setRefs as { id: string }[]).map((r) => r.id),
+    ...(tplRefs as { id: string }[]).map((r) => r.id),
+  ]);
+
+  const baseRows = (await database
+    .select({ id: exercises.id })
+    .from(exercises)
+    .where(eq(exercises.source, "base"))) as { id: string }[];
+
+  const prunable = baseRows
+    .map((r) => r.id)
+    .filter((id) => !demoIds.has(id) && !referenced.has(id));
+
+  const batchSize = 100;
+  for (let i = 0; i < prunable.length; i += batchSize) {
+    const batch = prunable.slice(i, i + batchSize);
+    await database.delete(exercises).where(inArray(exercises.id, batch));
   }
 }
 
@@ -367,10 +466,12 @@ export async function seedStarterTemplates(database: any) {
       isDeleted: false,
     });
     for (const ex of tplExercises) {
+      // Templates reference the demo-video catalog.
+      const demoExerciseId = DEMO_ID_REMAP[ex.exerciseId] ?? ex.exerciseId;
       await database.insert(templateExercises).values({
-        id: `te_${tpl.id}_${ex.exerciseId}`,
+        id: `te_${tpl.id}_${demoExerciseId}`,
         templateId: tpl.id,
-        exerciseId: ex.exerciseId,
+        exerciseId: demoExerciseId,
         orderIndex: ex.orderIndex,
         targetSets: ex.targetSets,
         targetReps: ex.targetReps,

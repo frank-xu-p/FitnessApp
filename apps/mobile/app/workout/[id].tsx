@@ -53,11 +53,13 @@ import {
   effectiveReps,
   hasRequiredDataForCompletion,
 } from "../../lib/unilateral";
+import { useCleanUI, cx } from "../../lib/theme";
 import type { Exercise, Workout, Set as WorkoutSet } from "../../db/schema";
 
 export default function WorkoutScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
+  const cleanUI = useCleanUI();
 
   const {
     activeWorkout,
@@ -361,8 +363,16 @@ export default function WorkoutScreen() {
   if (loading) {
     return (
       <View className="flex-1 items-center justify-center bg-black">
-        <ActivityIndicator size="large" color="#38BDF8" />
-        <Text className="mt-3 text-sm font-mono text-zinc-400">Loading workout...</Text>
+        <ActivityIndicator size="large" color={cleanUI ? "#0A84FF" : "#38BDF8"} />
+        <Text
+          className={cx(
+            cleanUI,
+            "mt-3 text-[15px] text-[#98989F]",
+            "mt-3 text-sm font-mono text-zinc-400"
+          )}
+        >
+          Loading workout...
+        </Text>
       </View>
     );
   }
@@ -373,9 +383,21 @@ export default function WorkoutScreen() {
         <Text className="mb-4 text-base text-zinc-300 font-bold">Workout not found.</Text>
         <TouchableOpacity
           onPress={() => router.replace("/(tabs)/workouts")}
-          className="rounded-xl bg-cyan-500 px-5 py-3"
+          className={cx(
+            cleanUI,
+            "rounded-xl bg-[#0A84FF] px-5 py-3",
+            "rounded-xl bg-cyan-500 px-5 py-3"
+          )}
         >
-          <Text className="font-bold text-black uppercase">Back to Workouts</Text>
+          <Text
+            className={cx(
+              cleanUI,
+              "font-semibold text-white",
+              "font-bold text-black uppercase"
+            )}
+          >
+            Back to Workouts
+          </Text>
         </TouchableOpacity>
       </View>
     );
@@ -480,7 +502,13 @@ export default function WorkoutScreen() {
   return (
     <View className="flex-1 bg-black">
       {/* Top Navigation Bar with notch clearance */}
-      <View className="border-b border-zinc-800/80 bg-zinc-950 px-4 pt-16 pb-4">
+      <View
+        className={cx(
+          cleanUI,
+          "border-b border-[#2C2C2E] px-4 pt-16 pb-4",
+          "border-b border-zinc-800/80 bg-zinc-950 px-4 pt-16 pb-4"
+        )}
+      >
         <View className="flex-row items-center justify-between">
           {/* Collapse / Back Chevron */}
           <TouchableOpacity
@@ -489,15 +517,31 @@ export default function WorkoutScreen() {
               router.back();
             }}
             hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
-            className="min-h-[44px] min-w-[44px] items-center justify-center rounded-2xl bg-zinc-900 border border-zinc-800"
+            className={cx(
+              cleanUI,
+              "min-h-[44px] min-w-[44px] items-center justify-center rounded-xl bg-[#1C1C1E]",
+              "min-h-[44px] min-w-[44px] items-center justify-center rounded-2xl bg-zinc-900 border border-zinc-800"
+            )}
           >
-            <ChevronDown size={24} color="#A1A1AA" />
+            <ChevronDown size={24} color={cleanUI ? "#98989F" : "#A1A1AA"} />
           </TouchableOpacity>
 
           {/* Center: Live Stopwatch Timer */}
-          <View className="min-h-[44px] flex-row items-center gap-2 rounded-2xl bg-zinc-900 px-4 border border-zinc-800">
-            <Timer size={18} color="#38BDF8" />
-            <Text className="text-base font-mono font-black text-white">
+          <View
+            className={cx(
+              cleanUI,
+              "min-h-[44px] flex-row items-center gap-2 rounded-xl bg-[#1C1C1E] px-4",
+              "min-h-[44px] flex-row items-center gap-2 rounded-2xl bg-zinc-900 px-4 border border-zinc-800"
+            )}
+          >
+            <Timer size={18} color={cleanUI ? "#0A84FF" : "#38BDF8"} />
+            <Text
+              className={cx(
+                cleanUI,
+                "text-[17px] font-semibold text-white",
+                "text-base font-mono font-black text-white"
+              )}
+            >
               {formatTimer(elapsedSeconds)}
             </Text>
           </View>
@@ -508,9 +552,19 @@ export default function WorkoutScreen() {
             onPress={handleInitiateFinish}
             activeOpacity={0.8}
             hitSlop={{ top: 25, bottom: 25, left: 25, right: 25 }}
-            className="min-h-[44px] px-4 items-center justify-center rounded-2xl bg-[#CCFF00] shadow-md shadow-[#CCFF00]/20"
+            className={cx(
+              cleanUI,
+              "min-h-[44px] px-4 items-center justify-center rounded-xl bg-[#0A84FF]",
+              "min-h-[44px] px-4 items-center justify-center rounded-2xl bg-[#CCFF00] shadow-md shadow-[#CCFF00]/20"
+            )}
           >
-            <Text className="text-sm font-black uppercase text-black tracking-wider">
+            <Text
+              className={cx(
+                cleanUI,
+                "text-[15px] font-semibold text-white",
+                "text-sm font-black uppercase text-black tracking-wider"
+              )}
+            >
               FINISH
             </Text>
           </TouchableOpacity>
@@ -523,7 +577,11 @@ export default function WorkoutScreen() {
             value={title}
             onChangeText={setTitle}
             onBlur={handleTitleBlur}
-            className="flex-1 text-base font-bold text-white"
+            className={cx(
+              cleanUI,
+              "flex-1 text-[17px] font-semibold text-white",
+              "flex-1 text-base font-bold text-white"
+            )}
             placeholder="Workout Title"
             placeholderTextColor="#52525B"
           />
@@ -533,26 +591,38 @@ export default function WorkoutScreen() {
               Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
               setShowOverloadModal(true);
             }}
-            className={`flex-row items-center gap-1.5 rounded-full px-3 py-1 border ${
-              autoOverloadEnabled
-                ? "border-amber-500/40 bg-amber-500/10"
-                : "border-zinc-800 bg-zinc-900"
-            }`}
+            className={cx(
+              cleanUI,
+              `flex-row items-center gap-1.5 rounded-full px-3 py-1 ${
+                autoOverloadEnabled ? "bg-[#F59E0B]/20" : "bg-[#1C1C1E]"
+              }`,
+              `flex-row items-center gap-1.5 rounded-full px-3 py-1 border ${
+                autoOverloadEnabled
+                  ? "border-amber-500/40 bg-amber-500/10"
+                  : "border-zinc-800 bg-zinc-900"
+              }`
+            )}
           >
             <Zap
               size={12}
-              color={autoOverloadEnabled ? "#F59E0B" : "#71717A"}
+              color={autoOverloadEnabled ? "#F59E0B" : cleanUI ? "#98989F" : "#71717A"}
             />
             <Text
-              className={`text-[11px] font-mono font-bold ${
-                autoOverloadEnabled ? "text-amber-400" : "text-zinc-400"
-              }`}
+              className={cx(
+                cleanUI,
+                `text-[13px] font-medium ${
+                  autoOverloadEnabled ? "text-[#F59E0B]" : "text-[#98989F]"
+                }`,
+                `text-[11px] font-mono font-bold ${
+                  autoOverloadEnabled ? "text-amber-400" : "text-zinc-400"
+                }`
+              )}
             >
               Overload: {autoOverloadEnabled ? "ON" : "OFF"}
             </Text>
             <Sliders
               size={10}
-              color={autoOverloadEnabled ? "#F59E0B" : "#71717A"}
+              color={autoOverloadEnabled ? "#F59E0B" : cleanUI ? "#98989F" : "#71717A"}
             />
           </TouchableOpacity>
         </View>
@@ -565,12 +635,30 @@ export default function WorkoutScreen() {
         contentContainerStyle={{ paddingBottom: isRestTimerRunning ? 120 : 60 }}
       >
         {exercisesList.length === 0 ? (
-          <View className="items-center justify-center p-8 mt-12 rounded-3xl border border-dashed border-zinc-800 bg-zinc-900/60">
-            <Dumbbell size={44} color="#71717A" />
-            <Text className="mt-4 text-base font-bold text-white">
+          <View
+            className={cx(
+              cleanUI,
+              "items-center justify-center p-8 mt-12 rounded-xl border border-dashed border-[#2C2C2E] bg-[#141414]",
+              "items-center justify-center p-8 mt-12 rounded-3xl border border-dashed border-zinc-800 bg-zinc-900/60"
+            )}
+          >
+            <Dumbbell size={44} color={cleanUI ? "#98989F" : "#71717A"} />
+            <Text
+              className={cx(
+                cleanUI,
+                "mt-4 text-[17px] font-semibold text-white",
+                "mt-4 text-base font-bold text-white"
+              )}
+            >
               No exercises added yet
             </Text>
-            <Text className="mt-1 text-center text-xs text-zinc-500">
+            <Text
+              className={cx(
+                cleanUI,
+                "mt-1 text-center text-[13px] text-[#98989F]",
+                "mt-1 text-center text-xs text-zinc-500"
+              )}
+            >
               Tap the button below to add exercises to this workout.
             </Text>
             <TouchableOpacity
@@ -579,10 +667,20 @@ export default function WorkoutScreen() {
                 setPickingExercise(true);
               }}
               activeOpacity={0.8}
-              className="mt-6 flex-row items-center gap-2 rounded-2xl bg-[#CCFF00] px-6 py-3.5 shadow-lg shadow-[#CCFF00]/10"
+              className={cx(
+                cleanUI,
+                "mt-6 flex-row items-center gap-2 rounded-xl bg-[#0A84FF] px-6 py-3.5",
+                "mt-6 flex-row items-center gap-2 rounded-2xl bg-[#CCFF00] px-6 py-3.5 shadow-lg shadow-[#CCFF00]/10"
+              )}
             >
-              <Plus size={18} color="#000000" />
-              <Text className="font-black text-black uppercase tracking-wider">
+              <Plus size={18} color={cleanUI ? "#FFFFFF" : "#000000"} />
+              <Text
+                className={cx(
+                  cleanUI,
+                  "text-[15px] font-semibold text-white",
+                  "font-black text-black uppercase tracking-wider"
+                )}
+              >
                 Add First Exercise
               </Text>
             </TouchableOpacity>
@@ -621,10 +719,20 @@ export default function WorkoutScreen() {
                 setPickingExercise(true);
               }}
               activeOpacity={0.8}
-              className="flex-row items-center justify-center gap-2 rounded-2xl border border-cyan-500/40 bg-cyan-500/10 py-3.5"
+              className={cx(
+                cleanUI,
+                "flex-row items-center justify-center gap-2 rounded-xl bg-[#1C1C1E] py-3.5",
+                "flex-row items-center justify-center gap-2 rounded-2xl border border-cyan-500/40 bg-cyan-500/10 py-3.5"
+              )}
             >
-              <Plus size={20} color="#38BDF8" />
-              <Text className="text-sm font-black text-cyan-400 uppercase tracking-wider">
+              <Plus size={20} color={cleanUI ? "#0A84FF" : "#38BDF8"} />
+              <Text
+                className={cx(
+                  cleanUI,
+                  "text-[15px] font-semibold text-[#0A84FF]",
+                  "text-sm font-black text-cyan-400 uppercase tracking-wider"
+                )}
+              >
                 Add Exercise
               </Text>
             </TouchableOpacity>
@@ -632,10 +740,20 @@ export default function WorkoutScreen() {
             <TouchableOpacity
               onPress={handleInitiateFinish}
               activeOpacity={0.8}
-              className="flex-row items-center justify-center gap-2 rounded-2xl bg-[#CCFF00] py-4 shadow-lg shadow-[#CCFF00]/10"
+              className={cx(
+                cleanUI,
+                "flex-row items-center justify-center gap-2 rounded-xl bg-[#0A84FF] py-4",
+                "flex-row items-center justify-center gap-2 rounded-2xl bg-[#CCFF00] py-4 shadow-lg shadow-[#CCFF00]/10"
+              )}
             >
-              <CheckCircle2 size={20} color="#000000" strokeWidth={2.5} />
-              <Text className="text-base font-black text-black uppercase tracking-wider">
+              <CheckCircle2 size={20} color={cleanUI ? "#FFFFFF" : "#000000"} strokeWidth={2.5} />
+              <Text
+                className={cx(
+                  cleanUI,
+                  "text-[17px] font-semibold text-white",
+                  "text-base font-black text-black uppercase tracking-wider"
+                )}
+              >
                 Finish Workout
               </Text>
             </TouchableOpacity>
@@ -645,17 +763,41 @@ export default function WorkoutScreen() {
 
       {/* Floating Active Rest Timer Dock */}
       {isRestTimerVisible && (
-        <View className="absolute bottom-6 left-4 right-4 rounded-3xl border border-zinc-800 bg-zinc-900/95 p-4 shadow-2xl">
+        <View
+          className={cx(
+            cleanUI,
+            "absolute bottom-6 left-4 right-4 rounded-xl bg-[#141414] p-4",
+            "absolute bottom-6 left-4 right-4 rounded-3xl border border-zinc-800 bg-zinc-900/95 p-4 shadow-2xl"
+          )}
+        >
           <View className="flex-row items-center justify-between">
             <View className="flex-row items-center gap-3">
-              <View className="h-10 w-10 items-center justify-center rounded-2xl bg-cyan-500/20 border border-cyan-500/40">
-                <Timer size={22} color="#38BDF8" />
+              <View
+                className={cx(
+                  cleanUI,
+                  "h-10 w-10 items-center justify-center rounded-xl bg-[#0A84FF]/20",
+                  "h-10 w-10 items-center justify-center rounded-2xl bg-cyan-500/20 border border-cyan-500/40"
+                )}
+              >
+                <Timer size={22} color={cleanUI ? "#0A84FF" : "#38BDF8"} />
               </View>
               <View>
-                <Text className="text-[10px] font-black font-mono text-zinc-400 uppercase tracking-wider">
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "text-[12px] text-[#98989F]",
+                    "text-[10px] font-black font-mono text-zinc-400 uppercase tracking-wider"
+                  )}
+                >
                   Rest Timer{!isRestTimerRunning ? " — Paused" : ""}
                 </Text>
-                <Text className="text-xl font-mono font-black text-white">
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "text-[22px] font-semibold text-white",
+                    "text-xl font-mono font-black text-white"
+                  )}
+                >
                   {formatTimer(restTimerSeconds)}
                 </Text>
               </View>
@@ -668,9 +810,21 @@ export default function WorkoutScreen() {
                   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
                   setRestTimerSeconds((prev) => prev + 30);
                 }}
-                className="rounded-xl bg-zinc-800 px-2.5 py-2 border border-zinc-700/60"
+                className={cx(
+                  cleanUI,
+                  "rounded-xl bg-[#1C1C1E] px-2.5 py-2",
+                  "rounded-xl bg-zinc-800 px-2.5 py-2 border border-zinc-700/60"
+                )}
               >
-                <Text className="text-xs font-mono font-bold text-cyan-400">+30s</Text>
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "text-[13px] font-medium text-[#0A84FF]",
+                    "text-xs font-mono font-bold text-cyan-400"
+                  )}
+                >
+                  +30s
+                </Text>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -678,12 +832,16 @@ export default function WorkoutScreen() {
                   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
                   setIsRestTimerRunning(!isRestTimerRunning);
                 }}
-                className="rounded-xl bg-cyan-500 p-2.5"
+                className={cx(
+                  cleanUI,
+                  "rounded-xl bg-[#0A84FF] p-2.5",
+                  "rounded-xl bg-cyan-500 p-2.5"
+                )}
               >
                 {isRestTimerRunning ? (
-                  <Pause size={18} color="#000000" />
+                  <Pause size={18} color={cleanUI ? "#FFFFFF" : "#000000"} />
                 ) : (
-                  <Play size={18} color="#000000" />
+                  <Play size={18} color={cleanUI ? "#FFFFFF" : "#000000"} />
                 )}
               </TouchableOpacity>
 
@@ -694,9 +852,13 @@ export default function WorkoutScreen() {
                   setIsRestTimerVisible(false);
                   setRestTimerSeconds(0);
                 }}
-                className="rounded-xl bg-zinc-800 p-2.5 border border-zinc-700/60"
+                className={cx(
+                  cleanUI,
+                  "rounded-xl bg-[#1C1C1E] p-2.5",
+                  "rounded-xl bg-zinc-800 p-2.5 border border-zinc-700/60"
+                )}
               >
-                <FastForward size={18} color="#A1A1AA" />
+                <FastForward size={18} color={cleanUI ? "#98989F" : "#A1A1AA"} />
               </TouchableOpacity>
             </View>
           </View>

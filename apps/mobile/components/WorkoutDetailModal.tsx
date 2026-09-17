@@ -19,6 +19,7 @@ import {
 } from "lucide-react-native";
 import { useAuthStore } from "../store/useAuthStore";
 import { toDisplay } from "../lib/units";
+import { useCleanUI, cx } from "../lib/theme";
 import { SET_TYPE_CONFIG } from "./SetTypeModal";
 import type { WorkoutHistoryItem } from "../db/queries";
 
@@ -38,6 +39,7 @@ export function WorkoutDetailModal({
   onDeleteWorkout,
 }: WorkoutDetailModalProps) {
   const { displayUnit } = useAuthStore();
+  const cleanUI = useCleanUI();
 
   if (!workout) return null;
 
@@ -103,17 +105,35 @@ export function WorkoutDetailModal({
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
       <View className="flex-1 justify-end bg-black/70">
-        <View className="max-h-[92%] rounded-t-3xl bg-gray-900 border-t border-gray-800 p-6 shadow-2xl">
+        <View
+          className={cx(
+            cleanUI,
+            "max-h-[92%] rounded-t-3xl bg-[#141414] p-6",
+            "max-h-[92%] rounded-t-3xl bg-gray-900 border-t border-gray-800 p-6 shadow-2xl"
+          )}
+        >
           <ScrollView showsVerticalScrollIndicator={false}>
             {/* Header */}
             <View className="mb-4 flex-row items-center justify-between">
               <View className="flex-1 pr-2">
-                <Text className="text-xl font-black text-white">
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "text-[20px] font-semibold text-white",
+                    "text-xl font-black text-white"
+                  )}
+                >
                   {workout.title}
                 </Text>
                 <View className="mt-1 flex-row items-center gap-1.5">
-                  <Calendar size={13} color="#94A3B8" />
-                  <Text className="text-xs text-gray-400">
+                  <Calendar size={13} color={cleanUI ? "#98989F" : "#94A3B8"} />
+                  <Text
+                    className={cx(
+                      cleanUI,
+                      "text-[13px] text-[#98989F]",
+                      "text-xs text-gray-400"
+                    )}
+                  >
                     {formattedDate} · {formattedTime}
                   </Text>
                 </View>
@@ -121,34 +141,98 @@ export function WorkoutDetailModal({
               <TouchableOpacity
                 onPress={onClose}
                 hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-                className="rounded-full bg-gray-800 p-2"
+                className={cx(
+                  cleanUI,
+                  "rounded-full bg-[#1C1C1E] p-2",
+                  "rounded-full bg-gray-800 p-2"
+                )}
               >
-                <X size={20} color="#94A3B8" />
+                <X size={20} color={cleanUI ? "#98989F" : "#94A3B8"} />
               </TouchableOpacity>
             </View>
 
             {/* Stats Grid */}
             <View className="mb-5 flex-row gap-2.5">
-              <View className="flex-1 rounded-2xl bg-gray-800/80 p-3 items-center border border-gray-700/50">
-                <Clock size={18} color="#38BDF8" />
-                <Text className="mt-1 text-[10px] font-bold text-gray-400 uppercase">Duration</Text>
-                <Text className="text-sm font-black text-white font-mono">
+              <View
+                className={cx(
+                  cleanUI,
+                  "flex-1 rounded-xl bg-[#1C1C1E] p-3 items-center",
+                  "flex-1 rounded-2xl bg-gray-800/80 p-3 items-center border border-gray-700/50"
+                )}
+              >
+                <Clock size={18} color={cleanUI ? "#0A84FF" : "#38BDF8"} />
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "mt-1 text-[12px] text-[#98989F]",
+                    "mt-1 text-[10px] font-bold text-gray-400 uppercase"
+                  )}
+                >
+                  Duration
+                </Text>
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "text-[16px] font-semibold text-white",
+                    "text-sm font-black text-white font-mono"
+                  )}
+                >
                   {formatDuration(workout.durationSeconds)}
                 </Text>
               </View>
 
-              <View className="flex-1 rounded-2xl bg-gray-800/80 p-3 items-center border border-gray-700/50">
-                <Dumbbell size={18} color="#10B981" />
-                <Text className="mt-1 text-[10px] font-bold text-gray-400 uppercase">Volume</Text>
-                <Text className="text-sm font-black text-white">
+              <View
+                className={cx(
+                  cleanUI,
+                  "flex-1 rounded-xl bg-[#1C1C1E] p-3 items-center",
+                  "flex-1 rounded-2xl bg-gray-800/80 p-3 items-center border border-gray-700/50"
+                )}
+              >
+                <Dumbbell size={18} color={cleanUI ? "#0A84FF" : "#10B981"} />
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "mt-1 text-[12px] text-[#98989F]",
+                    "mt-1 text-[10px] font-bold text-gray-400 uppercase"
+                  )}
+                >
+                  Volume
+                </Text>
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "text-[16px] font-semibold text-white",
+                    "text-sm font-black text-white"
+                  )}
+                >
                   {Math.round(displayVolume)} {displayUnit}
                 </Text>
               </View>
 
-              <View className="flex-1 rounded-2xl bg-gray-800/80 p-3 items-center border border-gray-700/50">
-                <CheckCircle2 size={18} color="#A855F7" />
-                <Text className="mt-1 text-[10px] font-bold text-gray-400 uppercase">Completed</Text>
-                <Text className="text-sm font-black text-white">
+              <View
+                className={cx(
+                  cleanUI,
+                  "flex-1 rounded-xl bg-[#1C1C1E] p-3 items-center",
+                  "flex-1 rounded-2xl bg-gray-800/80 p-3 items-center border border-gray-700/50"
+                )}
+              >
+                <CheckCircle2 size={18} color={cleanUI ? "#0A84FF" : "#A855F7"} />
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "mt-1 text-[12px] text-[#98989F]",
+                    "mt-1 text-[10px] font-bold text-gray-400 uppercase"
+                  )}
+                >
+                  Completed
+                </Text>
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "text-[16px] font-semibold text-white",
+                    "text-sm font-black text-white"
+                  )}
+                >
                   {workout.completedSetsCount} sets
                 </Text>
               </View>
@@ -156,9 +240,29 @@ export function WorkoutDetailModal({
 
             {/* Notes if present */}
             {workout.notes && (
-              <View className="mb-5 rounded-2xl border border-gray-800 bg-gray-800/40 p-3.5">
-                <Text className="text-xs font-bold text-gray-400 uppercase mb-1">Notes</Text>
-                <Text className="text-sm italic text-gray-200">
+              <View
+                className={cx(
+                  cleanUI,
+                  "mb-5 rounded-xl bg-[#1C1C1E] p-3.5",
+                  "mb-5 rounded-2xl border border-gray-800 bg-gray-800/40 p-3.5"
+                )}
+              >
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "text-[13px] text-[#98989F] mb-1",
+                    "text-xs font-bold text-gray-400 uppercase mb-1"
+                  )}
+                >
+                  Notes
+                </Text>
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "text-[15px] italic text-white",
+                    "text-sm italic text-gray-200"
+                  )}
+                >
                   "{workout.notes}"
                 </Text>
               </View>
@@ -166,7 +270,13 @@ export function WorkoutDetailModal({
 
             {/* Exercise Breakdown */}
             <View className="mb-6">
-              <Text className="mb-3 text-xs font-bold text-gray-400 uppercase tracking-wider">
+              <Text
+                className={cx(
+                  cleanUI,
+                  "mb-3 text-[15px] font-semibold text-white",
+                  "mb-3 text-xs font-bold text-gray-400 uppercase tracking-wider"
+                )}
+              >
                 Workout Performance ({exerciseGroups.length} Exercises)
               </Text>
 
@@ -174,17 +284,57 @@ export function WorkoutDetailModal({
                 {exerciseGroups.map((group, idx) => (
                   <View
                     key={idx}
-                    className="rounded-2xl border border-gray-800 bg-gray-800/40 p-3.5"
+                    className={cx(
+                      cleanUI,
+                      "rounded-xl bg-[#1C1C1E] p-3.5",
+                      "rounded-2xl border border-gray-800 bg-gray-800/40 p-3.5"
+                    )}
                   >
-                    <Text className="text-base font-bold text-sky-400 mb-2.5">
+                    <Text
+                      className={cx(
+                        cleanUI,
+                        "text-[16px] font-medium text-[#0A84FF] mb-2.5",
+                        "text-base font-bold text-sky-400 mb-2.5"
+                      )}
+                    >
                       {group.name}
                     </Text>
 
                     {/* Table Header */}
-                    <View className="flex-row items-center justify-between border-b border-gray-800 pb-1.5 px-1">
-                      <Text className="w-10 text-[11px] font-bold text-gray-500 uppercase">Set</Text>
-                      <Text className="flex-1 text-center text-[11px] font-bold text-gray-500 uppercase">Weight & Reps</Text>
-                      <Text className="w-20 text-right text-[11px] font-bold text-gray-500 uppercase">Intensity</Text>
+                    <View
+                      className={cx(
+                        cleanUI,
+                        "flex-row items-center justify-between border-b border-[#2C2C2E] pb-1.5 px-1",
+                        "flex-row items-center justify-between border-b border-gray-800 pb-1.5 px-1"
+                      )}
+                    >
+                      <Text
+                        className={cx(
+                          cleanUI,
+                          "w-10 text-[12px] text-[#636366]",
+                          "w-10 text-[11px] font-bold text-gray-500 uppercase"
+                        )}
+                      >
+                        Set
+                      </Text>
+                      <Text
+                        className={cx(
+                          cleanUI,
+                          "flex-1 text-center text-[12px] text-[#636366]",
+                          "flex-1 text-center text-[11px] font-bold text-gray-500 uppercase"
+                        )}
+                      >
+                        Weight & Reps
+                      </Text>
+                      <Text
+                        className={cx(
+                          cleanUI,
+                          "w-20 text-right text-[12px] text-[#636366]",
+                          "w-20 text-right text-[11px] font-bold text-gray-500 uppercase"
+                        )}
+                      >
+                        Intensity
+                      </Text>
                     </View>
 
                     {/* Sets Rows */}
@@ -196,7 +346,11 @@ export function WorkoutDetailModal({
                       return (
                         <View
                           key={sIdx}
-                          className="flex-row items-center justify-between py-2 border-b border-gray-800/40 px-1"
+                          className={cx(
+                            cleanUI,
+                            "flex-row items-center justify-between py-2 border-b border-[#2C2C2E] px-1",
+                            "flex-row items-center justify-between py-2 border-b border-gray-800/40 px-1"
+                          )}
                         >
                           <View className="w-10 flex-row items-center gap-1.5">
                             <View
@@ -212,23 +366,55 @@ export function WorkoutDetailModal({
                             </View>
                           </View>
 
-                          <Text className="flex-1 text-center text-xs font-bold text-white">
+                          <Text
+                            className={cx(
+                              cleanUI,
+                              "flex-1 text-center text-[15px] text-white",
+                              "flex-1 text-center text-xs font-bold text-white"
+                            )}
+                          >
                             {setWeight != null ? `${setWeight} ${displayUnit}` : "BW"} × {set.reps ?? 0}
                           </Text>
 
                           <View className="w-20 items-end">
                             {set.rir !== null && set.rir !== undefined ? (
-                              <View className="rounded-md bg-gray-800 px-1.5 py-0.5">
-                                <Text className="text-[10px] font-bold text-sky-400">
+                              <View
+                                className={cx(
+                                  cleanUI,
+                                  "rounded-md bg-[#141414] px-1.5 py-0.5",
+                                  "rounded-md bg-gray-800 px-1.5 py-0.5"
+                                )}
+                              >
+                                <Text
+                                  className={cx(
+                                    cleanUI,
+                                    "text-[12px] font-medium text-[#0A84FF]",
+                                    "text-[10px] font-bold text-sky-400"
+                                  )}
+                                >
                                   {set.rir === 0 ? "0 RIR 🔥" : `${set.rir} RIR`}
                                 </Text>
                               </View>
                             ) : set.rpe != null ? (
-                              <Text className="text-[10px] font-bold text-gray-400">
+                              <Text
+                                className={cx(
+                                  cleanUI,
+                                  "text-[12px] text-[#98989F]",
+                                  "text-[10px] font-bold text-gray-400"
+                                )}
+                              >
                                 RPE {set.rpe}
                               </Text>
                             ) : (
-                              <Text className="text-[10px] text-gray-600">—</Text>
+                              <Text
+                                className={cx(
+                                  cleanUI,
+                                  "text-[12px] text-[#636366]",
+                                  "text-[10px] text-gray-600"
+                                )}
+                              >
+                                —
+                              </Text>
                             )}
                           </View>
                         </View>
@@ -247,10 +433,20 @@ export function WorkoutDetailModal({
                   onRepeatWorkout(workout);
                 }}
                 activeOpacity={0.8}
-                className="h-14 flex-row items-center justify-center gap-2 rounded-2xl bg-emerald-500 shadow-lg"
+                className={cx(
+                  cleanUI,
+                  "h-14 flex-row items-center justify-center gap-2 rounded-xl bg-[#0A84FF]",
+                  "h-14 flex-row items-center justify-center gap-2 rounded-2xl bg-emerald-500 shadow-lg"
+                )}
               >
                 <RotateCw size={18} color="white" />
-                <Text className="text-base font-black text-white uppercase tracking-wider">
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "text-[17px] font-semibold text-white",
+                    "text-base font-black text-white uppercase tracking-wider"
+                  )}
+                >
                   Repeat Workout
                 </Text>
               </TouchableOpacity>
@@ -258,10 +454,20 @@ export function WorkoutDetailModal({
               <TouchableOpacity
                 onPress={handleDelete}
                 activeOpacity={0.8}
-                className="h-12 flex-row items-center justify-center gap-2 rounded-2xl border border-red-900/50 bg-red-950/20"
+                className={cx(
+                  cleanUI,
+                  "h-12 flex-row items-center justify-center gap-2 rounded-xl bg-[#1C1C1E]",
+                  "h-12 flex-row items-center justify-center gap-2 rounded-2xl border border-red-900/50 bg-red-950/20"
+                )}
               >
-                <Trash2 size={16} color="#EF4444" />
-                <Text className="text-sm font-bold text-red-400">
+                <Trash2 size={16} color={cleanUI ? "#FF453A" : "#EF4444"} />
+                <Text
+                  className={cx(
+                    cleanUI,
+                    "text-[15px] font-medium text-[#FF453A]",
+                    "text-sm font-bold text-red-400"
+                  )}
+                >
                   Delete from History
                 </Text>
               </TouchableOpacity>
