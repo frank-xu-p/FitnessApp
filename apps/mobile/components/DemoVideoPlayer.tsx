@@ -7,6 +7,7 @@ import {
   getDemoVideoUrl,
   getDemoPosterUrl,
   hasDemoFemaleVideo,
+  hasDemoMaleVideo,
   getDemoGender,
   setDemoGender,
   type DemoGender,
@@ -20,20 +21,25 @@ type Props = {
 
 /**
  * Auto-playing, looping, muted demonstration video from the free animated
- * exercise bundle, with a male/female model toggle (female only when the
- * bundle has one for this exercise). The toggle persists via AsyncStorage.
- * Falls back to the male model if the female stream errors.
+ * exercise bundle, with a male/female model toggle (only the models the
+ * bundle has for this exercise). The toggle persists via AsyncStorage.
+ * Falls back to the other model if the preferred stream errors.
  */
 export function DemoVideoPlayer({ exerciseId, height = 280, testID }: Props) {
   const slug = getDemoVideoSlug(exerciseId);
+  const maleAvailable = hasDemoMaleVideo(exerciseId);
   const femaleAvailable = hasDemoFemaleVideo(exerciseId);
-  const [gender, setGender] = useState<DemoGender>("male");
+  const [gender, setGender] = useState<DemoGender>(
+    maleAvailable ? "male" : "female",
+  );
   const [ready, setReady] = useState(false);
   const firstRender = useRef(true);
 
   useEffect(() => {
     getDemoGender().then((g) => {
-      setGender(g === "female" && femaleAvailable ? "female" : "male");
+      if (g === "female" && femaleAvailable) setGender("female");
+      else if (g === "male" && maleAvailable) setGender("male");
+      else setGender(maleAvailable ? "male" : "female");
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -41,6 +47,7 @@ export function DemoVideoPlayer({ exerciseId, height = 280, testID }: Props) {
   if (!slug) return null;
   const uri = getDemoVideoUrl(slug, gender);
   const posterUri = getDemoPosterUrl(slug, gender);
+  const showToggle = maleAvailable && femaleAvailable;
 
   return (
     <PlayerBody
@@ -49,7 +56,9 @@ export function DemoVideoPlayer({ exerciseId, height = 280, testID }: Props) {
       height={height}
       testID={testID}
       gender={gender}
+      maleAvailable={maleAvailable}
       femaleAvailable={femaleAvailable}
+      showToggle={showToggle}
       onGenderChange={(g) => {
         setGender(g);
         setDemoGender(g);
@@ -68,7 +77,9 @@ function PlayerBody({
   height,
   testID,
   gender,
+  maleAvailable,
   femaleAvailable,
+  showToggle,
   onGenderChange,
   onReady,
   onNotReady,
@@ -80,7 +91,9 @@ function PlayerBody({
   height: number;
   testID?: string;
   gender: DemoGender;
+  maleAvailable: boolean;
   femaleAvailable: boolean;
+  showToggle: boolean;
   onGenderChange: (g: DemoGender) => void;
   onReady: () => void;
   onNotReady: () => void;
@@ -112,9 +125,15 @@ function PlayerBody({
   useEffect(() => {
     const sub = player.addListener("statusChange", (payload: any) => {
       if (payload?.status === "readyToPlay") onReady();
-      else if (payload?.status === "error" && gender === "female") {
-        // Female stream missing/blocked: fall back to the male model.
-        onGenderChange("male");
+      else if (payload?.status === "error") {
+        // Preferred stream missing/blocked: fall back to the other model.
+        const fallback: DemoGender | null =
+          gender === "female" && maleAvailable
+            ? "male"
+            : gender === "male" && femaleAvailable
+              ? "female"
+              : null;
+        if (fallback) onGenderChange(fallback);
       }
     });
     return () => sub.remove();
@@ -155,7 +174,7 @@ function PlayerBody({
             Motion Demo
           </Text>
         </View>
-        {femaleAvailable && (
+        {showToggle && (
           <View className="flex-row rounded-full bg-zinc-900 border border-zinc-800 p-0.5">
             {(["male", "female"] as const).map((g) => (
               <TouchableOpacity

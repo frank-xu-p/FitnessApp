@@ -6,6 +6,7 @@ import {
   getDemoVideoSlug,
   hasDemoPoster,
   hasDemoFemaleVideo,
+  hasDemoMaleVideo,
 } from "./demoVideos";
 
 describe("demoVideos URL builders", () => {
@@ -32,5 +33,22 @@ describe("demoVideos URL builders", () => {
     expect(getDemoVideoSlug(fakeId)).toBeNull();
     expect(hasDemoPoster(fakeId)).toBe(false);
     expect(hasDemoFemaleVideo(fakeId)).toBe(false);
+    expect(hasDemoMaleVideo(fakeId)).toBe(true);
+  });
+
+  it("treats male video as available unless the map says otherwise", () => {
+    // A real mapped id defaults to male-available.
+    expect(hasDemoMaleVideo("Barbell_Squat")).toBe(true);
+  });
+
+  it("covers every bundle-only exercise id with a live slug", () => {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const extras = require("../assets/data/bundle-exercises.json") as {
+      id: string;
+    }[];
+    expect(extras.length).toBeGreaterThan(200);
+    for (const ex of extras) {
+      expect(getDemoVideoSlug(ex.id)).not.toBeNull();
+    }
   });
 });

@@ -706,5 +706,1510 @@
   "poster": true,
   "female": true,
   "bundle": "Wrist Circles"
+ },
+ "bundle_45_degree_hyperextension": {
+  "slug": "45-degree-hyperextension",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "45 Degree Hyperextension"
+ },
+ "bundle_45_degree_bycicle_twisting_crunch": {
+  "slug": "45-degree-bycicle-twisting-crunch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "45-Degree Bicycle Twisting Crunch"
+ },
+ "bundle_45_degree_bycicle_twisting_crunch_1": {
+  "slug": "45-degree-bycicle-twisting-crunch-1",
+  "poster": true,
+  "male": true,
+  "female": false,
+  "bundle": "45-Degree Bicycle Twisting Crunch"
+ },
+ "bundle_stretching_all_fours_squad_stretch": {
+  "slug": "stretching-all-fours-squad-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "All Fours Groin Stretch"
+ },
+ "bundle_band_bent_over_rear_lateral_raise": {
+  "slug": "band-bent-over-rear-lateral-raise",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Band Bent-Over Rear Lateral Raise"
+ },
+ "bundle_band_hip_abduction": {
+  "slug": "band-hip-abduction",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Band Hip Abduction"
+ },
+ "bundle_band_kneeling_one_arm_pulldown": {
+  "slug": "band-kneeling-one-arm-pulldown",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Band Kneeling One Arm Pulldown"
+ },
+ "bundle_band_one_arm_forward_raise": {
+  "slug": "band-one-arm-forward-raise",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Band One Arm Front Raise"
+ },
+ "bundle_band_one_leg_kickback_bent_position": {
+  "slug": "band-one-leg-kickback-bent-position",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Band One-Leg Kickback (Bent Position)"
+ },
+ "bundle_band_overhead_triceps_extension": {
+  "slug": "band-overhead-triceps-extension",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Band Overhead Triceps Extension"
+ },
+ "bundle_band_leg_curl": {
+  "slug": "band-leg-curl",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Band Prone Leg Curl"
+ },
+ "bundle_band_pull_through": {
+  "slug": "band-pull-through",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Band Pull Through"
+ },
+ "bundle_band_decline_sit_ups": {
+  "slug": "band-decline-sit-ups",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Band Resisted Decline Sit-Up"
+ },
+ "bundle_band_seated_leg_extension": {
+  "slug": "band-seated-leg-extension",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Band Seated Leg Extension"
+ },
+ "bundle_band_seated_row": {
+  "slug": "band-seated-row",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Band Seated Row"
+ },
+ "bundle_stretching_band_warm_up_shoulder_stretch": {
+  "slug": "stretching-band-warm-up-shoulder-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Band Shoulder Warm-Up Stretch"
+ },
+ "bundle_band_side_bend": {
+  "slug": "band-side-bend",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Band Side Bend"
+ },
+ "bundle_band_standing_calf_raise": {
+  "slug": "band-standing-calf-raise",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Band Standing Calf Raise"
+ },
+ "bundle_band_standing_crunch": {
+  "slug": "band-standing-crunch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Band Standing Crunch"
+ },
+ "bundle_band_standing_leg_curl": {
+  "slug": "band-standing-leg-curl",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Band Standing Leg Curl"
+ },
+ "bundle_band_standing_lift": {
+  "slug": "band-standing-lift",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Band Standing Lift"
+ },
+ "bundle_band_standing_rear_delt_row": {
+  "slug": "band-standing-rear-delt-row",
+  "poster": true,
+  "male": true,
+  "female": false,
+  "bundle": "Band Standing Rear Delt Row"
+ },
+ "bundle_band_straight_back_seated_row": {
+  "slug": "band-straight-back-seated-row",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Band Straight-Back Seated Row"
+ },
+ "bundle_band_triceps_pushdown": {
+  "slug": "band-triceps-pushdown",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Band Triceps Pushdown"
+ },
+ "bundle_barbell_close_grip_bench_press": {
+  "slug": "barbell-close-grip-bench-press",
+  "poster": true,
+  "male": true,
+  "female": false,
+  "bundle": "Barbell Close Grip Bench Press"
+ },
+ "bundle_barbell_front_raise": {
+  "slug": "barbell-front-raise",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Barbell Front Raise"
+ },
+ "bundle_barbell_prone_incline_curl": {
+  "slug": "barbell-prone-incline-curl",
+  "poster": true,
+  "male": true,
+  "female": false,
+  "bundle": "Barbell Prone Incline Curl"
+ },
+ "bundle_barbell_rear_delt_raise": {
+  "slug": "barbell-rear-delt-raise",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Barbell Rear Delt Raise"
+ },
+ "bundle_barbell_reverse_wrist_curl_over_grip": {
+  "slug": "barbell-reverse-wrist-curl-over-grip",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Barbell Reverse Wrist Curl"
+ },
+ "bundle_barbell_seated_behind_head_military_press": {
+  "slug": "barbell-seated-behind-head-military-press",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Barbell Seated Behind-The-Neck Press"
+ },
+ "bundle_barbell_standing_back_wrist_curl": {
+  "slug": "barbell-standing-back-wrist-curl",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Barbell Standing Back Wrist Curl"
+ },
+ "bundle_barbell_underhand_bent_over_row": {
+  "slug": "barbell-underhand-bent-over-row",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Barbell Underhand Bent-Over Row"
+ },
+ "bundle_barbell_upright_row_wide_grip": {
+  "slug": "barbell-upright-row-wide-grip",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Barbell Wide-Grip Upright Row"
+ },
+ "bundle_crunch_on_bench": {
+  "slug": "crunch-on-bench",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Bench Crunch"
+ },
+ "bundle_bench_pull_ups": {
+  "slug": "bench-pull-ups",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Bench Pull-Up"
+ },
+ "bundle_bent_knee_lying_twist_on_stability_ball": {
+  "slug": "bent-knee-lying-twist-on-stability-ball",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Bent Knee Lying Twist on Stability Ball"
+ },
+ "bundle_stretching_bridge_pose_setu_bandhasana": {
+  "slug": "stretching-bridge-pose-setu-bandhasana",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Bridge Pose (Setu Bandhasana)"
+ },
+ "bundle_stretching_bridge_pose_setu_bandhasana_1": {
+  "slug": "stretching-bridge-pose-setu-bandhasana-1",
+  "poster": true,
+  "male": true,
+  "female": false,
+  "bundle": "Bridge Pose (Setu Bandhasana)"
+ },
+ "bundle_burpee": {
+  "slug": "burpee",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Burpee"
+ },
+ "bundle_stretching_butterfly_yoga_pose": {
+  "slug": "stretching-butterfly-yoga-pose",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Butterfly Yoga Pose"
+ },
+ "bundle_cable_kneeling_crunch": {
+  "slug": "cable-kneeling-crunch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Cable Kneeling Crunch"
+ },
+ "bundle_cable_lateral_raise": {
+  "slug": "cable-lateral-raise",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Cable Lateral Raise"
+ },
+ "bundle_cable_one_arm_forward_raise": {
+  "slug": "cable-one-arm-forward-raise",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Cable One Arm Front Raise"
+ },
+ "bundle_cable_one_arm_lateral_pulldown": {
+  "slug": "cable-one-arm-lateral-pulldown",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Cable One Arm Lateral Pulldown"
+ },
+ "bundle_cable_one_arm_lateral_raise": {
+  "slug": "cable-one-arm-lateral-raise",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Cable One Arm Lateral Raise"
+ },
+ "bundle_cable_one_arm_twisting_seated_row": {
+  "slug": "cable-one-arm-twisting-seated-row",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Cable One-Arm Twisting Seated Row"
+ },
+ "bundle_cable_pulldown": {
+  "slug": "cable-pulldown",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Cable Pulldown"
+ },
+ "bundle_cable_rear_delt_row_with_rope": {
+  "slug": "cable-rear-delt-row-with-rope",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Cable Rear Delt Row (with rope)"
+ },
+ "bundle_cable_pushdown_rope_attachment": {
+  "slug": "cable-pushdown-rope-attachment",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Cable Rope Triceps Pushdown"
+ },
+ "bundle_cable_seated_high_row_v_bar": {
+  "slug": "cable-seated-high-row-v-bar",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Cable Seated High Row (V-bar)"
+ },
+ "bundle_cable_standing_fly_crossover_fly": {
+  "slug": "cable-standing-fly-crossover-fly",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Cable Standing Fly"
+ },
+ "bundle_cable_standing_inner_curl": {
+  "slug": "cable-standing-inner-curl",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Cable Standing Inner Curl"
+ },
+ "bundle_cable_standing_one_arm_triceps_extension": {
+  "slug": "cable-standing-one-arm-triceps-extension",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Cable Standing One Arm Triceps Extension"
+ },
+ "bundle_cable_triceps_pushdown": {
+  "slug": "cable-triceps-pushdown",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Cable Triceps Pushdown"
+ },
+ "bundle_cable_twist_up_down": {
+  "slug": "cable-twist-up-down",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Cable Twist (up-down)"
+ },
+ "bundle_stretching_calf_stretch_with_rope": {
+  "slug": "stretching-calf-stretch-with-rope",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Calf Stretch with Rope"
+ },
+ "bundle_cambered_bar_lying_row": {
+  "slug": "cambered-bar-lying-row",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Cambered Bar Lying Row"
+ },
+ "bundle_cardio_exercises": {
+  "slug": "cardio-exercises",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Cardio Exercise"
+ },
+ "bundle_cardio_exercises_machine": {
+  "slug": "cardio-exercises-machine",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Cardio Machine Exercise"
+ },
+ "bundle_cardio_exercises_machines": {
+  "slug": "cardio-exercises-machines",
+  "poster": true,
+  "male": true,
+  "female": false,
+  "bundle": "Cardio Machine Workouts"
+ },
+ "bundle_chest_lift_with_rotation": {
+  "slug": "chest-lift-with-rotation",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Chest Lift with Rotation"
+ },
+ "bundle_chin_ups_narrow_parallel_grip": {
+  "slug": "chin-ups-narrow-parallel-grip",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Chin-ups (narrow parallel grip)"
+ },
+ "bundle_close_grip_chin_up": {
+  "slug": "close-grip-chin-up",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Close Grip Chin-Up"
+ },
+ "bundle_close_grip_push_ups": {
+  "slug": "close-grip-push-ups",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Close-Grip Push-Up"
+ },
+ "bundle_commando_pull_up": {
+  "slug": "commando-pull-up",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Commando Pull-Up"
+ },
+ "bundle_stretching_crossover_kneeling_hip_flexor_stretch": {
+  "slug": "stretching-crossover-kneeling-hip-flexor-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Crossover Kneeling Hip Flexor Stretch"
+ },
+ "bundle_deep_push_ups": {
+  "slug": "deep-push-ups",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Deep Push-Up"
+ },
+ "bundle_dumbbell_arnold_press": {
+  "slug": "dumbbell-arnold-press",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Arnold Press"
+ },
+ "bundle_dumbbell_behind_back_wrist_curl": {
+  "slug": "dumbbell-behind-back-wrist-curl",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Behind-the-Back Wrist Curl"
+ },
+ "bundle_dumbbell_deadlift": {
+  "slug": "dumbbell-deadlift",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Deadlift"
+ },
+ "bundle_dumbbell_fly": {
+  "slug": "dumbbell-fly",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Fly"
+ },
+ "bundle_dumbbell_fly_on_exercise_ball": {
+  "slug": "dumbbell-fly-on-exercise-ball",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Fly On Exercise Ball"
+ },
+ "bundle_dumbbell_front_raise": {
+  "slug": "dumbbell-front-raise",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Front Raise"
+ },
+ "bundle_dumbbell_hammer_grip_incline_bench_row": {
+  "slug": "dumbbell-hammer-grip-incline-bench-row",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Hammer Grip Incline Bench Row"
+ },
+ "bundle_dumbbell_incline_curl": {
+  "slug": "dumbbell-incline-curl",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Incline Curl"
+ },
+ "bundle_dumbbell_incline_fly_on_exercise_ball": {
+  "slug": "dumbbell-incline-fly-on-exercise-ball",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Incline Fly On Exercise Ball"
+ },
+ "bundle_dumbbell_incline_hammer_press": {
+  "slug": "dumbbell-incline-hammer-press",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Incline Hammer Press"
+ },
+ "bundle_dumbbell_incline_rear_lateral_raise": {
+  "slug": "dumbbell-incline-rear-lateral-raise",
+  "poster": true,
+  "male": true,
+  "female": false,
+  "bundle": "Dumbbell Incline Rear Lateral Raise"
+ },
+ "bundle_dumbbell_incline_shrug": {
+  "slug": "dumbbell-incline-shrug",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Incline Shrug"
+ },
+ "bundle_dumbbell_incline_triceps_extension": {
+  "slug": "dumbbell-incline-triceps-extension",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Incline Triceps Extension"
+ },
+ "bundle_dumbbell_iron_cross": {
+  "slug": "dumbbell-iron-cross",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Iron Cross"
+ },
+ "bundle_dumbbell_kickback": {
+  "slug": "dumbbell-kickback",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Kickback"
+ },
+ "bundle_dumbbell_lying_alternate_extension": {
+  "slug": "dumbbell-lying-alternate-extension",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Lying Alternate Extension"
+ },
+ "bundle_dumbbell_lying_hammer_press": {
+  "slug": "dumbbell-lying-hammer-press",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Lying Hammer Press"
+ },
+ "bundle_dumbbell_lying_femoral": {
+  "slug": "dumbbell-lying-femoral",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Lying Leg Curl"
+ },
+ "bundle_dumbbell_lying_rear_delt_row": {
+  "slug": "dumbbell-lying-rear-delt-row",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Lying Rear Delt Row"
+ },
+ "bundle_dumbbell_lying_triceps_extension": {
+  "slug": "dumbbell-lying-triceps-extension",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Lying Triceps Extension"
+ },
+ "bundle_dumbbell_one_arm_lateral_raise": {
+  "slug": "dumbbell-one-arm-lateral-raise",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell One Arm Lateral Raise"
+ },
+ "bundle_dumbbell_one_arm_zottman_preacher_curl": {
+  "slug": "dumbbell-one-arm-zottman-preacher-curl",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell One Arm Zottman Preacher Curl"
+ },
+ "bundle_dumbbell_over_bench_wrist_curl": {
+  "slug": "dumbbell-over-bench-wrist-curl",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Over Bench Wrist Curl"
+ },
+ "bundle_dumbbell_palm_rotational_bent_over_row": {
+  "slug": "dumbbell-palm-rotational-bent-over-row",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Palm Rotational Bent Over Row"
+ },
+ "bundle_dumbbell_preacher_curl_over_exercise_ball": {
+  "slug": "dumbbell-preacher-curl-over-exercise-ball",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Preacher Curl Over Exercise Ball"
+ },
+ "bundle_dumbbell_pronate_grip_triceps_extension": {
+  "slug": "dumbbell-pronate-grip-triceps-extension",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Pronate-grip Triceps Extension"
+ },
+ "bundle_dumbbell_rear_delt_row": {
+  "slug": "dumbbell-rear-delt-row",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Rear Delt Row"
+ },
+ "bundle_dumbbell_seated_calf_raise": {
+  "slug": "dumbbell-seated-calf-raise",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Seated Calf Raise"
+ },
+ "bundle_dumbbell_seated_front_raise": {
+  "slug": "dumbbell-seated-front-raise",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Seated Front Raise"
+ },
+ "bundle_dumbbell_seated_kickback": {
+  "slug": "dumbbell-seated-kickback",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Seated Kickback"
+ },
+ "bundle_dumbbell_seated_lateral_raise": {
+  "slug": "dumbbell-seated-lateral-raise",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Seated Lateral Raise"
+ },
+ "bundle_dumbbell_seated_neutral_wrist_curl": {
+  "slug": "dumbbell-seated-neutral-wrist-curl",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Seated Neutral Wrist Curl"
+ },
+ "bundle_dumbbell_single_leg_calf_raise": {
+  "slug": "dumbbell-single-leg-calf-raise",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Single Leg Calf Raise"
+ },
+ "bundle_dumbbell_single_leg_squat": {
+  "slug": "dumbbell-single-leg-squat",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Single Leg Squat"
+ },
+ "bundle_dumbbell_squat": {
+  "slug": "dumbbell-squat",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Squat"
+ },
+ "bundle_dumbbell_stiff_leg_deadlift": {
+  "slug": "dumbbell-stiff-leg-deadlift",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Stiff Leg Deadlift"
+ },
+ "bundle_dumbbell_bar_grip_sumo_squat": {
+  "slug": "dumbbell-bar-grip-sumo-squat",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Dumbbell Sumo Squat"
+ },
+ "bundle_sit_up_on_exercise_ball": {
+  "slug": "sit-up-on-exercise-ball",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Exercise Ball Sit-Up"
+ },
+ "bundle_stretching_spinal_stretch_on_exercise_ball": {
+  "slug": "stretching-spinal-stretch-on-exercise-ball",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Exercise Ball Spinal Stretch"
+ },
+ "bundle_ez_barbell_anti_gravity_press": {
+  "slug": "ez-barbell-anti-gravity-press",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "EZ Barbell Anti Gravity Press"
+ },
+ "bundle_stretching_feet_and_ankles_rotation_stretch": {
+  "slug": "stretching-feet-and-ankles-rotation-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Feet and Ankles Rotation Stretch"
+ },
+ "bundle_stretching_feet_and_ankles_stretch": {
+  "slug": "stretching-feet-and-ankles-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Feet and Ankles Stretch"
+ },
+ "bundle_stretching_flexion_leg_sit_up": {
+  "slug": "stretching-flexion-leg-sit-up",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Flexion Leg Sit-Up Stretch"
+ },
+ "bundle_crunch_floor_female": {
+  "slug": "crunch-floor-female",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Floor Crunch"
+ },
+ "bundle_front_plank_female": {
+  "slug": "front-plank-female",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Front Plank"
+ },
+ "bundle_hip_raise_bridge": {
+  "slug": "hip-raise-bridge",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Glute Bridge"
+ },
+ "bundle_hanging_straight_leg_raise": {
+  "slug": "hanging-straight-leg-raise",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Hanging Straight Leg Raise"
+ },
+ "bundle_stretching_hip_circles_stretch": {
+  "slug": "stretching-hip-circles-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Hip Circles Stretch"
+ },
+ "bundle_stretching_hip_extension_stretch": {
+  "slug": "stretching-hip-extension-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Hip Extension Stretch"
+ },
+ "bundle_incline_leg_hip_raise": {
+  "slug": "incline-leg-hip-raise",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Incline Leg Hip Raise"
+ },
+ "bundle_jackknife_pilates": {
+  "slug": "jackknife-pilates",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Jackknife"
+ },
+ "bundle_jack_knife_floor": {
+  "slug": "jack-knife-floor",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Jackknife Floor"
+ },
+ "bundle_jack_split_crunches": {
+  "slug": "jack-split-crunches",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Jackknife Split Crunch"
+ },
+ "bundle_jump_rope": {
+  "slug": "jump-rope",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Jump Rope"
+ },
+ "bundle_jump_step_up": {
+  "slug": "jump-step-up",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Jump Step-Up"
+ },
+ "bundle_kettlebell_deadlift": {
+  "slug": "kettlebell-deadlift",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Kettlebell Deadlift"
+ },
+ "bundle_stretching_kneeling_back_rotation_stretch": {
+  "slug": "stretching-kneeling-back-rotation-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Kneeling Back Rotation Stretch"
+ },
+ "bundle_stretching_kneeling_lat_stretch": {
+  "slug": "stretching-kneeling-lat-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Kneeling Lat Stretch"
+ },
+ "bundle_stretching_kneeling_triceps_extension": {
+  "slug": "stretching-kneeling-triceps-extension",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Kneeling Triceps Stretch"
+ },
+ "bundle_crunch_leg_raise": {
+  "slug": "crunch-leg-raise",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Leg Raise Crunch"
+ },
+ "bundle_leg_raise_hip_lift": {
+  "slug": "leg-raise-hip-lift",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Leg Raise with Hip Lift"
+ },
+ "bundle_lever_back_extension": {
+  "slug": "lever-back-extension",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Lever Back Extension"
+ },
+ "bundle_lever_high_row": {
+  "slug": "lever-high-row",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Lever High Row"
+ },
+ "bundle_lever_horizontal_leg_press": {
+  "slug": "lever-horizontal-leg-press",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Lever Horizontal Leg Press"
+ },
+ "bundle_lever_incline_hammer_chest_press": {
+  "slug": "lever-incline-hammer-chest-press",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Lever Incline Hammer Chest Press"
+ },
+ "bundle_lever_kneeling_leg_curl": {
+  "slug": "lever-kneeling-leg-curl",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Lever Kneeling Leg Curl"
+ },
+ "bundle_lever_lateral_raise": {
+  "slug": "lever-lateral-raise",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Lever Lateral Raise"
+ },
+ "bundle_lever_reverse_hyperextension": {
+  "slug": "lever-reverse-hyperextension",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Lever Reverse Hyperextension"
+ },
+ "bundle_lever_reverse_t_bar_row": {
+  "slug": "lever-reverse-t-bar-row",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Lever Reverse T-Bar Row"
+ },
+ "bundle_lever_seated_dips": {
+  "slug": "lever-seated-dips",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Lever Seated Dip"
+ },
+ "bundle_lever_seated_hip_abduction": {
+  "slug": "lever-seated-hip-abduction",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Lever Seated Hip Abduction"
+ },
+ "bundle_lever_seated_hip_adduction": {
+  "slug": "lever-seated-hip-adduction",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Lever Seated Hip Adduction"
+ },
+ "bundle_lever_seated_reverse_fly": {
+  "slug": "lever-seated-reverse-fly",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Lever Seated Reverse Fly"
+ },
+ "bundle_lever_shrug": {
+  "slug": "lever-shrug",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Lever Shrug"
+ },
+ "bundle_lever_standing_calf_raise": {
+  "slug": "lever-standing-calf-raise",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Lever Standing Calf Raise"
+ },
+ "bundle_lever_standing_hip_extension": {
+  "slug": "lever-standing-hip-extension",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Lever Standing Hip Extension"
+ },
+ "bundle_lever_standing_rear_kick": {
+  "slug": "lever-standing-rear-kick",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Lever Standing Rear Kick"
+ },
+ "bundle_lying_hip_lift_on_stability_ball": {
+  "slug": "lying-hip-lift-on-stability-ball",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Lying Hip Lift on Stability Ball"
+ },
+ "bundle_lying_floor_leg_raise": {
+  "slug": "lying-floor-leg-raise",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Lying Leg Raise"
+ },
+ "bundle_stretching_quadriceps_lying_stretch": {
+  "slug": "stretching-quadriceps-lying-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Lying Quadriceps Stretch"
+ },
+ "bundle_lying_scissor_kick_female": {
+  "slug": "lying-scissor-kick-female",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Lying Scissor Kick"
+ },
+ "bundle_lying_straight_leg_raise": {
+  "slug": "lying-straight-leg-raise",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Lying Straight Leg Raise"
+ },
+ "bundle_medicine_ball_sit_up_wall": {
+  "slug": "medicine-ball-sit-up-wall",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Medicine Ball Wall Sit-Up"
+ },
+ "bundle_old_school_reverse_extensions": {
+  "slug": "old-school-reverse-extensions",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Old School Reverse Extensions"
+ },
+ "bundle_lever_pec_deck_fly": {
+  "slug": "lever-pec-deck-fly",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Pec Deck Fly"
+ },
+ "bundle_corkscrew_pilates": {
+  "slug": "corkscrew-pilates",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Pilates Corkscrew"
+ },
+ "bundle_hundred_pilates": {
+  "slug": "hundred-pilates",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Pilates Hundred"
+ },
+ "bundle_stretching_plyo_side_lunge_stretch": {
+  "slug": "stretching-plyo-side-lunge-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Plyometric Side Lunge Stretch"
+ },
+ "bundle_pull_up_wide_front_grip": {
+  "slug": "pull-up-wide-front-grip",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Pull-Up (Wide Grip)"
+ },
+ "bundle_rear_decline_bridge": {
+  "slug": "rear-decline-bridge",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Rear Decline Bridge"
+ },
+ "bundle_stretching_rear_deltoid_stretch": {
+  "slug": "stretching-rear-deltoid-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Rear Deltoid Stretch"
+ },
+ "bundle_stretching_hip_flexor_stretch_rear_foot_elevated": {
+  "slug": "stretching-hip-flexor-stretch-rear-foot-elevated",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Rear Foot Elevated Hip Flexor Stretch"
+ },
+ "bundle_band_high_fly": {
+  "slug": "band-high-fly",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Resistance Band High Fly"
+ },
+ "bundle_reverse_crunch_female": {
+  "slug": "reverse-crunch-female",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Reverse Crunch"
+ },
+ "bundle_stretching_reverse_dip": {
+  "slug": "stretching-reverse-dip",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Reverse Dip Stretch"
+ },
+ "bundle_reverse_grip_machine_lat_pulldown": {
+  "slug": "reverse-grip-machine-lat-pulldown",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Reverse Grip Machine Lat Pulldown"
+ },
+ "bundle_reverse_grip_pull_up": {
+  "slug": "reverse-grip-pull-up",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Reverse Grip Pull-Up"
+ },
+ "bundle_cable_bar_lateral_pulldown_reverse_grip": {
+  "slug": "cable-bar-lateral-pulldown-reverse-grip",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Reverse-Grip Cable Lat Pulldown"
+ },
+ "bundle_ring_high_row": {
+  "slug": "ring-high-row",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Ring High Row"
+ },
+ "bundle_rotate_push_up_female": {
+  "slug": "rotate-push-up-female",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Rotational Push-Up"
+ },
+ "bundle_stretching_runners_stretch": {
+  "slug": "stretching-runners-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Runner's Stretch"
+ },
+ "bundle_running": {
+  "slug": "running",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Running"
+ },
+ "bundle_russian_twist_on_stability_ball_arms_straight": {
+  "slug": "russian-twist-on-stability-ball-arms-straight",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Russian Twist on Stability Ball (Arms Straight)"
+ },
+ "bundle_scapula_dips": {
+  "slug": "scapula-dips",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Scapula Dips"
+ },
+ "bundle_stretching_boat_stretch": {
+  "slug": "stretching-boat-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Seated Boat Stretch"
+ },
+ "bundle_cable_straight_back_seated_row_v_grip": {
+  "slug": "cable-straight-back-seated-row-v-grip",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Seated Cable Row (V-Grip)"
+ },
+ "bundle_cable_seated_row_wide_grip": {
+  "slug": "cable-seated-row-wide-grip",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Seated Cable Row (Wide-Grip)"
+ },
+ "bundle_stretching_seated_calf_stretch": {
+  "slug": "stretching-seated-calf-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Seated Calf Stretch"
+ },
+ "bundle_stretching_seated_lower_back_stretch": {
+  "slug": "stretching-seated-lower-back-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Seated Lower Back Stretch"
+ },
+ "bundle_stretching_seated_shoulder_flexor_depresor_retractor": {
+  "slug": "stretching-seated-shoulder-flexor-depresor-retractor",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Seated Shoulder Flexor, Depressor, Retractor Stretch"
+ },
+ "bundle_seated_twist_straight_arm": {
+  "slug": "seated-twist-straight-arm",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Seated Straight Arm Twist"
+ },
+ "bundle_seated_twist_on_stability_ball": {
+  "slug": "seated-twist-on-stability-ball",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Seated Twist on Stability Ball"
+ },
+ "bundle_stretching_seated_twist_straight_arm": {
+  "slug": "stretching-seated-twist-straight-arm",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Seated Twist Stretch (Straight Arm)"
+ },
+ "bundle_stretching_seated_wide_angle_pose_sequence": {
+  "slug": "stretching-seated-wide-angle-pose-sequence",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Seated Wide Angle Pose Sequence"
+ },
+ "bundle_pull_up_shoulder_grip": {
+  "slug": "pull-up-shoulder-grip",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Shoulder-Width Pull-Up"
+ },
+ "bundle_side_bend_on_stability_ball": {
+  "slug": "side-bend-on-stability-ball",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Side Bend on Stability Ball"
+ },
+ "bundle_stretching_slopes_towards_stretch": {
+  "slug": "stretching-slopes-towards-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Side Bend Stretch"
+ },
+ "bundle_stretching_side_wrist_pull_stretch": {
+  "slug": "stretching-side-wrist-pull-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Side Wrist Pull Stretch"
+ },
+ "bundle_single_dumbbell_stiff_leg_deadlift": {
+  "slug": "single-dumbbell-stiff-leg-deadlift",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Single Dumbbell Stiff-Leg Deadlift"
+ },
+ "bundle_stretching_single_leg_stretch_bent_knee": {
+  "slug": "stretching-single-leg-stretch-bent-knee",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Single Leg Stretch (Bent Knee)"
+ },
+ "bundle_stretching_single_straight_leg_stretch": {
+  "slug": "stretching-single-straight-leg-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Single Straight Leg Stretch"
+ },
+ "bundle_sled_45_degree_calf_press": {
+  "slug": "sled-45-degree-calf-press",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Sled 45 Degree Calf Press"
+ },
+ "bundle_sled_45_degree_leg_wide_press": {
+  "slug": "sled-45-degree-leg-wide-press",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Sled 45 Degree Wide Leg Press"
+ },
+ "bundle_smith_deadlift_deadlift_1": {
+  "slug": "smith-deadlift-deadlift-1",
+  "poster": true,
+  "male": true,
+  "female": false,
+  "bundle": "Smith Machine Deadlift"
+ },
+ "bundle_smith_seated_shoulder_press": {
+  "slug": "smith-seated-shoulder-press",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Smith Seated Shoulder Press"
+ },
+ "bundle_stretching_spine_stretch": {
+  "slug": "stretching-spine-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Spine Stretch"
+ },
+ "bundle_leg_curl_on_stability_ball": {
+  "slug": "leg-curl-on-stability-ball",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Stability Ball Leg Curl"
+ },
+ "bundle_crunch_legs_on_stability_ball": {
+  "slug": "crunch-legs-on-stability-ball",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Stability Ball Leg Elevated Crunch"
+ },
+ "bundle_stretching_stairs_calf_stretch": {
+  "slug": "stretching-stairs-calf-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Stairs Calf Stretch"
+ },
+ "bundle_stretching_adductor_stretch": {
+  "slug": "stretching-adductor-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Standing Adductor Stretch"
+ },
+ "bundle_stretching_standing_back_rotation_stretch": {
+  "slug": "stretching-standing-back-rotation-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Standing Back Rotation Stretch"
+ },
+ "bundle_stretching_standing_bench_calf_stretch": {
+  "slug": "stretching-standing-bench-calf-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Standing Bench Calf Stretch"
+ },
+ "bundle_stretching_hamstring_stretch": {
+  "slug": "stretching-hamstring-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Standing Hamstring Stretch"
+ },
+ "bundle_stretching_ceiling_look_stretch": {
+  "slug": "stretching-ceiling-look-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Standing Hip Flexor and Abdominal Stretch"
+ },
+ "bundle_stretching_knee_raise": {
+  "slug": "stretching-knee-raise",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Standing Knee Raise Stretch"
+ },
+ "bundle_stretching_standing_reach_up_back_rotation_stretch": {
+  "slug": "stretching-standing-reach-up-back-rotation-stretch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Standing Reach Up Back Rotation Stretch"
+ },
+ "bundle_stretching_standing_side_bend_bent_arm": {
+  "slug": "stretching-standing-side-bend-bent-arm",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Standing Side Bend Stretch (Bent Arm)"
+ },
+ "bundle_stretching_standing_wheel_rollout": {
+  "slug": "stretching-standing-wheel-rollout",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Standing Wheel Rollout"
+ },
+ "bundle_crunch_straight_leg_up": {
+  "slug": "crunch-straight-leg-up",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Straight-Leg Up Crunch"
+ },
+ "bundle_treadmill_running": {
+  "slug": "treadmill-running",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Treadmill Running"
+ },
+ "bundle_triceps_dips": {
+  "slug": "triceps-dips",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Triceps Dips"
+ },
+ "bundle_v_up": {
+  "slug": "v-up",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "V-Up"
+ },
+ "bundle_vertical_leg_raise_on_parallel_bars": {
+  "slug": "vertical-leg-raise-on-parallel-bars",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Vertical Leg Raise (on parallel bars)"
+ },
+ "bundle_walk_wave_machine": {
+  "slug": "walk-wave-machine",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Walk Wave Machine"
+ },
+ "bundle_weighted_leg_extension_crunch": {
+  "slug": "weighted-leg-extension-crunch",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Weighted Leg Extension Crunch"
+ },
+ "bundle_weighted_lying_twist": {
+  "slug": "weighted-lying-twist",
+  "poster": true,
+  "male": false,
+  "female": true,
+  "bundle": "Weighted Lying Twist"
+ },
+ "bundle_weighted_standing_curl": {
+  "slug": "weighted-standing-curl",
+  "poster": true,
+  "male": true,
+  "female": false,
+  "bundle": "Weighted Standing Curl"
+ },
+ "bundle_cable_bar_lateral_pulldown_wide_shoulder_grip": {
+  "slug": "cable-bar-lateral-pulldown-wide-shoulder-grip",
+  "poster": true,
+  "male": true,
+  "female": true,
+  "bundle": "Wide Grip Cable Lat Pulldown"
  }
 }

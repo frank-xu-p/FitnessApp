@@ -2,10 +2,11 @@
  * Free animated exercise demonstration bundle (317 exercises, male + female
  * 1080p MP4s + poster thumbnails) served from a CDN.
  *
- * Only a subset of the app's exercise catalog has a matching demo video.
- * `assets/data/demo-video-slugs.json` maps app exercise id -> bundle slug for
- * the exercises that matched. Anything without a match keeps the existing
- * mannequin/GIF rendering.
+ * The app's catalog includes the full bundle: `assets/data/exercises.json`
+ * holds the original catalog and `assets/data/bundle-exercises.json` holds
+ * every bundle exercise that wasn't already in it. `assets/data/demo-video-slugs.json`
+ * maps app exercise id -> bundle slug for every exercise with a demo video.
+ * Anything without a match keeps the existing mannequin/GIF rendering.
  */
 
 export const DEMO_VIDEO_BASE =
@@ -13,7 +14,7 @@ export const DEMO_VIDEO_BASE =
 
 export type DemoGender = "male" | "female";
 
-type SlugEntry = { slug: string; poster: boolean; female: boolean };
+type SlugEntry = { slug: string; poster: boolean; male?: boolean; female: boolean };
 type SlugMap = Record<string, SlugEntry>;
 
 let slugMap: SlugMap | null = null;
@@ -42,6 +43,11 @@ export function hasDemoPoster(exerciseId: string): boolean {
 /** Whether a female-model video exists for this exercise id. */
 export function hasDemoFemaleVideo(exerciseId: string): boolean {
   return getSlugMap()[exerciseId]?.female === true;
+}
+
+/** Whether a male-model video exists for this exercise id (default true). */
+export function hasDemoMaleVideo(exerciseId: string): boolean {
+  return getSlugMap()[exerciseId]?.male !== false;
 }
 
 export function getDemoVideoUrl(

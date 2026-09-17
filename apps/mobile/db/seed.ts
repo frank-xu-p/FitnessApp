@@ -9,6 +9,7 @@ type SourceExercise = {
   secondaryMuscles?: string[];
   instructions?: string[];
   images?: string[];
+  trackingMode?: string;
 };
 
 export const FALLBACK_EXERCISES: SourceExercise[] = [
@@ -188,6 +189,60 @@ export async function seedBaseExercises(database: any) {
       });
     }
   }
+
+  const batchSize = 50;
+  for (let i = 0; i < rows.length; i += batchSize) {
+    await database
+      .insert(exercises)
+      .values(rows.slice(i, i + batchSize))
+      .onConflictDoNothing();
+  }
+}
+
+/**
+ * Seeds every exercise from the free animated demo bundle that isn't already
+ * in the app catalog (assets/data/bundle-exercises.json). Idempotent: only
+ * inserts ids missing from the exercises table, so it backfills existing
+ * installs on next launch.
+ */
+export async function seedBundleExercises(database: any) {
+  let dataset: SourceExercise[];
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const data = require("../assets/data/bundle-exercises.json");
+    if (!Array.isArray(data) || data.length === 0) return;
+    dataset = data;
+  } catch {
+    return;
+  }
+
+  const existing = await database
+    .select({ id: exercises.id })
+    .from(exercises);
+  const have = new Set((existing as { id: string }[]).map((r) => r.id));
+
+  const now = Date.now();
+  const rows = dataset
+    .filter((ex) => ex.id && !have.has(String(ex.id)))
+    .map((ex) => ({
+      id: String(ex.id),
+      name: ex.name,
+      equipment: ex.equipment ?? null,
+      primaryMuscles: ex.primaryMuscles ?? [],
+      secondaryMuscles: ex.secondaryMuscles ?? [],
+      cues: ex.instructions ?? [],
+      imageUrl: null,
+      trackingMode:
+        ex.trackingMode === "unilateral" ? ("unilateral" as const) : ("bilateral" as const),
+      source: "base" as const,
+      visibility: "global" as const,
+      reviewStatus: "approved" as const,
+      createdBy: null,
+      createdAt: now,
+      updatedAt: now,
+      clientTimestamp: now,
+      isDeleted: false,
+    }));
 
   const batchSize = 50;
   for (let i = 0; i < rows.length; i += batchSize) {

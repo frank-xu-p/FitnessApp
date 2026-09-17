@@ -1,0 +1,4425 @@
+[
+ {
+  "id": "bundle_45_degree_hyperextension",
+  "name": "45 Degree Hyperextension",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "erector spinae"
+  ],
+  "secondaryMuscles": [
+   "glutes",
+   "hamstrings",
+   "lower back"
+  ],
+  "instructions": [
+   "Position yourself on the 45-degree hyperextension bench with ankles secured.",
+   "Cross arms over chest or place hands behind head.",
+   "Lower your upper body forward at the hips.",
+   "Stop when your upper body is just below parallel to the floor.",
+   "Lift your torso back up in line with your legs."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_45_degree_bycicle_twisting_crunch",
+  "name": "45-Degree Bicycle Twisting Crunch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "obliques"
+  ],
+  "secondaryMuscles": [
+   "abdominals",
+   "hip flexors"
+  ],
+  "instructions": [
+   "Lie down with your hands behind your head and legs extended upwards at about a 45-degree angle.",
+   "Engage your core and lift your shoulders off the ground.",
+   "Twist your upper body, bringing your right elbow toward your left knee as you extend your right leg.",
+   "Return to the starting position and repeat to the opposite side.",
+   "Continue alternating sides in a controlled, twisting motion."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_45_degree_bycicle_twisting_crunch_1",
+  "name": "45-Degree Bicycle Twisting Crunch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "obliques",
+   "hip flexors"
+  ],
+  "instructions": [
+   "Lie on your back with hands behind your head and knees bent.",
+   "Lift your shoulders and feet off the ground, creating a 45-degree angle with your torso and legs.",
+   "Bring your right knee in while twisting your left elbow towards it.",
+   "Switch sides, extending the right leg and bringing the left knee in as your right elbow moves towards it.",
+   "Continue alternating sides in a smooth, controlled motion."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_all_fours_squad_stretch",
+  "name": "All Fours Groin Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "adductors"
+  ],
+  "secondaryMuscles": [
+   "gluteus maximus",
+   "hamstrings"
+  ],
+  "instructions": [
+   "Start on hands and knees (quadruped position).",
+   "Slide knees apart, keeping shins and feet in line with knees.",
+   "Lower hips toward the floor, maintaining a flat back.",
+   "Move hips back gently until you feel a stretch in the groin.",
+   "Hold the position and breathe deeply."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_band_bent_over_rear_lateral_raise",
+  "name": "Band Bent-Over Rear Lateral Raise",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "rear deltoids"
+  ],
+  "secondaryMuscles": [
+   "rhoboids",
+   "trapezius",
+   "infraspinatus"
+  ],
+  "instructions": [
+   "Stand on a resistance band, feet shoulder-width apart.",
+   "Hinge forward at hips, keeping back flat.",
+   "Hold band with both hands, arms hanging down.",
+   "Raise arms out to sides until parallel with shoulders.",
+   "Lower arms back down with control."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_band_hip_abduction",
+  "name": "Band Hip Abduction",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "gluteus medius"
+  ],
+  "secondaryMuscles": [
+   "gluteus minimus",
+   "tensor fasciae latae"
+  ],
+  "instructions": [
+   "Place a resistance band around your thighs or ankles.",
+   "Stand tall with feet hip-width apart.",
+   "Shift weight to one leg.",
+   "Lift the other leg laterally against band resistance.",
+   "Return leg to start; repeat on both sides."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_band_kneeling_one_arm_pulldown",
+  "name": "Band Kneeling One Arm Pulldown",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "lats"
+  ],
+  "secondaryMuscles": [
+   "biceps",
+   "rhomboids"
+  ],
+  "instructions": [
+   "Anchor the band overhead and kneel facing the anchor point.",
+   "Grab the band with one hand and extend that arm up and slightly forward.",
+   "Brace your torso and keep your chest tall without leaning back.",
+   "Pull your elbow down toward your side until your hand reaches about shoulder or rib level.",
+   "Squeeze your lat at the bottom while keeping your shoulder down.",
+   "Slowly straighten your arm back overhead under control.",
+   "Complete all reps on one side, then switch arms."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_band_one_arm_forward_raise",
+  "name": "Band One Arm Front Raise",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "anterior deltoid"
+  ],
+  "secondaryMuscles": [
+   "upper pectorals",
+   "serratus anterior"
+  ],
+  "instructions": [
+   "Stand with one foot on the band for resistance.",
+   "Hold handle in one hand at thigh level, palm facing down.",
+   "Keep arm straight, raise it forward to shoulder height.",
+   "Pause briefly at the top.",
+   "Lower arm back down slowly and repeat."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_band_one_leg_kickback_bent_position",
+  "name": "Band One-Leg Kickback (Bent Position)",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "glutes"
+  ],
+  "secondaryMuscles": [
+   "hamstrings",
+   "lower back"
+  ],
+  "instructions": [
+   "Anchor the band and loop it around your working ankle.",
+   "Start on all fours with hands under shoulders and knees bent.",
+   "Engage your core and extend one leg backward against band resistance.",
+   "Pause and squeeze the glute at the top.",
+   "Return to starting position and repeat for desired reps, then switch legs."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_band_overhead_triceps_extension",
+  "name": "Band Overhead Triceps Extension",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "triceps"
+  ],
+  "secondaryMuscles": [
+   "shoulders",
+   "core"
+  ],
+  "instructions": [
+   "Stand on the middle of the band with feet hip-width apart and hold one end in each hand.",
+   "Raise your hands overhead and bend your elbows so your hands move behind your head.",
+   "Keep your upper arms close to your ears and brace your midsection.",
+   "Straighten your elbows to press the band overhead until your arms are fully extended.",
+   "Pause briefly at the top, then bend your elbows slowly to return behind your head.",
+   "Repeat without letting your elbows flare wide."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_band_leg_curl",
+  "name": "Band Prone Leg Curl",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "hamstrings"
+  ],
+  "secondaryMuscles": [
+   "gastrocnemius",
+   "gluteus maximus"
+  ],
+  "instructions": [
+   "Anchor the band securely at ground level.",
+   "Lie face down with legs extended.",
+   "Loop the band around your ankle.",
+   "Flex your knee, bringing your heel toward your glutes.",
+   "Slowly return to the start; repeat and switch legs if desired."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_band_pull_through",
+  "name": "Band Pull Through",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "glutes"
+  ],
+  "secondaryMuscles": [
+   "hamstrings",
+   "lower back"
+  ],
+  "instructions": [
+   "Anchor the band at floor level and loop it between your legs.",
+   "Face away from the anchor and walk forward until the band is taut.",
+   "Stand with feet about hip-width apart and soften your knees.",
+   "Push your hips back and hinge forward, letting the band travel behind you.",
+   "Lower until you feel your hamstrings stretch while keeping your back flat.",
+   "Drive your hips forward to stand tall and squeeze your glutes at the top."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_band_decline_sit_ups",
+  "name": "Band Resisted Decline Sit-Up",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "hip flexors",
+   "obliques"
+  ],
+  "instructions": [
+   "Attach a resistance band securely behind the decline bench.",
+   "Lie on the bench with your feet anchored, holding the band at the chest or behind the neck.",
+   "Engage your core and perform a sit-up, raising your torso towards your knees.",
+   "Control the movement back down to starting position.",
+   "Repeat for the desired repetitions."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_band_seated_leg_extension",
+  "name": "Band Seated Leg Extension",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "quadriceps"
+  ],
+  "secondaryMuscles": [
+   "vastus medialis",
+   "rectus femoris"
+  ],
+  "instructions": [
+   "Sit upright on a sturdy chair with feet flat.",
+   "Anchor one end of a band behind the chair leg.",
+   "Loop the other end of the band around your ankle.",
+   "Raise your lower leg to extend the knee fully.",
+   "Lower the leg back down under control; repeat and switch legs."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_band_seated_row",
+  "name": "Band Seated Row",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "lats"
+  ],
+  "secondaryMuscles": [
+   "rhomboids",
+   "trapezius",
+   "rear deltoids",
+   "biceps"
+  ],
+  "instructions": [
+   "Sit on the floor with legs straight and loop the band over your feet.",
+   "Grab the band handles or ends with both hands, arms extended.",
+   "Keep back straight and chest up.",
+   "Pull the handles back, driving elbows past your torso and squeezing shoulder blades.",
+   "Release slowly to the starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_band_warm_up_shoulder_stretch",
+  "name": "Band Shoulder Warm-Up Stretch",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "deltoids"
+  ],
+  "secondaryMuscles": [
+   "rotator cuff",
+   "upper trapezius",
+   "chest"
+  ],
+  "instructions": [
+   "Stand tall and grip band with hands wider than shoulders.",
+   "Hold arms straight, band in front of thighs.",
+   "Slowly raise band overhead while keeping arms straight.",
+   "Move band behind head and down to lower back.",
+   "Reverse the movement to bring band to starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_band_side_bend",
+  "name": "Band Side Bend",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "obliques"
+  ],
+  "secondaryMuscles": [
+   "abdominals",
+   "erector spinae"
+  ],
+  "instructions": [
+   "Anchor the resistance band securely at ground level.",
+   "Stand beside the anchor point, feet shoulder-width apart.",
+   "Hold the band handle with the outside hand, arm extended alongside your body.",
+   "Keeping your torso straight, bend sideways at the waist away from the anchor.",
+   "Return to the starting position and repeat for reps, then switch sides."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_band_standing_calf_raise",
+  "name": "Band Standing Calf Raise",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "calves"
+  ],
+  "secondaryMuscles": [
+   "soleus",
+   "tibialis posterior"
+  ],
+  "instructions": [
+   "Stand with feet shoulder-width on the band.",
+   "Hold band handles by sides or at shoulders for resistance.",
+   "Keep torso upright and brace core.",
+   "Raise heels to stand on the balls of your feet, contracting calves.",
+   "Lower heels back to the floor slowly."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_band_standing_crunch",
+  "name": "Band Standing Crunch",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "abs"
+  ],
+  "secondaryMuscles": [
+   "obliques"
+  ],
+  "instructions": [
+   "Attach the band to an anchor around waist height and stand facing away from it.",
+   "Hold the band at your chest with both hands and step forward until the band is taut.",
+   "Set your feet about hip-width apart and soften your knees.",
+   "Brace your midsection and curl your ribs down, bending your torso forward.",
+   "Pause briefly at the bottom while keeping your hips mostly still.",
+   "Slowly uncurl your torso and return to an upright position under control."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_band_standing_leg_curl",
+  "name": "Band Standing Leg Curl",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "hamstrings"
+  ],
+  "secondaryMuscles": [
+   "gastrocnemius",
+   "gluteus maximus"
+  ],
+  "instructions": [
+   "Anchor the resistance band behind you at ground level.",
+   "Loop the band around one ankle.",
+   "Stand on the opposite leg and balance.",
+   "Curl your heel toward your glutes by flexing your knee.",
+   "Lower leg slowly; repeat and switch sides."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_band_standing_lift",
+  "name": "Band Standing Lift",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "obliques"
+  ],
+  "secondaryMuscles": [
+   "abdominals",
+   "shoulders",
+   "hip flexors"
+  ],
+  "instructions": [
+   "Anchor the band low near the floor.",
+   "Stand side-on to the anchor, feet shoulder-width.",
+   "Hold the band handle with both hands at hip level.",
+   "Lift and rotate your torso diagonally to the opposite side and above shoulder.",
+   "Return to start; repeat, then switch sides."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_band_standing_rear_delt_row",
+  "name": "Band Standing Rear Delt Row",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "shoulders"
+  ],
+  "secondaryMuscles": [
+   "trapezius",
+   "rhomboids",
+   "biceps"
+  ],
+  "instructions": [
+   "Stand on the middle of the band with feet about hip-width apart and hold one end in each hand.",
+   "Hinge forward at the hips with a soft bend in your knees until your torso leans forward and your arms hang below your shoulders.",
+   "Set your shoulders down and keep your chest open with your palms facing each other or slightly inward.",
+   "Pull your elbows out and back until your hands reach around lower chest to upper rib level.",
+   "Squeeze your rear shoulders and upper back at the top without shrugging.",
+   "Lower your hands back down under control until your arms are straight again."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_band_straight_back_seated_row",
+  "name": "Band Straight-Back Seated Row",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "lats"
+  ],
+  "secondaryMuscles": [
+   "rhomboids",
+   "trapezius",
+   "biceps"
+  ],
+  "instructions": [
+   "Sit on the floor and extend your legs forward.",
+   "Loop the band around your feet securely.",
+   "Grip the band handles with both hands, arms extended.",
+   "Keeping your back straight, pull the handles toward your waist, elbows close to your body.",
+   "Pause, squeeze your shoulder blades, then slowly return to the starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_band_triceps_pushdown",
+  "name": "Band Triceps Pushdown",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "triceps"
+  ],
+  "secondaryMuscles": [
+   "forearms"
+  ],
+  "instructions": [
+   "Anchor the band overhead and stand facing it with a handle or end in each hand.",
+   "Bend your elbows to about 90 degrees and pin your upper arms close to your sides.",
+   "Brace your torso and press your hands straight down until your elbows fully extend.",
+   "Pause briefly at the bottom and squeeze your triceps.",
+   "Slowly let the band rise back up until your forearms return to the start position.",
+   "Repeat without letting your elbows drift forward or outward."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_barbell_close_grip_bench_press",
+  "name": "Barbell Close Grip Bench Press",
+  "equipment": "barbell",
+  "primaryMuscles": [
+   "triceps"
+  ],
+  "secondaryMuscles": [
+   "chest",
+   "anterior deltoid"
+  ],
+  "instructions": [
+   "Lie on bench and grasp barbell with close grip.",
+   "Unrack and position bar above lower chest.",
+   "Lower bar slowly, elbows close to sides.",
+   "Touch chest briefly, then press bar to starting position.",
+   "Repeat for reps."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_barbell_front_raise",
+  "name": "Barbell Front Raise",
+  "equipment": "barbell",
+  "primaryMuscles": [
+   "shoulders"
+  ],
+  "secondaryMuscles": [
+   "biceps",
+   "triceps"
+  ],
+  "instructions": [
+   "Stand tall with your feet hip-width apart and hold the barbell against your thighs with an overhand grip.",
+   "Brace your core and keep a soft bend in your elbows.",
+   "Raise the barbell straight forward in front of you until it reaches shoulder height.",
+   "Pause briefly without shrugging your shoulders.",
+   "Lower the barbell back to your thighs with control.",
+   "Reset your posture and repeat the movement."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_barbell_prone_incline_curl",
+  "name": "Barbell Prone Incline Curl",
+  "equipment": "barbell",
+  "primaryMuscles": [
+   "biceps"
+  ],
+  "secondaryMuscles": [
+   "forearms"
+  ],
+  "instructions": [
+   "Set an incline bench and lie face down with your chest supported and your feet planted on the floor.",
+   "Hold the barbell with an underhand grip about shoulder-width apart and let your arms hang straight down.",
+   "Brace your torso against the bench and keep your upper arms still.",
+   "Curl the barbell upward by bending your elbows until the bar reaches near the front of your shoulders.",
+   "Squeeze your biceps briefly at the top without lifting your chest off the bench.",
+   "Lower the barbell under control until your elbows are fully extended again."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_barbell_rear_delt_raise",
+  "name": "Barbell Rear Delt Raise",
+  "equipment": "barbell",
+  "primaryMuscles": [
+   "shoulders"
+  ],
+  "secondaryMuscles": [
+   "traps",
+   "rhomboids"
+  ],
+  "instructions": [
+   "Stand tall holding the barbell with a shoulder-width overhand grip.",
+   "Soften your knees and hinge at your hips until your torso is nearly parallel to the floor.",
+   "Let the bar hang below your chest with your arms straight and your neck neutral.",
+   "Raise the bar out and up by moving your upper arms to the sides until they reach shoulder height.",
+   "Pause briefly at the top while keeping your torso still.",
+   "Lower the bar under control to the starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_barbell_reverse_wrist_curl_over_grip",
+  "name": "Barbell Reverse Wrist Curl",
+  "equipment": "barbell",
+  "primaryMuscles": [
+   "forearm extensors"
+  ],
+  "secondaryMuscles": [
+   "brachioradialis"
+  ],
+  "instructions": [
+   "Sit on a bench and grasp a barbell with an overhand (pronated) grip.",
+   "Rest your forearms on your thighs with wrists hanging just beyond your knees.",
+   "Begin with your wrists flexed downward.",
+   "Slowly curl your wrists upward, lifting the barbell.",
+   "Lower under control to the starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_barbell_seated_behind_head_military_press",
+  "name": "Barbell Seated Behind-The-Neck Press",
+  "equipment": "barbell",
+  "primaryMuscles": [
+   "deltoids"
+  ],
+  "secondaryMuscles": [
+   "triceps",
+   "upper trapezius"
+  ],
+  "instructions": [
+   "Sit on a bench with back support; grip barbell wider than shoulders.",
+   "Unrack barbell and hold above your head.",
+   "Lower barbell behind your head to just below ear level.",
+   "Press barbell back up to the starting position.",
+   "Repeat for desired reps, keeping core engaged."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_barbell_standing_back_wrist_curl",
+  "name": "Barbell Standing Back Wrist Curl",
+  "equipment": "barbell",
+  "primaryMuscles": [
+   "forearms"
+  ],
+  "secondaryMuscles": [
+   "biceps",
+   "shoulders"
+  ],
+  "instructions": [
+   "Stand tall with your feet about hip-width apart and hold a barbell behind your hips with an overhand grip.",
+   "Let the bar rest across your fingers so your knuckles face the floor and your palms face behind you.",
+   "Keep your elbows close to your sides and straighten your wrists to lower the bar toward your fingertips.",
+   "Curl your wrists upward to roll the bar back into your hands and lift it as high as you can.",
+   "Pause briefly at the top, then lower the bar with control back to the starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_barbell_underhand_bent_over_row",
+  "name": "Barbell Underhand Bent-Over Row",
+  "equipment": "barbell",
+  "primaryMuscles": [
+   "lats"
+  ],
+  "secondaryMuscles": [
+   "biceps",
+   "rhomboids",
+   "trapezius",
+   "rear deltoids"
+  ],
+  "instructions": [
+   "Stand with feet hip-width apart, barbell on floor.",
+   "Bend forward from hips, back straight, grasp bar underhand.",
+   "Let bar hang at arm\u2019s length below shoulders.",
+   "Row barbell to torso, elbows close to sides.",
+   "Lower barbell under control to starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_barbell_upright_row_wide_grip",
+  "name": "Barbell Wide-Grip Upright Row",
+  "equipment": "barbell",
+  "primaryMuscles": [
+   "deltoids"
+  ],
+  "secondaryMuscles": [
+   "trapezius",
+   "biceps"
+  ],
+  "instructions": [
+   "Stand upright with feet shoulder width apart.",
+   "Hold the barbell using a wide, overhand grip.",
+   "Let the bar rest in front of your thighs.",
+   "Lift the bar straight up toward your chest, elbows out to the sides.",
+   "Lower the bar slowly to the starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_crunch_on_bench",
+  "name": "Bench Crunch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "obliques"
+  ],
+  "instructions": [
+   "Lie flat on a bench with knees bent and feet secured or flat.",
+   "Cross your arms over your chest or place hands behind your head.",
+   "Engage your core and lift your shoulders towards your knees.",
+   "Squeeze at the top and hold briefly.",
+   "Lower your upper body back to bench in a controlled manner."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_bench_pull_ups",
+  "name": "Bench Pull-Up",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "lats"
+  ],
+  "secondaryMuscles": [
+   "biceps brachii",
+   "rhomboids",
+   "brachialis",
+   "trapezius"
+  ],
+  "instructions": [
+   "Place a bench under a pull-up bar.",
+   "Grip the bar with hands wider than shoulder-width.",
+   "Position feet on the bench for support.",
+   "Pull your chest towards the bar, using feet as needed.",
+   "Lower yourself slowly to starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_bent_knee_lying_twist_on_stability_ball",
+  "name": "Bent Knee Lying Twist on Stability Ball",
+  "equipment": "exercise ball",
+  "primaryMuscles": [
+   "obliques"
+  ],
+  "secondaryMuscles": [
+   "abdominals",
+   "glutes"
+  ],
+  "instructions": [
+   "Lie on your back with calves on a stability ball.",
+   "Extend arms out at your sides for support.",
+   "Bend knees at 90 degrees over the ball.",
+   "Slowly drop knees to one side, keeping shoulders flat.",
+   "Return to center and repeat on the other side."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_bridge_pose_setu_bandhasana",
+  "name": "Bridge Pose (Setu Bandhasana)",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "glutes"
+  ],
+  "secondaryMuscles": [
+   "hamstrings",
+   "spinal erectors",
+   "hip flexors"
+  ],
+  "instructions": [
+   "Lie on your back with your knees bent and feet hip-width apart.",
+   "Place your arms at your sides, palms down.",
+   "Press through your heels and lift your hips upward.",
+   "Hold the pose, engaging your glutes and core.",
+   "Lower your hips back to the starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_bridge_pose_setu_bandhasana_1",
+  "name": "Bridge Pose (Setu Bandhasana)",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "glutes"
+  ],
+  "secondaryMuscles": [
+   "hamstrings",
+   "lower back",
+   "hip flexors"
+  ],
+  "instructions": [
+   "Lie flat on your back with knees bent and feet hip-width apart.",
+   "Place arms alongside your body, palms down.",
+   "Press into your heels to lift your hips off the floor, creating a straight line from knees to shoulders.",
+   "Engage your glutes and hold the top position for several seconds.",
+   "Lower your hips back down in a controlled motion."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_burpee",
+  "name": "Burpee",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "cardiovascular system"
+  ],
+  "secondaryMuscles": [
+   "quadriceps",
+   "hamstrings",
+   "calves",
+   "shoulders",
+   "chest"
+  ],
+  "instructions": [
+   "Stand tall with your feet about hip-width apart.",
+   "Bend your knees, hinge at your hips, and place your hands on the floor in front of your feet.",
+   "Jump both feet back to a high plank with your body in a straight line.",
+   "Lower your chest to the floor, then press back up to plank.",
+   "Jump both feet forward to the outside of your hands.",
+   "Drive through your feet and jump straight up, reaching your arms overhead as you leave the floor.",
+   "Land softly and go straight into the next rep."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_butterfly_yoga_pose",
+  "name": "Butterfly Yoga Pose",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "adductors"
+  ],
+  "secondaryMuscles": [
+   "groin",
+   "lower back"
+  ],
+  "instructions": [
+   "Sit upright with feet together and knees bent out to sides.",
+   "Hold your feet with your hands.",
+   "Keep spine tall and shoulders relaxed.",
+   "Gently press knees toward the floor.",
+   "Hold the position, breathing deeply."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_cable_kneeling_crunch",
+  "name": "Cable Kneeling Crunch",
+  "equipment": "cable",
+  "primaryMuscles": [
+   "abs"
+  ],
+  "secondaryMuscles": [
+   "obliques"
+  ],
+  "instructions": [
+   "Attach a rope handle to the high pulley and kneel facing the machine.",
+   "Grab the rope ends and bring your hands beside your head with your elbows slightly forward.",
+   "Brace your midsection and keep your hips stacked over your knees.",
+   "Curl your ribcage toward your pelvis and bring your elbows down toward your thighs.",
+   "Pause briefly in the bottom position while keeping tension on the rope.",
+   "Slowly uncurl your spine and return to the start without letting the weight stack slam."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_cable_lateral_raise",
+  "name": "Cable Lateral Raise",
+  "equipment": "cable",
+  "primaryMuscles": [
+   "shoulders"
+  ],
+  "secondaryMuscles": [
+   "traps",
+   "triceps"
+  ],
+  "instructions": [
+   "Set the cable at the lowest position and stand side-on to it.",
+   "Grab the handle with the outside hand and let your arm hang by your thigh.",
+   "Stand tall with a slight bend in your elbow and brace your midline.",
+   "Raise your arm out to the side until your hand reaches shoulder height.",
+   "Pause briefly without shrugging your shoulder.",
+   "Lower the handle back down with control to the start position."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_cable_one_arm_forward_raise",
+  "name": "Cable One Arm Front Raise",
+  "equipment": "cable",
+  "primaryMuscles": [
+   "anterior deltoid"
+  ],
+  "secondaryMuscles": [
+   "trapezius",
+   "pectoralis major"
+  ],
+  "instructions": [
+   "Attach handle to low pulley and stand facing away from machine.",
+   "Grasp handle with one hand, arm by your side.",
+   "With a straight arm, raise it forward to shoulder height.",
+   "Pause briefly at the top.",
+   "Lower back to the start slowly and repeat."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_cable_one_arm_lateral_pulldown",
+  "name": "Cable One Arm Lateral Pulldown",
+  "equipment": "cable",
+  "primaryMuscles": [
+   "lats"
+  ],
+  "secondaryMuscles": [
+   "biceps",
+   "rhomboids"
+  ],
+  "instructions": [
+   "Attach a single handle to the high cable pulley.",
+   "Sit or stand, arm overhead grasping the handle.",
+   "Stabilize your body and engage your core.",
+   "Pull handle down to shoulder/upper chest level.",
+   "Pause, then return handle slowly."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_cable_one_arm_lateral_raise",
+  "name": "Cable One Arm Lateral Raise",
+  "equipment": "cable",
+  "primaryMuscles": [
+   "shoulders"
+  ],
+  "secondaryMuscles": [
+   "traps",
+   "triceps"
+  ],
+  "instructions": [
+   "Stand sideways to the cable machine and grasp the handle with the outside hand.",
+   "Step away until the cable is taut, with your arm down by your side and a slight bend in your elbow.",
+   "Brace your torso and keep your shoulders level.",
+   "Raise your arm out to the side until your hand reaches about shoulder height.",
+   "Pause briefly without shrugging your shoulder.",
+   "Lower the handle back down with control to the starting position.",
+   "Complete the reps on one side, then switch arms."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_cable_one_arm_twisting_seated_row",
+  "name": "Cable One-Arm Twisting Seated Row",
+  "equipment": "cable",
+  "primaryMuscles": [
+   "lats"
+  ],
+  "secondaryMuscles": [
+   "obliques",
+   "rhomboids",
+   "biceps brachii",
+   "posterior deltoid"
+  ],
+  "instructions": [
+   "Sit on the cable row bench and grasp a single handle with one hand.",
+   "Keep back straight and feet planted on the platform.",
+   "Pull the handle toward your torso while rotating your shoulder and upper body toward the working side.",
+   "Pause and squeeze your back muscles at contraction.",
+   "Slowly return arm and torso to the starting position with control."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_cable_pulldown",
+  "name": "Cable Pulldown",
+  "equipment": "cable",
+  "primaryMuscles": [
+   "lats"
+  ],
+  "secondaryMuscles": [
+   "biceps",
+   "forearms"
+  ],
+  "instructions": [
+   "Adjust the seat and knee pad so your thighs are held down and you can reach the bar overhead.",
+   "Sit tall with your feet flat, grab the bar with an overhand grip just outside shoulder width, and straighten your arms.",
+   "Lean back slightly and pull your shoulders down away from your ears.",
+   "Drive your elbows down and pull the bar to the top of your chest.",
+   "Pause briefly while keeping your chest lifted and your torso still.",
+   "Slowly straighten your arms and let the bar rise under control to the start position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_cable_rear_delt_row_with_rope",
+  "name": "Cable Rear Delt Row (with rope)",
+  "equipment": "cable",
+  "primaryMuscles": [
+   "shoulders"
+  ],
+  "secondaryMuscles": [
+   "trapezius",
+   "rhomboids",
+   "biceps"
+  ],
+  "instructions": [
+   "Attach a rope to a low cable pulley and stand facing the machine.",
+   "Grab the rope with both hands, step back to create tension, and set your feet about hip-width apart.",
+   "Soften your knees and hinge forward slightly with a flat back and arms extended in front of you.",
+   "Lead with your elbows and row the rope up toward your upper chest while letting the rope ends separate.",
+   "Pause briefly as your elbows travel out and back and your shoulder blades squeeze together.",
+   "Lower the rope under control until your arms are extended again without rounding your shoulders."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_cable_pushdown_rope_attachment",
+  "name": "Cable Rope Triceps Pushdown",
+  "equipment": "cable",
+  "primaryMuscles": [
+   "triceps"
+  ],
+  "secondaryMuscles": [
+   "anconeus",
+   "forearms"
+  ],
+  "instructions": [
+   "Attach a rope to the high pulley and stand facing the machine.",
+   "Grab the rope with both hands, thumbs facing inward.",
+   "Keep elbows tucked at your sides and lean slightly forward.",
+   "Extend your arms down, splitting the rope at the bottom.",
+   "Slowly return to the start without letting elbows flare out."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_cable_seated_high_row_v_bar",
+  "name": "Cable Seated High Row (V-bar)",
+  "equipment": "cable",
+  "primaryMuscles": [
+   "lats"
+  ],
+  "secondaryMuscles": [
+   "biceps",
+   "rhomboids",
+   "rear deltoids"
+  ],
+  "instructions": [
+   "Sit at the cable row station facing the stack and grasp the V-bar handle with a neutral grip.",
+   "Plant your feet, soften your knees, and sit tall with your chest up and arms extended.",
+   "Brace your torso and pull your shoulder blades back and down.",
+   "Drive your elbows back and out slightly as you row the handle toward your upper stomach or lower chest.",
+   "Pause briefly with the handle close to your torso and your shoulders pulled back.",
+   "Extend your arms forward under control until your shoulders are stretched, then repeat."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_cable_standing_fly_crossover_fly",
+  "name": "Cable Standing Fly",
+  "equipment": "cable",
+  "primaryMuscles": [
+   "chest"
+  ],
+  "secondaryMuscles": [
+   "anterior deltoids",
+   "biceps brachii"
+  ],
+  "instructions": [
+   "Attach handles to both high pulleys.",
+   "Stand centered between pulleys, grasp handles in each hand.",
+   "Step forward into a staggered stance, arms outstretched.",
+   "With elbows slightly bent, bring handles together in front of chest.",
+   "Return slowly to starting position, feeling the stretch in the chest."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_cable_standing_inner_curl",
+  "name": "Cable Standing Inner Curl",
+  "equipment": "cable",
+  "primaryMuscles": [
+   "biceps"
+  ],
+  "secondaryMuscles": [
+   "forearms"
+  ],
+  "instructions": [
+   "Set a cable handle to the lowest position and stand facing the machine.",
+   "Grab the handle with one hand using an underhand grip and let your arm hang straight by your side.",
+   "Step back until the cable is taut, then stand tall with your feet about hip-width apart.",
+   "Keep your elbow pinned near your side and curl the handle up toward your shoulder.",
+   "Squeeze your biceps at the top without letting your upper arm drift forward.",
+   "Lower the handle slowly until your arm is straight again, then repeat before switching sides."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_cable_standing_one_arm_triceps_extension",
+  "name": "Cable Standing One Arm Triceps Extension",
+  "equipment": "cable",
+  "primaryMuscles": [
+   "triceps"
+  ],
+  "secondaryMuscles": [
+   "shoulders"
+  ],
+  "instructions": [
+   "Stand side-on to the cable machine and grasp the handle with one hand.",
+   "Step away until the cable is taut, then raise your upper arm so it stays roughly parallel to the floor.",
+   "Bend your elbow to bring the handle toward the side of your head while keeping your upper arm still.",
+   "Extend your elbow to press the handle away until your arm is straight.",
+   "Pause briefly with your triceps tight, then return under control.",
+   "Complete all reps on one side, then switch arms."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_cable_triceps_pushdown",
+  "name": "Cable Triceps Pushdown",
+  "equipment": "cable",
+  "primaryMuscles": [
+   "triceps"
+  ],
+  "secondaryMuscles": [
+   "anconeus",
+   "forearms"
+  ],
+  "instructions": [
+   "Stand facing the cable stack with attachment at high position.",
+   "Grip the bar or rope with both hands.",
+   "Keep elbows tight to your body.",
+   "Push the attachment down until arms are fully extended.",
+   "Return slowly to starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_cable_twist_up_down",
+  "name": "Cable Twist (up-down)",
+  "equipment": "cable",
+  "primaryMuscles": [
+   "abs"
+  ],
+  "secondaryMuscles": [
+   "obliques",
+   "lower back"
+  ],
+  "instructions": [
+   "Set the cable handle at about shoulder height and stand sideways to the machine with feet hip-width apart.",
+   "Grab the handle with both hands and extend your arms in front of your chest with a soft bend in your elbows.",
+   "Brace your core and rotate your torso away from the machine while guiding the handle diagonally down across your body.",
+   "Keep your hips mostly still and finish with your hands near the outside of your opposite hip.",
+   "Control the handle back to the start, then repeat all reps before switching sides or reverse the path to move from low to high."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_calf_stretch_with_rope",
+  "name": "Calf Stretch with Rope",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "calves"
+  ],
+  "secondaryMuscles": [],
+  "instructions": [
+   "Sit on the floor with one leg extended.",
+   "Loop a rope or band around the ball of your foot.",
+   "Hold ends of rope and gently pull your foot toward you.",
+   "Keep knee straight for a deeper stretch.",
+   "Hold the stretch and then switch legs."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_cambered_bar_lying_row",
+  "name": "Cambered Bar Lying Row",
+  "equipment": "barbell",
+  "primaryMuscles": [
+   "upper back"
+  ],
+  "secondaryMuscles": [
+   "biceps",
+   "forearms"
+  ],
+  "instructions": [
+   "Place a barbell on the floor under the end of a flat bench and lie face down so your chest is supported with your arms hanging straight down.",
+   "Plant your feet on the floor, brace your midsection, and grab the bar with an overhand grip slightly wider than shoulder width.",
+   "Lift the bar clear of the floor and let it hang directly below your shoulders with your neck neutral.",
+   "Pull the bar up toward the underside of the bench or lower chest by driving your elbows back.",
+   "Pause briefly at the top and squeeze your shoulder blades together.",
+   "Lower the bar under control until your arms are straight and the bar returns just above the floor."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_cardio_exercises",
+  "name": "Cardio Exercise",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "cardiovascular system"
+  ],
+  "secondaryMuscles": [
+   "varies by movement"
+  ],
+  "instructions": [
+   "Select a cardio activity (running, jumping jacks, etc).",
+   "Warm up for 3-5 minutes.",
+   "Perform the chosen activity at a sustainable pace.",
+   "Maintain movement for set time or rounds.",
+   "Cool down and stretch afterwards."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_cardio_exercises_machine",
+  "name": "Cardio Machine Exercise",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "cardiovascular system"
+  ],
+  "secondaryMuscles": [
+   "varies by machine"
+  ],
+  "instructions": [
+   "Choose your preferred cardio machine (treadmill, bike, etc).",
+   "Adjust resistance, incline, and settings as desired.",
+   "Begin with a brief warm-up.",
+   "Perform cardio at steady or variable intensity.",
+   "Cool down after session."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_cardio_exercises_machines",
+  "name": "Cardio Machine Workouts",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "cardiovascular system"
+  ],
+  "secondaryMuscles": [
+   "varies by machine (legs, glutes, arms)"
+  ],
+  "instructions": [
+   "Select a cardio machine suitable for your fitness level.",
+   "Adjust settings such as resistance, speed, and incline as desired.",
+   "Begin movement, focusing on steady pace and good posture.",
+   "Continue for your planned duration, monitoring intensity.",
+   "Cool down gradually and safely exit the machine."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_chest_lift_with_rotation",
+  "name": "Chest Lift with Rotation",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "obliques",
+   "hip flexors"
+  ],
+  "instructions": [
+   "Lie on your back, knees bent, feet flat on floor.",
+   "Place hands behind head, elbows wide.",
+   "Engage core and lift head, neck, and shoulders off mat.",
+   "Rotate torso to one side while lifting.",
+   "Return to center and lower down; repeat on alternate side."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_chin_ups_narrow_parallel_grip",
+  "name": "Chin-ups (narrow parallel grip)",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "upper back"
+  ],
+  "secondaryMuscles": [
+   "biceps",
+   "forearms"
+  ],
+  "instructions": [
+   "Grab the parallel handles with a narrow neutral grip and hang with your arms straight.",
+   "Cross your ankles or keep your legs still, then brace your midline and pull your shoulders down away from your ears.",
+   "Pull your elbows down and back to lift your chest toward your hands.",
+   "Keep pulling until your chin rises above your hands or handles.",
+   "Lower yourself under control until your arms are straight again.",
+   "Pause briefly at the bottom without relaxing your shoulders, then repeat."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_close_grip_chin_up",
+  "name": "Close Grip Chin-Up",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "lats"
+  ],
+  "secondaryMuscles": [
+   "biceps brachii",
+   "rhomboids",
+   "brachialis"
+  ],
+  "instructions": [
+   "Grab the pull-up bar with an underhand grip, hands shoulder-width or slightly closer.",
+   "Hang at full arm extension, engage your core and back.",
+   "Pull your chest towards the bar by driving your elbows down and back.",
+   "Clear the bar with your chin, pause briefly at the top.",
+   "Lower yourself with control until arms are fully extended."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_close_grip_push_ups",
+  "name": "Close-Grip Push-Up",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "triceps"
+  ],
+  "secondaryMuscles": [
+   "pectoralis major",
+   "anterior deltoid",
+   "core stabilizers"
+  ],
+  "instructions": [
+   "Begin in a plank position with hands close together under your chest.",
+   "Keep your core tight and body in a straight line.",
+   "Lower your chest toward the hands, elbows tucked by your sides.",
+   "Pause briefly at the bottom without touching the floor.",
+   "Press up to the starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_commando_pull_up",
+  "name": "Commando Pull-Up",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "lats"
+  ],
+  "secondaryMuscles": [
+   "biceps brachii",
+   "rhomboids",
+   "forearms",
+   "obliques",
+   "trapezius"
+  ],
+  "instructions": [
+   "Stand under a pull-up bar and grip it with hands facing each other, one in front of the other.",
+   "Hang with your body turned so the bar is directly in front of your face.",
+   "Brace your core and pull up, bringing your head to one side of the bar.",
+   "Lower yourself under control back to the starting position.",
+   "Repeat, bringing your head to the opposite side on the next rep."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_crossover_kneeling_hip_flexor_stretch",
+  "name": "Crossover Kneeling Hip Flexor Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "hip flexors"
+  ],
+  "secondaryMuscles": [
+   "quadriceps",
+   "glutes"
+  ],
+  "instructions": [
+   "Start in a kneeling lunge with one knee on the ground and the opposite foot forward.",
+   "Tuck the pelvis under and shift your weight forward, feeling a stretch in the hip flexor of the rear leg.",
+   "Rotate your torso across the body, away from the back leg.",
+   "Hold for 20-30 seconds, breathing steadily.",
+   "Release and repeat on the other side."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_deep_push_ups",
+  "name": "Deep Push-Up",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "chest"
+  ],
+  "secondaryMuscles": [
+   "triceps brachii",
+   "anterior deltoids",
+   "core"
+  ],
+  "instructions": [
+   "Place hands on elevated surfaces shoulder-width apart.",
+   "Assume a plank position with tight core and straight body.",
+   "Lower your chest between your hands, dipping below hand level.",
+   "Pause at the bottom, feeling a deep stretch in the chest.",
+   "Push up powerfully until arms are extended."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_arnold_press",
+  "name": "Dumbbell Arnold Press",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "shoulders"
+  ],
+  "secondaryMuscles": [
+   "triceps",
+   "upper chest"
+  ],
+  "instructions": [
+   "Sit tall on a bench with back support and plant your feet on the floor.",
+   "Hold a dumbbell in each hand in front of your shoulders with palms facing you and elbows bent.",
+   "Brace your midline and press the dumbbells upward while rotating your palms outward.",
+   "Finish overhead with arms straight and palms facing forward.",
+   "Lower the dumbbells under control while rotating your palms back toward you.",
+   "Return to the start with dumbbells in front of your shoulders and repeat."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_behind_back_wrist_curl",
+  "name": "Dumbbell Behind-the-Back Wrist Curl",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "forearms"
+  ],
+  "secondaryMuscles": [
+   "flexor carpi radialis",
+   "flexor carpi ulnaris"
+  ],
+  "instructions": [
+   "Stand with dumbbell held behind your back, arm straight, palm facing backward.",
+   "Allow the dumbbell to roll down your fingers slightly.",
+   "Flex your wrist to curl the dumbbell up.",
+   "Squeeze at the top of the movement.",
+   "Lower the weight back down slowly."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_deadlift",
+  "name": "Dumbbell Deadlift",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "glutes"
+  ],
+  "secondaryMuscles": [
+   "hamstrings",
+   "lower back"
+  ],
+  "instructions": [
+   "Stand tall with your feet hip- to shoulder-width apart, holding a dumbbell in each hand in front of your thighs.",
+   "Brace your midsection, pull your shoulders back, and keep your arms straight.",
+   "Push your hips back and bend your knees slightly as you slide the dumbbells down close to your legs.",
+   "Lower until the dumbbells reach around mid-shin or just below your knees while keeping your back flat.",
+   "Drive through your feet and push your hips forward to stand back up with the dumbbells at your thighs.",
+   "Finish tall with your hips and knees straight, then repeat the hinge."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_fly",
+  "name": "Dumbbell Fly",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "chest"
+  ],
+  "secondaryMuscles": [
+   "shoulders"
+  ],
+  "instructions": [
+   "Lie flat on a bench holding a dumbbell in each hand, and plant your feet on the floor.",
+   "Press the dumbbells above your chest with your palms facing each other and soften your elbows slightly.",
+   "Lower both arms out to the sides in a wide arc until your elbows reach about chest level.",
+   "Pause briefly at the bottom while keeping the same elbow bend.",
+   "Squeeze your chest and bring the dumbbells back together over your chest along the same arc."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_fly_on_exercise_ball",
+  "name": "Dumbbell Fly On Exercise Ball",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "chest"
+  ],
+  "secondaryMuscles": [
+   "shoulders",
+   "triceps"
+  ],
+  "instructions": [
+   "Sit on the exercise ball holding a dumbbell in each hand at your thighs.",
+   "Walk your feet forward and roll down until your head, neck, and upper back rest on the ball, then lift your hips so your torso is level.",
+   "Press the dumbbells above your chest with your palms facing each other and your elbows slightly bent.",
+   "Lower your arms out to the sides in a wide arc while keeping the same small bend in your elbows.",
+   "Stop when your upper arms are roughly in line with your torso and your chest feels stretched.",
+   "Bring the dumbbells back together over your chest along the same arc and squeeze your chest at the top."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_front_raise",
+  "name": "Dumbbell Front Raise",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "shoulders"
+  ],
+  "secondaryMuscles": [
+   "biceps",
+   "trapezius"
+  ],
+  "instructions": [
+   "Stand tall with a dumbbell in each hand at your thighs, palms facing your legs.",
+   "Brace your torso and keep a soft bend in your elbows.",
+   "Raise both dumbbells straight in front of you until your hands reach about shoulder height.",
+   "Pause briefly without shrugging your shoulders.",
+   "Lower the dumbbells back to your thighs with control.",
+   "Repeat from a still, upright stance."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_hammer_grip_incline_bench_row",
+  "name": "Dumbbell Hammer Grip Incline Bench Row",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "lats"
+  ],
+  "secondaryMuscles": [
+   "rhomboids",
+   "trapezius",
+   "posterior deltoid",
+   "biceps"
+  ],
+  "instructions": [
+   "Set an incline bench to 30-45 degrees and lie facedown with dumbbells.",
+   "Hold the dumbbells with palms facing each other (neutral/hammer grip).",
+   "Pull the dumbbells up toward your hips, elbows close to your body.",
+   "Pause and contract your back muscles at the top.",
+   "Lower the weights slowly with control."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_incline_curl",
+  "name": "Dumbbell Incline Curl",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "biceps"
+  ],
+  "secondaryMuscles": [
+   "forearms"
+  ],
+  "instructions": [
+   "Set an incline bench and sit back with a dumbbell in each hand.",
+   "Let your arms hang straight down under your shoulders with your palms facing forward.",
+   "Keep your upper arms still and curl the dumbbells toward your shoulders.",
+   "Pause briefly at the top and squeeze your biceps.",
+   "Lower the dumbbells slowly until your elbows are fully straight again."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_incline_fly_on_exercise_ball",
+  "name": "Dumbbell Incline Fly On Exercise Ball",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "chest"
+  ],
+  "secondaryMuscles": [
+   "shoulders"
+  ],
+  "instructions": [
+   "Hold a dumbbell in each hand and position your upper back on the exercise ball so your torso is angled upward.",
+   "Plant your feet firmly on the floor and raise the dumbbells above your upper chest with your palms facing each other.",
+   "Keep a soft bend in your elbows and lower your arms out to the sides in a wide arc.",
+   "Stop when your elbows are roughly level with your chest and you feel your chest stretch.",
+   "Squeeze your chest and bring the dumbbells back up along the same arc until they meet above your chest."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_incline_hammer_press",
+  "name": "Dumbbell Incline Hammer Press",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "chest"
+  ],
+  "secondaryMuscles": [
+   "shoulders",
+   "triceps"
+  ],
+  "instructions": [
+   "Set an incline bench and sit with a dumbbell in each hand on your thighs.",
+   "Lie back on the bench and bring the dumbbells to chest height with your palms facing each other.",
+   "Plant your feet, pull your shoulder blades back into the bench, and keep your wrists stacked over your elbows.",
+   "Press the dumbbells upward until your arms are straight above your upper chest.",
+   "Lower the dumbbells under control until they return to chest level with your palms still facing in.",
+   "Repeat the press without bouncing the dumbbells off your chest or shoulders."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_incline_rear_lateral_raise",
+  "name": "Dumbbell Incline Rear Lateral Raise",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "shoulders"
+  ],
+  "secondaryMuscles": [
+   "traps",
+   "rhomboids"
+  ],
+  "instructions": [
+   "Set an incline bench to about 45 degrees and hold a dumbbell in each hand.",
+   "Lie face down with your chest supported on the bench and let your arms hang straight below your shoulders.",
+   "Turn your palms to face each other and keep a soft bend in your elbows.",
+   "Raise both arms out and slightly back until they reach shoulder height.",
+   "Squeeze your rear shoulders and upper back at the top.",
+   "Lower the dumbbells with control back to the starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_incline_shrug",
+  "name": "Dumbbell Incline Shrug",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "traps"
+  ],
+  "secondaryMuscles": [
+   "shoulders"
+  ],
+  "instructions": [
+   "Set an incline bench to about 45 degrees and sit with your chest supported against the pad.",
+   "Hold a dumbbell in each hand and let your arms hang straight down at your sides with your palms facing in.",
+   "Plant your feet firmly on the floor and keep your chest against the bench.",
+   "Lift your shoulders straight up toward your ears without bending your elbows.",
+   "Pause briefly at the top, then lower your shoulders back down under control.",
+   "Repeat from a dead hang each rep."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_incline_triceps_extension",
+  "name": "Dumbbell Incline Triceps Extension",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "triceps"
+  ],
+  "secondaryMuscles": [
+   "shoulders"
+  ],
+  "instructions": [
+   "Sit back on an incline bench holding a dumbbell in each hand.",
+   "Press the dumbbells overhead with your palms facing each other.",
+   "Keep your elbows pointed up and close to your head.",
+   "Lower the dumbbells behind your head by bending only your elbows.",
+   "Pause briefly when your forearms are below parallel to the floor.",
+   "Straighten your elbows to raise the dumbbells back overhead."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_iron_cross",
+  "name": "Dumbbell Iron Cross",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "shoulders"
+  ],
+  "secondaryMuscles": [
+   "triceps",
+   "chest"
+  ],
+  "instructions": [
+   "Stand tall with a dumbbell in each hand at your sides and your feet about hip-width apart.",
+   "Hold a slight bend in your elbows and turn your palms toward your sides.",
+   "Raise both arms out to the sides until your hands reach shoulder height.",
+   "Pause briefly with your shoulders level and your wrists in line with your elbows.",
+   "Lower the dumbbells back to your sides with control.",
+   "Repeat without swinging your torso or bouncing the weights."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_kickback",
+  "name": "Dumbbell Kickback",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "triceps"
+  ],
+  "secondaryMuscles": [
+   "shoulders"
+  ],
+  "instructions": [
+   "Stand with a dumbbell in each hand and hinge forward at the hips with a flat back.",
+   "Bend your elbows to about 90 degrees and pin your upper arms alongside your torso.",
+   "Brace your torso and keep your elbows still.",
+   "Straighten your arms by driving the dumbbells back until your elbows are fully extended.",
+   "Squeeze your triceps at the back of the movement.",
+   "Bend your elbows under control to return to the start position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_lying_alternate_extension",
+  "name": "Dumbbell Lying Alternate Extension",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "triceps"
+  ],
+  "secondaryMuscles": [
+   "shoulders"
+  ],
+  "instructions": [
+   "Lie flat on a bench holding a dumbbell in each hand, and press both arms straight up over your chest with palms facing each other.",
+   "Keep one arm still above your chest as you bend the other elbow and lower that dumbbell beside your forehead.",
+   "Stop when your forearm points down and your upper arm stays mostly vertical.",
+   "Straighten the bent arm to bring the dumbbell back above your chest.",
+   "Repeat on the other side while keeping the first arm locked out.",
+   "Continue alternating sides with both shoulders and head resting on the bench."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_dumbbell_lying_hammer_press",
+  "name": "Dumbbell Lying Hammer Press",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "chest"
+  ],
+  "secondaryMuscles": [
+   "triceps",
+   "shoulders"
+  ],
+  "instructions": [
+   "Lie flat on a bench holding a dumbbell in each hand, and press the dumbbells above your chest with your palms facing each other.",
+   "Plant your feet on the floor and brace your torso while keeping your wrists stacked over your elbows.",
+   "Lower the dumbbells under control to either side of your chest, keeping your elbows slightly tucked from your shoulders.",
+   "Pause briefly when your upper arms reach bench level or the dumbbells lightly touch your chest line.",
+   "Press the dumbbells straight up until your arms are extended above your chest, keeping the palms facing each other throughout.",
+   "Bring the dumbbells back together over your chest and repeat."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_lying_femoral",
+  "name": "Dumbbell Lying Leg Curl",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "hamstrings"
+  ],
+  "secondaryMuscles": [
+   "gastrocnemius",
+   "glutes"
+  ],
+  "instructions": [
+   "Lie face down on a bench, legs straight, dumbbell held between your feet.",
+   "Hold onto the bench for stability.",
+   "Contract your hamstrings to curl the dumbbell upward toward your glutes.",
+   "Pause at the top of the movement.",
+   "Lower the dumbbell in a controlled motion to the starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_lying_rear_delt_row",
+  "name": "Dumbbell Lying Rear Delt Row",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "upper back"
+  ],
+  "secondaryMuscles": [
+   "shoulders",
+   "biceps"
+  ],
+  "instructions": [
+   "Lie face down on a flat bench holding a dumbbell in each hand, with your chest supported and arms hanging straight down.",
+   "Set your feet firmly on the floor and turn your palms to face each other.",
+   "Pull your elbows out to the sides and row the dumbbells up toward your upper chest.",
+   "Squeeze your upper back at the top while keeping your chest on the bench.",
+   "Lower the dumbbells back down under control until your arms are straight again.",
+   "Repeat without swinging the weights or shrugging your shoulders."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_lying_triceps_extension",
+  "name": "Dumbbell Lying Triceps Extension",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "triceps"
+  ],
+  "secondaryMuscles": [
+   "shoulders"
+  ],
+  "instructions": [
+   "Lie flat on a bench holding a dumbbell in each hand, and press the dumbbells above your chest with your palms facing each other.",
+   "Pull your shoulders down into the bench and straighten your wrists so the dumbbells stay stacked over your elbows.",
+   "Bend your elbows and lower the dumbbells toward the sides of your forehead while keeping your upper arms mostly still.",
+   "Stop when your elbows are fully bent and the dumbbells are close to your head.",
+   "Straighten your elbows to drive the dumbbells back to the start position above your chest.",
+   "Repeat each rep without letting your elbows flare wide."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_one_arm_lateral_raise",
+  "name": "Dumbbell One Arm Lateral Raise",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "shoulders"
+  ],
+  "secondaryMuscles": [
+   "trapezius",
+   "triceps"
+  ],
+  "instructions": [
+   "Stand tall with feet about hip-width apart and hold a dumbbell at one side with a slight bend in your elbow.",
+   "Brace your core and keep your shoulders level as your free arm stays relaxed by your side or on your hip.",
+   "Lift the dumbbell out to the side until your hand reaches about shoulder height.",
+   "Pause briefly at the top without shrugging your shoulder toward your ear.",
+   "Lower the dumbbell back to your side with control.",
+   "Complete all reps on one arm, then switch sides."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_dumbbell_one_arm_zottman_preacher_curl",
+  "name": "Dumbbell One Arm Zottman Preacher Curl",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "biceps"
+  ],
+  "secondaryMuscles": [
+   "forearms"
+  ],
+  "instructions": [
+   "Sit at a preacher bench and plant your feet on the floor.",
+   "Hold a dumbbell in one hand and place the back of your upper arm flat against the pad with your arm nearly straight.",
+   "Start with your palm facing up and curl the dumbbell toward your shoulder without lifting your upper arm off the pad.",
+   "Pause near the top and rotate your wrist until your palm faces down.",
+   "Lower the dumbbell slowly until your arm is nearly straight while keeping your palm facing down.",
+   "Rotate your wrist back to palm-up at the bottom and repeat before switching arms."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_dumbbell_over_bench_wrist_curl",
+  "name": "Dumbbell Over Bench Wrist Curl",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "forearms"
+  ],
+  "secondaryMuscles": [
+   "biceps",
+   "brachialis"
+  ],
+  "instructions": [
+   "Sit at a bench and place your forearms on top with your palms facing up.",
+   "Hold a dumbbell in each hand and slide forward until your wrists hang just past the bench edge.",
+   "Let your hands lower to gently stretch your wrists at the bottom.",
+   "Curl your wrists up by lifting your knuckles toward your forearms.",
+   "Squeeze your forearms briefly at the top.",
+   "Lower the dumbbells back down under control until your wrists extend again."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_palm_rotational_bent_over_row",
+  "name": "Dumbbell Palm Rotational Bent Over Row",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "upper back"
+  ],
+  "secondaryMuscles": [
+   "biceps",
+   "forearms"
+  ],
+  "instructions": [
+   "Stand with your feet hip-width apart, holding a dumbbell in each hand with your arms straight and palms facing each other.",
+   "Hinge at your hips until your torso is leaned forward, soften your knees, and keep your back flat.",
+   "Let the dumbbells hang below your shoulders and brace your core.",
+   "Row both dumbbells toward your lower ribs by driving your elbows back.",
+   "Rotate your palms as you lift until they face more backward or away from your body at the top.",
+   "Pause and squeeze your upper back, then lower the dumbbells with control as you rotate your palms back to neutral."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_preacher_curl_over_exercise_ball",
+  "name": "Dumbbell Preacher Curl Over Exercise Ball",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "biceps"
+  ],
+  "secondaryMuscles": [
+   "forearms"
+  ],
+  "instructions": [
+   "Sit tall on the exercise ball with both feet flat and spread for balance.",
+   "Hold a dumbbell in one hand with your palm facing up and brace the back of your upper arm against the ball.",
+   "Let the arm straighten almost fully so the dumbbell hangs below your elbow.",
+   "Curl the dumbbell toward your shoulder without lifting your elbow off the ball.",
+   "Squeeze your biceps at the top while keeping your wrist straight.",
+   "Lower the dumbbell slowly until your arm is almost straight, then repeat and switch sides."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_dumbbell_pronate_grip_triceps_extension",
+  "name": "Dumbbell Pronate-grip Triceps Extension",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "triceps"
+  ],
+  "secondaryMuscles": [
+   "forearms"
+  ],
+  "instructions": [
+   "Sit tall on a bench or chair with both feet flat on the floor.",
+   "Hold one dumbbell with both hands by the handle using an overhand grip and press it straight overhead.",
+   "Bring your upper arms close to your ears and point your elbows forward.",
+   "Lower the dumbbell behind your head by bending only your elbows.",
+   "Stop when your forearms are below parallel and your upper arms stay mostly still.",
+   "Straighten your elbows to raise the dumbbell back to the overhead start position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_rear_delt_row",
+  "name": "Dumbbell Rear Delt Row",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "shoulders"
+  ],
+  "secondaryMuscles": [
+   "trapezius",
+   "rhomboids"
+  ],
+  "instructions": [
+   "Stand with your feet hip- to shoulder-width apart, holding a dumbbell in each hand at your sides.",
+   "Hinge at your hips until your torso is leaned forward, soften your knees, and let the dumbbells hang below your shoulders with your palms facing each other.",
+   "Brace your core and keep your back flat as you pull your elbows up and out to the sides.",
+   "Lift until your upper arms are roughly in line with your shoulders and squeeze your upper back.",
+   "Lower the dumbbells under control to the start position and repeat."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_seated_calf_raise",
+  "name": "Dumbbell Seated Calf Raise",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "calves"
+  ],
+  "secondaryMuscles": [
+   "hamstrings"
+  ],
+  "instructions": [
+   "Sit on a bench or chair with your knees bent and place the balls of your feet on a small raised surface with your heels hanging off.",
+   "Set a dumbbell across the tops of your thighs just above your knees and hold it steady with both hands.",
+   "Let your heels drop down until you feel a stretch through your calves.",
+   "Press through the balls of your feet and raise your heels as high as you can.",
+   "Pause briefly at the top while keeping the dumbbell steady.",
+   "Lower your heels back down under control and repeat."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_seated_front_raise",
+  "name": "Dumbbell Seated Front Raise",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "shoulders"
+  ],
+  "secondaryMuscles": [
+   "trapezius",
+   "biceps"
+  ],
+  "instructions": [
+   "Sit tall on a bench with your feet flat on the floor and a dumbbell in each hand at your sides.",
+   "Hold the dumbbells with your palms facing down or slightly toward each other, and brace your midsection.",
+   "Raise both arms straight forward until the dumbbells reach shoulder height.",
+   "Pause briefly at the top without leaning back or shrugging your shoulders.",
+   "Lower the dumbbells under control back to the starting position by your thighs.",
+   "Repeat each rep with the same seated posture and arm path."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_seated_kickback",
+  "name": "Dumbbell Seated Kickback",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "triceps"
+  ],
+  "secondaryMuscles": [
+   "shoulders"
+  ],
+  "instructions": [
+   "Sit on a bench holding a dumbbell in each hand with your feet flat on the floor.",
+   "Hinge forward from your hips and keep your back flat with your chest angled toward your thighs.",
+   "Pull your elbows up beside your torso and bend them to about 90 degrees.",
+   "Keep your upper arms still and straighten your elbows to kick the dumbbells back behind you.",
+   "Squeeze your triceps with your arms fully extended.",
+   "Bend your elbows slowly to return the dumbbells to the start position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_seated_lateral_raise",
+  "name": "Dumbbell Seated Lateral Raise",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "shoulders"
+  ],
+  "secondaryMuscles": [
+   "traps",
+   "upper back"
+  ],
+  "instructions": [
+   "Sit upright on a bench with your feet flat on the floor and a dumbbell in each hand at your sides.",
+   "Set your shoulders down and keep a soft bend in your elbows.",
+   "Raise both arms out to your sides until the dumbbells reach about shoulder height.",
+   "Pause briefly at the top without shrugging your shoulders.",
+   "Lower the dumbbells back to your sides with control and repeat."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_seated_neutral_wrist_curl",
+  "name": "Dumbbell Seated Neutral Wrist Curl",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "biceps"
+  ],
+  "secondaryMuscles": [
+   "forearms"
+  ],
+  "instructions": [
+   "Sit on a bench with your feet flat and hold a dumbbell in each hand with your palms facing each other.",
+   "Rest your forearms on your thighs near your knees and let your wrists hang just past your knees.",
+   "Start with your wrists straight and your hands hanging down under control.",
+   "Curl the dumbbells upward by bending only at your wrists while keeping your forearms pressed into your thighs.",
+   "Squeeze briefly at the top without turning your palms up or down.",
+   "Lower the dumbbells slowly back to the start until your wrists are fully extended."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_single_leg_calf_raise",
+  "name": "Dumbbell Single Leg Calf Raise",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "calves"
+  ],
+  "secondaryMuscles": [
+   "ankles"
+  ],
+  "instructions": [
+   "Stand on the edge of a step with one foot, placing the ball of your foot on the step and letting your heel hang off.",
+   "Hold a dumbbell in one hand and lightly brace your other hand on a wall or rail.",
+   "Lift your nonworking foot off the step and straighten your standing leg.",
+   "Press through the ball of your foot to raise your heel as high as you can.",
+   "Pause briefly at the top while keeping your ankle stacked over your toes.",
+   "Lower your heel slowly below the step until you feel a stretch in your calf.",
+   "Complete all reps on one side, then switch legs."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_dumbbell_single_leg_squat",
+  "name": "Dumbbell Single Leg Squat",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "glutes"
+  ],
+  "secondaryMuscles": [
+   "quadriceps",
+   "hamstrings",
+   "calves"
+  ],
+  "instructions": [
+   "Stand tall holding a dumbbell in each hand at your sides.",
+   "Shift your weight onto one foot and lift the other leg straight in front of you.",
+   "Brace your torso and bend your standing knee and hip to lower under control.",
+   "Keep the lifted leg off the floor and lower as far as you can while staying balanced.",
+   "Drive through the standing foot to rise back to the starting position.",
+   "Complete all reps on one leg, then switch sides."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_dumbbell_squat",
+  "name": "Dumbbell Squat",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "glutes"
+  ],
+  "secondaryMuscles": [
+   "quadriceps",
+   "hamstrings",
+   "calves"
+  ],
+  "instructions": [
+   "Stand tall with a dumbbell in each hand at your sides and place your feet about shoulder-width apart.",
+   "Brace your core, keep your chest up, and let your arms hang straight.",
+   "Bend your hips and knees together to sit down and slightly back.",
+   "Lower until your thighs are at least parallel to the floor or as low as you can while keeping your heels down.",
+   "Drive through your midfoot and heels to stand back up.",
+   "Finish tall with your hips and knees fully straight before the next rep."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_stiff_leg_deadlift",
+  "name": "Dumbbell Stiff Leg Deadlift",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "glutes"
+  ],
+  "secondaryMuscles": [
+   "hamstrings",
+   "lower back"
+  ],
+  "instructions": [
+   "Stand tall with your feet hip-width apart, holding a dumbbell in each hand in front of your thighs.",
+   "Soften your knees slightly and brace your midsection.",
+   "Push your hips straight back and slide the dumbbells down the front of your legs.",
+   "Lower until the dumbbells reach mid-shin or you feel a strong hamstring stretch while keeping your back flat.",
+   "Drive your feet into the floor and extend your hips to stand back up.",
+   "Finish tall with the dumbbells at your thighs and repeat."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_dumbbell_bar_grip_sumo_squat",
+  "name": "Dumbbell Sumo Squat",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "glutes"
+  ],
+  "secondaryMuscles": [
+   "quadriceps",
+   "adductors",
+   "hamstrings"
+  ],
+  "instructions": [
+   "Stand with feet wide apart, toes angled outward.",
+   "Grip the dumbbell vertically between your legs.",
+   "Keep chest up and core braced.",
+   "Squat down, pushing knees outward.",
+   "Drive through heels to stand up."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_sit_up_on_exercise_ball",
+  "name": "Exercise Ball Sit-Up",
+  "equipment": "exercise ball",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "hip flexors",
+   "obliques"
+  ],
+  "instructions": [
+   "Sit on the exercise ball with feet flat on the floor.",
+   "Walk feet forward, rolling until the ball supports your lower back.",
+   "Cross arms over your chest or position hands behind your head.",
+   "Engage your core and sit up, lifting your upper body.",
+   "Lower back down under control to starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_spinal_stretch_on_exercise_ball",
+  "name": "Exercise Ball Spinal Stretch",
+  "equipment": "exercise ball",
+  "primaryMuscles": [
+   "erector spinae"
+  ],
+  "secondaryMuscles": [
+   "abdominals",
+   "hip flexors"
+  ],
+  "instructions": [
+   "Sit on the exercise ball with feet hip-width apart.",
+   "Slowly walk your feet forward, rolling until your back is draped over the ball.",
+   "Let your arms extend overhead or rest beside you for support.",
+   "Relax into the stretch, allowing your spine to gently extend.",
+   "Hold for the desired duration, then carefully return to a seated position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_ez_barbell_anti_gravity_press",
+  "name": "EZ Barbell Anti Gravity Press",
+  "equipment": "barbell",
+  "primaryMuscles": [
+   "shoulders"
+  ],
+  "secondaryMuscles": [
+   "triceps",
+   "chest"
+  ],
+  "instructions": [
+   "Stand tall with your feet about hip- to shoulder-width apart and hold the EZ bar at shoulder height with an overhand grip.",
+   "Brace your core and keep your wrists stacked over your elbows.",
+   "Press the bar straight overhead until your arms are fully extended above your shoulders.",
+   "Move your head slightly back as the bar passes your face, then bring your head through under the bar at the top.",
+   "Lower the bar under control back to shoulder height.",
+   "Repeat each rep from a stable standing position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_feet_and_ankles_rotation_stretch",
+  "name": "Feet and Ankles Rotation Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "calves"
+  ],
+  "secondaryMuscles": [
+   "soleus",
+   "tibialis anterior",
+   "peroneals"
+  ],
+  "instructions": [
+   "Sit or stand and lift one foot off the ground.",
+   "Point your toes and slowly rotate your ankle in circles.",
+   "Make several circles clockwise, then reverse to counterclockwise.",
+   "Repeat for the other ankle.",
+   "Maintain steady breathing and controlled motion."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_stretching_feet_and_ankles_stretch",
+  "name": "Feet and Ankles Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "calves"
+  ],
+  "secondaryMuscles": [
+   "tibialis anterior",
+   "peroneals"
+  ],
+  "instructions": [
+   "Sit or stand with legs extended or positioned comfortably.",
+   "Point your toes downward to stretch the top of your feet and fronts of your ankles.",
+   "Flex your toes upward toward your shins to stretch the calves and back of the ankles.",
+   "Hold each position for 15-30 seconds.",
+   "Repeat the sequence for several reps."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_flexion_leg_sit_up",
+  "name": "Flexion Leg Sit-Up Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "hip flexors"
+  ],
+  "instructions": [
+   "Lie on your back with knees bent and feet flat on the floor.",
+   "Cross arms over chest or reach toward knees.",
+   "Contract abdominal muscles to sit up, curling your spine.",
+   "Reach for your knees at the top to enhance the stretch.",
+   "Lower back to starting position with control."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_crunch_floor_female",
+  "name": "Floor Crunch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "obliques"
+  ],
+  "instructions": [
+   "Lie on your back with knees bent and feet hip-width apart.",
+   "Place hands lightly behind head or cross over chest.",
+   "Engage core and lift shoulders off the floor.",
+   "Pause briefly at the top of the movement.",
+   "Slowly return to the starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_front_plank_female",
+  "name": "Front Plank",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "transverse abdominis",
+   "obliques",
+   "glutes",
+   "shoulders"
+  ],
+  "instructions": [
+   "Lie face down, placing forearms on the ground and elbows under shoulders.",
+   "Lift your body off the floor, supporting weight on forearms and toes.",
+   "Keep your body in a straight line from head to heels.",
+   "Engage your core and glutes for stability.",
+   "Hold the position for the prescribed time, then lower to the ground."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_hip_raise_bridge",
+  "name": "Glute Bridge",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "glutes"
+  ],
+  "secondaryMuscles": [
+   "hamstrings",
+   "lower back"
+  ],
+  "instructions": [
+   "Start lying on back with knees bent, feet hip-width apart.",
+   "Arms rest at sides, palms down.",
+   "Push through heels, lifting hips toward ceiling.",
+   "Pause and squeeze glutes at top.",
+   "Lower hips back to floor."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_hanging_straight_leg_raise",
+  "name": "Hanging Straight Leg Raise",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "hip flexors",
+   "obliques",
+   "forearms"
+  ],
+  "instructions": [
+   "Hang from a pull-up bar with arms fully extended.",
+   "Keep legs together and straight.",
+   "Engage core and lift legs up to parallel or higher.",
+   "Pause briefly at the top.",
+   "Lower legs under control to starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_hip_circles_stretch",
+  "name": "Hip Circles Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "hip flexors"
+  ],
+  "secondaryMuscles": [
+   "tensor fasciae latae",
+   "gluteus maximus",
+   "adductors",
+   "piriformis"
+  ],
+  "instructions": [
+   "Stand tall with feet shoulder-width apart, hands on hips.",
+   "Lift one knee up in front of you.",
+   "Move your knee and thigh in a circular motion outward.",
+   "Reverse and perform circles inward after the set.",
+   "Switch legs and repeat."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_hip_extension_stretch",
+  "name": "Hip Extension Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "hip flexors"
+  ],
+  "secondaryMuscles": [
+   "rectus femoris",
+   "lower back"
+  ],
+  "instructions": [
+   "Lie face down with legs extended.",
+   "Place hands beneath shoulders, elbows bent.",
+   "Press palms into floor, lifting chest and gently extending hips.",
+   "Hold the stretch at a comfortable tension.",
+   "Slowly lower back down."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_incline_leg_hip_raise",
+  "name": "Incline Leg Hip Raise",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "hip flexors",
+   "obliques"
+  ],
+  "instructions": [
+   "Lie face up on an incline bench and grip the handles behind your head.",
+   "Extend your legs straight and keep them together.",
+   "Raise your legs towards your chest, lifting your hips off the bench.",
+   "Pause at the top, focusing on contracting your abs.",
+   "Lower your legs under control to the starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_jackknife_pilates",
+  "name": "Jackknife",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "hip flexors",
+   "lower back",
+   "glutes"
+  ],
+  "instructions": [
+   "Lie on your back with arms at your sides and legs extended.",
+   "Engage your core and lift legs towards the ceiling.",
+   "Continue lifting hips off the mat, reaching feet upward.",
+   "Pause at the top with hips elevated.",
+   "Slowly roll back down vertebra by vertebra."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_jack_knife_floor",
+  "name": "Jackknife Floor",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "hip flexors",
+   "obliques"
+  ],
+  "instructions": [
+   "Lie flat with arms extended overhead and legs straight.",
+   "Engage your core, lift arms and legs toward each other.",
+   "Reach hands toward feet, forming a 'V' at the top.",
+   "Pause briefly, squeezing at the top.",
+   "Lower back down slowly to starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_jack_split_crunches",
+  "name": "Jackknife Split Crunch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "hip flexors",
+   "obliques",
+   "adductors"
+  ],
+  "instructions": [
+   "Lie on your back with arms extended overhead and legs straight.",
+   "Engage your core and simultaneously lift your torso and legs off the ground.",
+   "As you rise, spread your legs into a split while reaching your hands toward your feet.",
+   "Pause at the top, squeezing your abs.",
+   "Lower your legs and torso back to the ground with control, bringing feet together."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_jump_rope",
+  "name": "Jump Rope",
+  "equipment": "cable",
+  "primaryMuscles": [
+   "cardiovascular system"
+  ],
+  "secondaryMuscles": [
+   "calves",
+   "quadriceps",
+   "hamstrings",
+   "glutes"
+  ],
+  "instructions": [
+   "Hold a handle in each hand with the rope behind your heels.",
+   "Stand tall with feet close together and elbows tucked by your sides.",
+   "Turn the rope with your wrists and swing it up overhead.",
+   "Hop just high enough to clear the rope as it passes under your feet.",
+   "Land softly on the balls of your feet with knees slightly bent.",
+   "Keep the rope moving in a smooth rhythm and repeat each jump."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_jump_step_up",
+  "name": "Jump Step-Up",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "quadriceps"
+  ],
+  "secondaryMuscles": [
+   "gluteus maximus",
+   "hamstrings",
+   "calves"
+  ],
+  "instructions": [
+   "Stand facing a sturdy box or platform.",
+   "Place one foot firmly on top of the box.",
+   "Drive through the heel and explode upward, lifting your other knee high.",
+   "Land softly on the box with both feet.",
+   "Step or jump down with control and repeat."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_kettlebell_deadlift",
+  "name": "Kettlebell Deadlift",
+  "equipment": "kettlebells",
+  "primaryMuscles": [
+   "glutes"
+  ],
+  "secondaryMuscles": [
+   "hamstrings",
+   "erector spinae",
+   "quadriceps",
+   "forearms"
+  ],
+  "instructions": [
+   "Place kettlebell between your feet; stand with feet hip-width apart.",
+   "Hinge at hips and bend knees, keeping back flat and chest up.",
+   "Grip the kettlebell handle with both hands.",
+   "Drive through your heels to stand up, fully extending hips and knees.",
+   "Lower the kettlebell to the floor under control by hinging at the hips."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_kneeling_back_rotation_stretch",
+  "name": "Kneeling Back Rotation Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "thoracic spine"
+  ],
+  "secondaryMuscles": [
+   "obliques",
+   "chest",
+   "latissimus dorsi"
+  ],
+  "instructions": [
+   "Kneel on the floor (all fours or lunge position).",
+   "Place one hand behind your head or neck.",
+   "Rotate elbow and upper body upward, opening chest.",
+   "Hold for a moment at top of rotation.",
+   "Return to start and repeat; switch sides."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_stretching_kneeling_lat_stretch",
+  "name": "Kneeling Lat Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "lats"
+  ],
+  "secondaryMuscles": [
+   "teres major",
+   "triceps brachii",
+   "erector spinae"
+  ],
+  "instructions": [
+   "Kneel and sit hips back on heels.",
+   "Reach both arms forward, palms on floor.",
+   "Push chest toward the ground.",
+   "Hold the stretch, focusing on the long side body.",
+   "Optionally shift hands to each side for more stretch."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_kneeling_triceps_extension",
+  "name": "Kneeling Triceps Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "triceps"
+  ],
+  "secondaryMuscles": [
+   "latissimus dorsi",
+   "deltoids"
+  ],
+  "instructions": [
+   "Kneel on the floor or mat.",
+   "Raise one arm overhead then bend the elbow so your hand touches your upper back.",
+   "Use your other hand to gently push on the bent elbow.",
+   "Hold the stretch.",
+   "Switch arms and repeat."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_crunch_leg_raise",
+  "name": "Leg Raise Crunch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "hip flexors",
+   "obliques"
+  ],
+  "instructions": [
+   "Lie on your back and extend your legs.",
+   "Place your hands by your sides or behind your head.",
+   "Simultaneously lift your legs and upper torso toward each other.",
+   "Squeeze at the top of the movement.",
+   "Lower your legs and upper body back down under control."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_leg_raise_hip_lift",
+  "name": "Leg Raise with Hip Lift",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "hip flexors",
+   "lower back"
+  ],
+  "instructions": [
+   "Lie flat with arms at your sides and legs straight.",
+   "Raise your legs up together towards the ceiling.",
+   "At the top of the movement, press your legs up by lifting your hips off the ground.",
+   "Pause, squeezing your abs.",
+   "Lower your hips and legs back to the starting position slowly."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_lever_back_extension",
+  "name": "Lever Back Extension",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "spine"
+  ],
+  "secondaryMuscles": [
+   "glutes",
+   "hamstrings"
+  ],
+  "instructions": [
+   "Adjust the machine so the back pad sits comfortably against your upper back and your feet are secured on the platform.",
+   "Sit tall against the pad and grip the handles or side bars.",
+   "Brace your core and lean your torso forward under control through the machine's range.",
+   "Stop at the bottom when you feel a comfortable stretch and keep your feet pressed into the platform.",
+   "Drive your torso back against the pad until you return to an upright position.",
+   "Repeat smoothly without bouncing or jerking the pad."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_lever_high_row",
+  "name": "Lever High Row",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "upper back"
+  ],
+  "secondaryMuscles": [
+   "biceps",
+   "rear deltoids"
+  ],
+  "instructions": [
+   "Adjust the seat so the handles start around upper-chest height when you sit down.",
+   "Sit with your chest firmly against the pad and place your feet flat on the platform.",
+   "Grab the handles with an overhand grip and straighten your arms without lifting your chest off the pad.",
+   "Pull the handles back toward your upper ribs by driving your elbows down and back.",
+   "Squeeze your shoulder blades together at the end of the pull.",
+   "Return the handles forward under control until your arms are straight again."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_lever_horizontal_leg_press",
+  "name": "Lever Horizontal Leg Press",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "quadriceps"
+  ],
+  "secondaryMuscles": [
+   "gluteus maximus",
+   "hamstrings",
+   "adductors"
+  ],
+  "instructions": [
+   "Sit on the leg press and adjust seat as needed.",
+   "Place feet shoulder-width apart on platform.",
+   "Push platform away by extending legs.",
+   "Do not lock knees at the top position.",
+   "Lower platform under control to start position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_lever_incline_hammer_chest_press",
+  "name": "Lever Incline Hammer Chest Press",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "upper pectorals"
+  ],
+  "secondaryMuscles": [
+   "anterior deltoids",
+   "triceps brachii"
+  ],
+  "instructions": [
+   "Adjust seat height for optimal handle position.",
+   "Sit and grip handles with elbows bent.",
+   "Press handles up and forward above chest.",
+   "Avoid locking elbows completely.",
+   "Lower handles slowly to starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_lever_kneeling_leg_curl",
+  "name": "Lever Kneeling Leg Curl",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "hamstrings"
+  ],
+  "secondaryMuscles": [
+   "glutes"
+  ],
+  "instructions": [
+   "Adjust the machine so your knees line up with the machine's pivot point and your ankles sit securely under the pads.",
+   "Kneel on the pad facing the machine, brace your torso against the support, and grip the handles.",
+   "Start with your legs extended behind you and keep your hips still.",
+   "Curl your heels up toward your glutes by bending your knees against the pads.",
+   "Pause briefly at the top and squeeze your hamstrings.",
+   "Lower the pads under control until your legs are straight again."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_lever_lateral_raise",
+  "name": "Lever Lateral Raise",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "shoulders"
+  ],
+  "secondaryMuscles": [
+   "traps",
+   "upper back"
+  ],
+  "instructions": [
+   "Adjust the seat so the machine arms line up with your shoulders when you sit down.",
+   "Sit with your back against the pad and place your forearms or hands on the machine pads or handles.",
+   "Start with your arms down at your sides and keep a soft bend in your elbows.",
+   "Raise the machine arms out to your sides until your upper arms reach shoulder height.",
+   "Pause briefly at the top without shrugging your shoulders.",
+   "Lower the arms back down under control to the starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_lever_reverse_hyperextension",
+  "name": "Lever Reverse Hyperextension",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "glutes"
+  ],
+  "secondaryMuscles": [
+   "hamstrings",
+   "lower back"
+  ],
+  "instructions": [
+   "Adjust the machine so your hips rest on the pad and your legs can hang freely.",
+   "Lie face down with your torso supported and grip the handles or sides for stability.",
+   "Place your feet against the foot pads and let your legs hang down under control.",
+   "Brace your midsection and squeeze your glutes to raise your legs behind you.",
+   "Lift until your legs are about in line with your torso without arching your lower back.",
+   "Lower your legs slowly to the start position and repeat."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_lever_reverse_t_bar_row",
+  "name": "Lever Reverse T-Bar Row",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "upper back"
+  ],
+  "secondaryMuscles": [
+   "biceps",
+   "forearms"
+  ],
+  "instructions": [
+   "Adjust the seat or chest pad so the handles line up around mid-chest when you reach forward.",
+   "Place your chest firmly against the pad and set your feet flat on the platform.",
+   "Grab the handles with an overhand grip and straighten your arms without rounding your shoulders.",
+   "Pull the handles toward your chest by driving your elbows back and out slightly.",
+   "Squeeze your shoulder blades together at the end of the pull.",
+   "Lower the handles under control until your arms are straight again."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_lever_seated_dips",
+  "name": "Lever Seated Dip",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "triceps"
+  ],
+  "secondaryMuscles": [
+   "chest",
+   "anterior deltoids"
+  ],
+  "instructions": [
+   "Adjust the seat and select appropriate weight.",
+   "Sit down and grip the handles firmly.",
+   "Press the handles downward by extending your arms fully.",
+   "Pause briefly at lockout.",
+   "Return to the start position slowly."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_lever_seated_hip_abduction",
+  "name": "Lever Seated Hip Abduction",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "abductors"
+  ],
+  "secondaryMuscles": [
+   "glutes",
+   "hamstrings"
+  ],
+  "instructions": [
+   "Adjust the seat so your knees bend about 90 degrees and the thigh pads rest against the outside of your legs.",
+   "Sit tall with your back against the pad, place your feet on the footrests, and grip the handles.",
+   "Start with your legs together and your knees aligned with the machine's pivot.",
+   "Drive your knees outward against the pads until your legs are as wide as your comfortable range allows.",
+   "Pause briefly with your hips still on the seat.",
+   "Bring your legs back together slowly until the pads nearly touch, then repeat."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_lever_seated_hip_adduction",
+  "name": "Lever Seated Hip Adduction",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "adductors"
+  ],
+  "secondaryMuscles": [
+   "hamstrings",
+   "glutes"
+  ],
+  "instructions": [
+   "Adjust the seat and pads so your knees line up with the machine's pivot point.",
+   "Sit tall with your back against the pad, place your legs outside the thigh pads, and grab the handles.",
+   "Set your feet flat on the footrests and start with your legs comfortably apart.",
+   "Bring your legs together by pressing inward against the pads.",
+   "Squeeze your inner thighs briefly when the pads come together.",
+   "Return the pads outward slowly until you reach the start position without letting the weight slam."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_lever_seated_reverse_fly",
+  "name": "Lever Seated Reverse Fly",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "shoulders"
+  ],
+  "secondaryMuscles": [
+   "trapezius",
+   "rhomboids"
+  ],
+  "instructions": [
+   "Adjust the seat so the handles are about shoulder height when you sit down.",
+   "Sit with your chest against the pad, feet flat on the floor, and grasp the handles with an overhand grip.",
+   "Start with your arms in front of you and keep a soft bend in your elbows.",
+   "Pull the handles out and back in a wide arc until your upper arms line up with your shoulders.",
+   "Squeeze your rear shoulders and upper back at the end of the movement.",
+   "Return the handles slowly to the start without letting the weight slam down."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_lever_shrug",
+  "name": "Lever Shrug",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "traps"
+  ],
+  "secondaryMuscles": [
+   "shoulders"
+  ],
+  "instructions": [
+   "Adjust the machine so the handles rest at your sides with your shoulders relaxed.",
+   "Sit or stand against the pad and grasp the handles with a firm overhand grip.",
+   "Straighten your arms and set your chest tall with your neck neutral.",
+   "Lift your shoulders straight up toward your ears without bending your elbows.",
+   "Pause briefly at the top while keeping your torso still.",
+   "Lower your shoulders under control until they return to the start."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_lever_standing_calf_raise",
+  "name": "Lever Standing Calf Raise",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "calves"
+  ],
+  "secondaryMuscles": [
+   "soleus",
+   "ankle stabilizers"
+  ],
+  "instructions": [
+   "Adjust the shoulder pads so they rest comfortably on your shoulders when you stand on the platform.",
+   "Place the balls of your feet on the edge of the platform with your heels hanging off and grip the handles.",
+   "Straighten your legs, brace your torso, and let your heels lower until you feel a stretch in your calves.",
+   "Press through the balls of your feet to raise your heels as high as you can.",
+   "Pause briefly at the top while staying balanced under the pads.",
+   "Lower your heels under control back to the stretched start position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_lever_standing_hip_extension",
+  "name": "Lever Standing Hip Extension",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "glutes"
+  ],
+  "secondaryMuscles": [
+   "hamstrings",
+   "erector spinae"
+  ],
+  "instructions": [
+   "Adjust the machine to your height.",
+   "Place one foot on platform, chest against pad.",
+   "Brace core and grasp handles for balance.",
+   "Extend hip, pressing lever back with heel.",
+   "Return to starting position and repeat."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_lever_standing_rear_kick",
+  "name": "Lever Standing Rear Kick",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "glutes"
+  ],
+  "secondaryMuscles": [
+   "hamstrings",
+   "erector spinae"
+  ],
+  "instructions": [
+   "Adjust the lever machine pad to chest height and select weight.",
+   "Place working foot on the platform.",
+   "Hold handles and brace core.",
+   "Extend hip by pushing foot backward as far as comfortable.",
+   "Return slowly to starting position and repeat."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_lying_hip_lift_on_stability_ball",
+  "name": "Lying Hip Lift on Stability Ball",
+  "equipment": "exercise ball",
+  "primaryMuscles": [
+   "glutes"
+  ],
+  "secondaryMuscles": [
+   "hamstrings",
+   "lower back",
+   "core"
+  ],
+  "instructions": [
+   "Lie on your back with arms by your sides and feet on the stability ball.",
+   "Bend knees at 90 degrees and keep feet hip-width apart.",
+   "Drive through your heels and squeeze your glutes to lift your hips.",
+   "Pause at the top, keeping your body in a straight line.",
+   "Lower your hips back down with control."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_lying_floor_leg_raise",
+  "name": "Lying Leg Raise",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "hip flexors",
+   "obliques"
+  ],
+  "instructions": [
+   "Lie flat on your back, legs straight.",
+   "Keep arms at your sides or under hips.",
+   "Lift legs upward, keeping knees straight.",
+   "Raise legs until hips come up slightly.",
+   "Lower legs slowly without touching the floor."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_quadriceps_lying_stretch",
+  "name": "Lying Quadriceps Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "quadriceps"
+  ],
+  "secondaryMuscles": [
+   "hip flexors"
+  ],
+  "instructions": [
+   "Lie on your stomach with legs extended.",
+   "Bend one knee, bringing heel toward glute.",
+   "Reach back and grasp ankle with hand.",
+   "Gently pull heel closer to glute until a stretch is felt.",
+   "Hold, then switch sides."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_lying_scissor_kick_female",
+  "name": "Lying Scissor Kick",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "hip flexors"
+  ],
+  "secondaryMuscles": [
+   "abdominals",
+   "obliques",
+   "lower abs"
+  ],
+  "instructions": [
+   "Lie on your back with legs extended and arms at your sides.",
+   "Lift both legs a few inches off the ground, keeping them straight.",
+   "Alternate raising one leg while lowering the other in a scissor motion.",
+   "Continue to alternate legs in a controlled manner.",
+   "Keep your head and shoulders relaxed, core engaged."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_lying_straight_leg_raise",
+  "name": "Lying Straight Leg Raise",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "hip flexors"
+  ],
+  "secondaryMuscles": [
+   "abdominals",
+   "lower abdominals"
+  ],
+  "instructions": [
+   "Lie flat on your back, arms at sides.",
+   "Extend legs fully, feet together.",
+   "Lift legs straight up to vertical.",
+   "Pause briefly at the top.",
+   "Lower legs down slowly but don\u2019t touch floor."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_medicine_ball_sit_up_wall",
+  "name": "Medicine Ball Wall Sit-Up",
+  "equipment": "other",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "hip flexors",
+   "obliques",
+   "shoulders"
+  ],
+  "instructions": [
+   "Sit on the floor facing a wall, knees bent.",
+   "Hold a medicine ball at your chest.",
+   "Lie back, then perform a sit-up.",
+   "At the top, throw the ball against the wall.",
+   "Catch the rebound and lower back down."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_old_school_reverse_extensions",
+  "name": "Old School Reverse Extensions",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "triceps"
+  ],
+  "secondaryMuscles": [
+   "posterior deltoids",
+   "latissimus dorsi"
+  ],
+  "instructions": [
+   "Lie face down on the floor or bench with elbows bent and hands at your sides.",
+   "Position elbows by your torso.",
+   "Straighten your arms fully behind you, contracting your triceps.",
+   "Pause and squeeze at full extension.",
+   "Return to the start in a controlled manner."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_lever_pec_deck_fly",
+  "name": "Pec Deck Fly",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "chest"
+  ],
+  "secondaryMuscles": [
+   "anterior deltoids",
+   "biceps"
+  ],
+  "instructions": [
+   "Adjust seat and sit with back against pad.",
+   "Place forearms on pads with elbows slightly bent.",
+   "Bring arms together in a wide arc.",
+   "Squeeze chest at the end of movement.",
+   "Return slowly to starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_corkscrew_pilates",
+  "name": "Pilates Corkscrew",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "obliques",
+   "hip flexors"
+  ],
+  "instructions": [
+   "Lie on back, arms by side, legs straight up.",
+   "Engage core, lift hips off mat gently.",
+   "Circle legs together in a clockwise motion.",
+   "Lower hips as legs complete the circle.",
+   "Reverse the circle direction."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_hundred_pilates",
+  "name": "Pilates Hundred",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "obliques",
+   "hip flexors"
+  ],
+  "instructions": [
+   "Lie on back, legs in tabletop or extended.",
+   "Lift head, neck, shoulders off mat.",
+   "Extend arms at sides, hovering above floor.",
+   "Pump arms up and down vigorously.",
+   "Inhale for 5 pumps, exhale for 5 pumps; repeat to 100."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_plyo_side_lunge_stretch",
+  "name": "Plyometric Side Lunge Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "adductors"
+  ],
+  "secondaryMuscles": [
+   "glutes",
+   "quadriceps",
+   "hamstrings"
+  ],
+  "instructions": [
+   "Stand with feet wider than hip-width apart.",
+   "Shift your weight to one side, bending the knee and keeping the opposite leg straight.",
+   "Drop into a deep lunge while maintaining upright posture.",
+   "Push off the bent leg and return to starting position.",
+   "Repeat to the opposite side in a dynamic, alternating fashion."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_pull_up_wide_front_grip",
+  "name": "Pull-Up (Wide Grip)",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "lats"
+  ],
+  "secondaryMuscles": [
+   "trapezius",
+   "rhomboids",
+   "biceps brachii"
+  ],
+  "instructions": [
+   "Grip pull-up bar with hands wider than shoulders, palms overhand.",
+   "Hang with arms fully extended and core tight.",
+   "Pull chest up to bar, driving elbows down and out.",
+   "Pause at the top, squeeze back muscles.",
+   "Lower down slowly to full extension."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_rear_decline_bridge",
+  "name": "Rear Decline Bridge",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "glutes"
+  ],
+  "secondaryMuscles": [
+   "hamstrings",
+   "lower back"
+  ],
+  "instructions": [
+   "Lie on your back with your knees bent and feet flat on the floor, hip-width apart.",
+   "Place your arms by your sides and press your palms lightly into the floor.",
+   "Brace your midsection and squeeze your glutes.",
+   "Drive through your heels and lift your hips until your knees, hips, and shoulders line up.",
+   "Pause briefly at the top while keeping your ribs down.",
+   "Lower your hips to the floor with control and reset before the next rep."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_rear_deltoid_stretch",
+  "name": "Rear Deltoid Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "posterior deltoid"
+  ],
+  "secondaryMuscles": [
+   "rhomboids",
+   "trapezius"
+  ],
+  "instructions": [
+   "Extend one arm across your chest at shoulder height.",
+   "Use opposite hand to pull arm towards your body.",
+   "Hold the stretch for 20-30 seconds.",
+   "Release and return to start.",
+   "Repeat on the other side."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_stretching_hip_flexor_stretch_rear_foot_elevated",
+  "name": "Rear Foot Elevated Hip Flexor Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "hip flexors"
+  ],
+  "secondaryMuscles": [
+   "rectus femoris",
+   "quadriceps"
+  ],
+  "instructions": [
+   "Stand with your back to a bench; place one foot on the bench.",
+   "Step the front foot forward and lower into a lunge.",
+   "Tuck pelvis under, keeping chest tall.",
+   "Lean gently forward to intensify the stretch.",
+   "Hold, then switch legs."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_band_high_fly",
+  "name": "Resistance Band High Fly",
+  "equipment": "bands",
+  "primaryMuscles": [
+   "chest"
+  ],
+  "secondaryMuscles": [
+   "anterior deltoids",
+   "serratus anterior",
+   "biceps"
+  ],
+  "instructions": [
+   "Anchor resistance band above shoulder height.",
+   "Grasp handles and step forward for tension.",
+   "Start with arms raised wide, aligned with shoulders.",
+   "Pull arms downward and together in a wide arc.",
+   "Squeeze chest, then return slowly to start."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_reverse_crunch_female",
+  "name": "Reverse Crunch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "obliques",
+   "hip flexors"
+  ],
+  "instructions": [
+   "Lie on your back, arms at your sides, knees bent, and feet off the ground.",
+   "Engage your core and lift your legs, bringing knees toward your chest.",
+   "Lift hips off the floor in a curling motion.",
+   "Pause and squeeze your abs at the top.",
+   "Lower your hips back down slowly, keeping control."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_reverse_dip",
+  "name": "Reverse Dip Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "triceps"
+  ],
+  "secondaryMuscles": [
+   "deltoids",
+   "chest"
+  ],
+  "instructions": [
+   "Sit with legs extended and arms behind your hips.",
+   "Place hands flat on the floor, fingers pointing forward.",
+   "Press through your palms to lift your chest up.",
+   "Keep your arms long without locking elbows.",
+   "Hold for the stretch, then slowly lower and relax."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_reverse_grip_machine_lat_pulldown",
+  "name": "Reverse Grip Machine Lat Pulldown",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "lats"
+  ],
+  "secondaryMuscles": [
+   "biceps",
+   "forearms"
+  ],
+  "instructions": [
+   "Adjust the seat so your knees fit snugly under the pads and place your feet flat on the floor.",
+   "Reach up and grab the handles with an underhand grip about shoulder-width apart.",
+   "Sit tall with your chest up and arms fully extended overhead.",
+   "Pull the handles down toward your upper chest by driving your elbows down and back.",
+   "Squeeze your upper back and lats at the bottom without leaning far backward.",
+   "Slowly let the handles rise until your arms are straight again while keeping control."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_reverse_grip_pull_up",
+  "name": "Reverse Grip Pull-Up",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "lats"
+  ],
+  "secondaryMuscles": [
+   "biceps",
+   "rhomboids",
+   "forearms"
+  ],
+  "instructions": [
+   "Grab the bar with palms facing you (supinated grip), hands shoulder-width apart.",
+   "Hang with arms fully extended and scapula engaged.",
+   "Pull your chest up towards the bar, leading with your elbows.",
+   "Clear your chin above the bar, squeezing at the top.",
+   "Lower yourself back to the starting position with control."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_cable_bar_lateral_pulldown_reverse_grip",
+  "name": "Reverse-Grip Cable Lat Pulldown",
+  "equipment": "cable",
+  "primaryMuscles": [
+   "lats"
+  ],
+  "secondaryMuscles": [
+   "biceps brachii",
+   "teres major",
+   "rhomboids",
+   "lower trapezius"
+  ],
+  "instructions": [
+   "Set the cable bar attachment and sit with knees secured under the pad.",
+   "Grasp the bar with a reverse (supinated) shoulder-width grip.",
+   "Lean back slightly, chest up, arms fully extended.",
+   "Pull the bar down to your upper chest by contracting your lats.",
+   "Slowly return the bar to the start position with control."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_ring_high_row",
+  "name": "Ring High Row",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "rhomboids"
+  ],
+  "secondaryMuscles": [
+   "latissimus dorsi",
+   "biceps brachii",
+   "rear deltoids",
+   "trapezius"
+  ],
+  "instructions": [
+   "Adjust rings to chest height and grip handles with neutral grip.",
+   "Lean back with feet forward and body straight.",
+   "Engage core, keep arms extended.",
+   "Row your chest toward the rings, retracting shoulder blades.",
+   "Lower body back to start under control."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_rotate_push_up_female",
+  "name": "Rotational Push-Up",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "chest"
+  ],
+  "secondaryMuscles": [
+   "deltoids",
+   "triceps",
+   "obliques",
+   "serratus anterior"
+  ],
+  "instructions": [
+   "Begin in a standard push-up position.",
+   "Lower your chest toward the floor.",
+   "As you press up, rotate your torso and lift one arm toward the ceiling.",
+   "Hold briefly, keeping hips square.",
+   "Return to start, repeat on the other side."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_runners_stretch",
+  "name": "Runner's Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "hip flexors"
+  ],
+  "secondaryMuscles": [
+   "hamstrings",
+   "quadriceps",
+   "gluteus maximus"
+  ],
+  "instructions": [
+   "Step one foot forward into a lunge, keeping the rear leg extended.",
+   "Place both hands on either side of the front foot.",
+   "Lower your hips gently, keeping back leg straight.",
+   "Lift your chest for deeper stretch.",
+   "Hold, then switch legs."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_running",
+  "name": "Running",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "cardiovascular system"
+  ],
+  "secondaryMuscles": [
+   "quadriceps",
+   "hamstrings",
+   "glutes",
+   "calves"
+  ],
+  "instructions": [
+   "Warm up with light walking or dynamic stretches.",
+   "Begin running at a moderate pace.",
+   "Maintain a steady breathing rhythm and upright posture.",
+   "Land lightly with a midfoot or forefoot strike.",
+   "Cool down with walking and stretching."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_russian_twist_on_stability_ball_arms_straight",
+  "name": "Russian Twist on Stability Ball (Arms Straight)",
+  "equipment": "exercise ball",
+  "primaryMuscles": [
+   "obliques"
+  ],
+  "secondaryMuscles": [
+   "abdominals",
+   "transverse abdominis",
+   "hip flexors"
+  ],
+  "instructions": [
+   "Sit on a stability ball and walk feet forward until shoulders rest on the ball.",
+   "Keep knees bent at 90 degrees, hips lifted in a bridge position.",
+   "Extend arms straight toward the ceiling with hands together.",
+   "Rotate torso and arms as one unit to the left.",
+   "Return to center, then rotate to the right, repeating for reps."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_scapula_dips",
+  "name": "Scapula Dips",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "traps"
+  ],
+  "secondaryMuscles": [
+   "rhomboids",
+   "deltoids"
+  ],
+  "instructions": [
+   "Start in a straight-arm support on parallel bars or dip bars with your elbows locked and shoulders stacked over your hands.",
+   "Lift your chest and brace your trunk while keeping your legs still under you.",
+   "Lower your body a few inches by letting your shoulders rise toward your ears without bending your elbows.",
+   "Press down through your hands to pull your shoulders away from your ears and raise your body back up.",
+   "Repeat with slow, controlled shoulder movement while keeping your arms straight the whole time."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_boat_stretch",
+  "name": "Seated Boat Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "adductors"
+  ],
+  "secondaryMuscles": [
+   "lower back",
+   "gluteus maximus"
+  ],
+  "instructions": [
+   "Sit on the floor with back straight.",
+   "Bring soles of feet together and let knees drop out.",
+   "Hold ankles or feet for support.",
+   "Gently pull feet closer and lean forward slightly.",
+   "Hold position without bouncing."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_cable_straight_back_seated_row_v_grip",
+  "name": "Seated Cable Row (V-Grip)",
+  "equipment": "cable",
+  "primaryMuscles": [
+   "lats"
+  ],
+  "secondaryMuscles": [
+   "rhomboids",
+   "middle trapezius",
+   "biceps brachii",
+   "posterior deltoids"
+  ],
+  "instructions": [
+   "Sit on the cable row machine and place feet on the foot platform.",
+   "Grab the V-grip handle with both hands, arms extended.",
+   "Maintain a straight back and slight knee bend.",
+   "Pull the handle toward your abdomen, retracting your shoulder blades.",
+   "Slowly extend arms to return to the starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_cable_seated_row_wide_grip",
+  "name": "Seated Cable Row (Wide-Grip)",
+  "equipment": "cable",
+  "primaryMuscles": [
+   "upper back"
+  ],
+  "secondaryMuscles": [
+   "posterior deltoids",
+   "biceps brachii",
+   "teres major"
+  ],
+  "instructions": [
+   "Sit down and place feet against the platform.",
+   "Grasp the wide grip attachment with both hands.",
+   "Keep your torso upright, arms fully extended.",
+   "Pull the handle toward your upper abdomen, squeezing your upper back.",
+   "Slowly release back to the start position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_seated_calf_stretch",
+  "name": "Seated Calf Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "calves"
+  ],
+  "secondaryMuscles": [
+   "soleus",
+   "hamstrings"
+  ],
+  "instructions": [
+   "Sit with legs extended straight in front.",
+   "Loop a towel or band around one foot's ball.",
+   "Keep knee straight and pull your toes toward you.",
+   "Hold position, feeling stretch in calf.",
+   "Repeat on the other leg."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_seated_lower_back_stretch",
+  "name": "Seated Lower Back Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "erector spinae"
+  ],
+  "secondaryMuscles": [
+   "gluteus maximus",
+   "hamstrings"
+  ],
+  "instructions": [
+   "Sit with legs extended or crossed.",
+   "Reach both arms straight in front of you.",
+   "Slowly bend at your hips to lower your torso forward.",
+   "Relax your back and shoulders.",
+   "Hold stretch, then return to upright position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_seated_shoulder_flexor_depresor_retractor",
+  "name": "Seated Shoulder Flexor, Depressor, Retractor Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "deltoids"
+  ],
+  "secondaryMuscles": [
+   "trapezius",
+   "rhomboids",
+   "pectoralis major"
+  ],
+  "instructions": [
+   "Sit tall with feet flat.",
+   "Lift arms overhead, reaching upward.",
+   "Gently depress the shoulders away from your ears.",
+   "Retract shoulder blades by pulling them slightly together.",
+   "Hold for a stretch, breathing evenly."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_seated_twist_straight_arm",
+  "name": "Seated Straight Arm Twist",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "obliques"
+  ],
+  "secondaryMuscles": [
+   "abdominals",
+   "transverse abdominis",
+   "hip flexors"
+  ],
+  "instructions": [
+   "Sit with knees bent, feet either flat or off the ground.",
+   "Extend arms straight forward, clasping hands.",
+   "Lean back slightly with a neutral spine.",
+   "Rotate torso to one side, arms following movement.",
+   "Return to center and repeat to opposite side."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_seated_twist_on_stability_ball",
+  "name": "Seated Twist on Stability Ball",
+  "equipment": "exercise ball",
+  "primaryMuscles": [
+   "obliques"
+  ],
+  "secondaryMuscles": [
+   "abdominals",
+   "hip flexors"
+  ],
+  "instructions": [
+   "Sit on a stability ball with feet flat, core engaged.",
+   "Hold arms in front or across chest.",
+   "Rotate your torso to the right, keeping hips stationary.",
+   "Pause, then twist to the left.",
+   "Return to center, repeat alternately."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_seated_twist_straight_arm",
+  "name": "Seated Twist Stretch (Straight Arm)",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "obliques"
+  ],
+  "secondaryMuscles": [
+   "erector spinae",
+   "gluteus maximus"
+  ],
+  "instructions": [
+   "Sit upright with legs extended forward.",
+   "Cross your left leg over your right if desired for more stretch.",
+   "Extend your right arm straight behind you for support.",
+   "Twist your torso toward your right, using the opposite arm for leverage.",
+   "Hold, then repeat to the other side."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_seated_wide_angle_pose_sequence",
+  "name": "Seated Wide Angle Pose Sequence",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "adductors"
+  ],
+  "secondaryMuscles": [
+   "hamstrings",
+   "erector spinae",
+   "gluteus maximus"
+  ],
+  "instructions": [
+   "Sit with legs extended wide apart.",
+   "Keep knees and toes pointing upward.",
+   "Sit tall and hinge forward at hips.",
+   "Walk hands forward, maintaining flat back.",
+   "Hold stretch or gently move side to side."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_pull_up_shoulder_grip",
+  "name": "Shoulder-Width Pull-Up",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "lats"
+  ],
+  "secondaryMuscles": [
+   "biceps",
+   "rhomboids",
+   "trapezius",
+   "forearms"
+  ],
+  "instructions": [
+   "Grip bar shoulder-width, palms away.",
+   "Hang with arms fully extended.",
+   "Pull up until chin clears the bar.",
+   "Pause briefly at the top.",
+   "Lower down slowly to full extension."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_side_bend_on_stability_ball",
+  "name": "Side Bend on Stability Ball",
+  "equipment": "exercise ball",
+  "primaryMuscles": [
+   "obliques"
+  ],
+  "secondaryMuscles": [
+   "abdominals",
+   "quadratus lumborum"
+  ],
+  "instructions": [
+   "Position yourself sideways on a stability ball, feet braced.",
+   "Place top hand behind head, other hand for balance.",
+   "Lower your torso over the ball for a stretch.",
+   "Contract your side to lift torso up in a side bend.",
+   "Lower back down with control, repeat."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_slopes_towards_stretch",
+  "name": "Side Bend Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "obliques"
+  ],
+  "secondaryMuscles": [
+   "latissimus dorsi",
+   "quadratus lumborum",
+   "erector spinae"
+  ],
+  "instructions": [
+   "Stand or sit tall with spine neutral.",
+   "Raise right arm overhead.",
+   "Slowly bend torso to the left, keeping hips steady.",
+   "Hold stretch for time, feeling the pull in your side.",
+   "Return to start and repeat on the other side."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_stretching_side_wrist_pull_stretch",
+  "name": "Side Wrist Pull Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "forearms"
+  ],
+  "secondaryMuscles": [
+   "deltoids",
+   "latissimus dorsi"
+  ],
+  "instructions": [
+   "Stand or sit tall.",
+   "Extend one arm overhead or outward.",
+   "Hold your wrist with the opposite hand.",
+   "Pull gently toward one side.",
+   "Hold, then switch sides."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_single_dumbbell_stiff_leg_deadlift",
+  "name": "Single Dumbbell Stiff-Leg Deadlift",
+  "equipment": "dumbbell",
+  "primaryMuscles": [
+   "hamstrings"
+  ],
+  "secondaryMuscles": [
+   "glutes",
+   "lower back",
+   "erector spinae"
+  ],
+  "instructions": [
+   "Stand upright holding a dumbbell with both hands at your thighs.",
+   "Keep a slight bend in your knees and your back flat.",
+   "Hinge forward at the hips, lowering the dumbbell towards the floor.",
+   "Pause at the bottom while feeling a stretch in your hamstrings.",
+   "Return to the upright position by driving hips forward."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_single_leg_stretch_bent_knee",
+  "name": "Single Leg Stretch (Bent Knee)",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "hip flexors"
+  ],
+  "secondaryMuscles": [
+   "quadriceps",
+   "hamstrings",
+   "glutes"
+  ],
+  "instructions": [
+   "Lie on your back with both legs bent.",
+   "Grasp one knee with both hands.",
+   "Pull the knee toward your chest gently.",
+   "Hold the stretch, keeping your back flat.",
+   "Switch sides and repeat."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_stretching_single_straight_leg_stretch",
+  "name": "Single Straight Leg Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "hamstrings"
+  ],
+  "secondaryMuscles": [
+   "calves",
+   "glutes",
+   "lower back"
+  ],
+  "instructions": [
+   "Lie on your back with both legs straight.",
+   "Lift one leg up while keeping it straight.",
+   "Hold the back of your thigh or calf gently.",
+   "Pull the leg slightly toward your chest.",
+   "Hold and switch legs."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_sled_45_degree_calf_press",
+  "name": "Sled 45 Degree Calf Press",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "calves"
+  ],
+  "secondaryMuscles": [
+   "hamstrings"
+  ],
+  "instructions": [
+   "Sit in the 45-degree sled machine and place the balls of both feet on the lower edge of the platform with your heels hanging off.",
+   "Straighten your legs enough to support the sled and keep a small bend in your knees.",
+   "Let your heels drop down by bending at the ankles until you feel a stretch in your calves.",
+   "Press through the balls of your feet and raise your heels as high as you can.",
+   "Pause briefly at the top while keeping your legs steady.",
+   "Lower your heels under control back to the stretched position and repeat."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_sled_45_degree_leg_wide_press",
+  "name": "Sled 45 Degree Wide Leg Press",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "quadriceps"
+  ],
+  "secondaryMuscles": [
+   "gluteus maximus",
+   "adductors",
+   "hamstrings"
+  ],
+  "instructions": [
+   "Adjust the seat and load desired weight.",
+   "Sit with your back and head against the pad, feet flat and wide on the platform.",
+   "Release the safety handles and grasp the side handles.",
+   "Bend your knees to lower the platform until your thighs reach 90 degrees or just past.",
+   "Press through your heels to extend your legs fully, but avoid locking out the knees."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_smith_deadlift_deadlift_1",
+  "name": "Smith Machine Deadlift",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "erectors"
+  ],
+  "secondaryMuscles": [
+   "gluteus maximus",
+   "hamstrings",
+   "trapezius",
+   "forearms"
+  ],
+  "instructions": [
+   "Position feet shoulder-width beneath the Smith bar.",
+   "Grip the bar just outside your knees with both hands.",
+   "Hinge hips back and lower torso, keeping chest up.",
+   "Extend hips and knees to lift the bar along the guides.",
+   "Lower the bar with control to the starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_smith_seated_shoulder_press",
+  "name": "Smith Seated Shoulder Press",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "shoulders"
+  ],
+  "secondaryMuscles": [
+   "triceps",
+   "upper back"
+  ],
+  "instructions": [
+   "Set a bench or seat under the Smith bar so the bar starts around shoulder height when you sit down.",
+   "Sit tall with your back supported, plant your feet flat, and grip the bar just wider than shoulder width with palms forward.",
+   "Unrack the bar and hold it above your upper chest with wrists stacked over elbows.",
+   "Lower the bar in a straight path until it reaches about chin to shoulder level.",
+   "Press the bar straight up until your arms are extended overhead.",
+   "Lower the bar with control to the start position and repeat.",
+   "Finish by locking out the top and rotating the bar to re-rack it on the hooks."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_spine_stretch",
+  "name": "Spine Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "spinal erectors"
+  ],
+  "secondaryMuscles": [
+   "latissimus dorsi",
+   "hamstrings"
+  ],
+  "instructions": [
+   "Sit on floor with legs extended and feet flexed.",
+   "Extend arms straight ahead at shoulder height.",
+   "Inhale, then as you exhale, reach forward, articulating your spine.",
+   "Stretch forward as far as comfortable, keeping legs straight.",
+   "Hold and return slowly to start."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_leg_curl_on_stability_ball",
+  "name": "Stability Ball Leg Curl",
+  "equipment": "exercise ball",
+  "primaryMuscles": [
+   "hamstrings"
+  ],
+  "secondaryMuscles": [
+   "glutes",
+   "calves",
+   "erector spinae"
+  ],
+  "instructions": [
+   "Lie face up on the floor, arms at your sides, heels on a stability ball.",
+   "Lift hips to form a straight line from shoulders to heels.",
+   "Bend knees to roll the ball toward your glutes.",
+   "Pause and squeeze your hamstrings.",
+   "Extend your legs to roll the ball back out."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_crunch_legs_on_stability_ball",
+  "name": "Stability Ball Leg Elevated Crunch",
+  "equipment": "exercise ball",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "obliques",
+   "hip flexors"
+  ],
+  "instructions": [
+   "Place stability ball in front of you and sit down.",
+   "Lie back and position your calves and feet on top of the ball with knees bent.",
+   "Place your hands lightly behind your head or crossed on your chest.",
+   "Engage your core and curl your upper body toward your knees.",
+   "Pause briefly at the top, then lower back down without losing control."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_stairs_calf_stretch",
+  "name": "Stairs Calf Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "calves"
+  ],
+  "secondaryMuscles": [
+   "achilles tendon"
+  ],
+  "instructions": [
+   "Stand with the balls of your feet on a step or stair.",
+   "Support yourself with a railing, wall, or sturdy object.",
+   "Lower your heels slowly below the step to feel a stretch in your calves.",
+   "Hold the stretch for 15-30 seconds.",
+   "Raise heels back up and repeat as desired."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_adductor_stretch",
+  "name": "Standing Adductor Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "adductors"
+  ],
+  "secondaryMuscles": [
+   "hamstrings",
+   "gluteus maximus"
+  ],
+  "instructions": [
+   "Stand wide with feet apart.",
+   "Shift weight to one leg, bending at the knee.",
+   "Keep the opposite leg straight and toes forward.",
+   "Lean gently toward the bent knee for a deep inner thigh stretch.",
+   "Hold, then switch to the other side."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_standing_back_rotation_stretch",
+  "name": "Standing Back Rotation Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "obliques"
+  ],
+  "secondaryMuscles": [
+   "erector spinae",
+   "latissimus dorsi"
+  ],
+  "instructions": [
+   "Stand tall with feet shoulder-width apart.",
+   "Extend arms at shoulder height or place hands on hips.",
+   "Rotate torso gently to one side without moving hips.",
+   "Hold stretch for desired time.",
+   "Return to center and repeat on other side."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_stretching_standing_bench_calf_stretch",
+  "name": "Standing Bench Calf Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "calves"
+  ],
+  "secondaryMuscles": [
+   "soleus"
+  ],
+  "instructions": [
+   "Stand in front of a bench or sturdy surface.",
+   "Place the ball of one foot onto the edge, keeping heel on the floor.",
+   "Lean your body forward while keeping your knee straight.",
+   "Hold the stretch for 15-30 seconds.",
+   "Switch legs and repeat."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_hamstring_stretch",
+  "name": "Standing Hamstring Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "hamstrings"
+  ],
+  "secondaryMuscles": [
+   "glutes",
+   "calves"
+  ],
+  "instructions": [
+   "Stand up straight with feet hip-width apart.",
+   "Keep knees soft, and hinge forward at the hips.",
+   "Lower your torso toward your legs while reaching for your toes.",
+   "Stop when you feel a gentle stretch in your hamstrings.",
+   "Hold for the desired duration, then return to standing."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_ceiling_look_stretch",
+  "name": "Standing Hip Flexor and Abdominal Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "hip flexors"
+  ],
+  "secondaryMuscles": [
+   "abdominals",
+   "quadriceps"
+  ],
+  "instructions": [
+   "Stand upright with feet shoulder-width apart.",
+   "Lift arms overhead, palms facing forward.",
+   "Arch back gently, lifting chest and looking upward.",
+   "Shift hips forward slightly to increase hip flexor stretch.",
+   "Hold and breathe for desired duration."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_knee_raise",
+  "name": "Standing Knee Raise Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "hip flexors"
+  ],
+  "secondaryMuscles": [
+   "glutes",
+   "hamstrings",
+   "quadriceps"
+  ],
+  "instructions": [
+   "Stand tall with feet together.",
+   "Lift one knee toward your chest.",
+   "Grasp your knee with both hands.",
+   "Pull the knee gently toward your chest, feeling the stretch.",
+   "Hold, then lower and repeat on the opposite leg."
+  ],
+  "trackingMode": "unilateral"
+ },
+ {
+  "id": "bundle_stretching_standing_reach_up_back_rotation_stretch",
+  "name": "Standing Reach Up Back Rotation Stretch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "chest"
+  ],
+  "secondaryMuscles": [
+   "deltoids",
+   "latissimus dorsi",
+   "trapezius"
+  ],
+  "instructions": [
+   "Stand tall with feet shoulder-width apart.",
+   "Raise both arms overhead.",
+   "Gently arch your upper back and chest.",
+   "Rotate your torso to one side while maintaining the stretch.",
+   "Return to center, then rotate to the other side."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_standing_side_bend_bent_arm",
+  "name": "Standing Side Bend Stretch (Bent Arm)",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "obliques"
+  ],
+  "secondaryMuscles": [
+   "latissimus dorsi",
+   "serratus anterior"
+  ],
+  "instructions": [
+   "Stand with feet shoulder-width apart.",
+   "Raise one arm overhead, bending the elbow comfortably.",
+   "Lean sideways away from the raised arm to stretch the side of your torso.",
+   "Hold the stretch for 15-30 seconds.",
+   "Switch sides and repeat."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_stretching_standing_wheel_rollout",
+  "name": "Standing Wheel Rollout",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "latissimus dorsi",
+   "pectoralis major",
+   "deltoids"
+  ],
+  "instructions": [
+   "Stand with feet shoulder-width apart and hold the ab wheel.",
+   "Bend forward and place the wheel on the floor in front of your feet.",
+   "Roll the wheel forward, extending your arms and torso while keeping your core tight.",
+   "Lower your body until you're just above the floor, maintaining a straight line from head to heels.",
+   "Reverse the motion by pulling the wheel back toward your feet, returning to the start."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_crunch_straight_leg_up",
+  "name": "Straight-Leg Up Crunch",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "obliques",
+   "hip flexors"
+  ],
+  "instructions": [
+   "Lie on back, legs straight up, feet flexed.",
+   "Place arms beside you or hands behind head.",
+   "Engage core, lift head and shoulders toward legs.",
+   "Pause at top, exhale.",
+   "Lower down with control."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_treadmill_running",
+  "name": "Treadmill Running",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "cardiovascular system"
+  ],
+  "secondaryMuscles": [
+   "quadriceps",
+   "hamstrings",
+   "calves",
+   "glutes"
+  ],
+  "instructions": [
+   "Step onto the treadmill and position feet on the sides.",
+   "Select preferred speed and incline.",
+   "Begin running, holding onto the handrails if necessary for balance.",
+   "Focus on smooth strides and upright posture.",
+   "Cool down by gradually reducing speed before stopping."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_triceps_dips",
+  "name": "Triceps Dips",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "triceps"
+  ],
+  "secondaryMuscles": [
+   "anterior deltoids",
+   "pectoralis major"
+  ],
+  "instructions": [
+   "Sit on a bench or chair with hands gripping the edge.",
+   "Extend legs forward and slide hips off the seat.",
+   "Lower body by bending elbows to 90 degrees.",
+   "Press through palms to straighten arms and lift body.",
+   "Repeat for reps."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_v_up",
+  "name": "V-Up",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "hip flexors",
+   "obliques"
+  ],
+  "instructions": [
+   "Lie on your back with arms extended overhead and legs straight.",
+   "Engage your core to lift your legs and torso simultaneously.",
+   "Reach your hands toward your feet at the top, forming a 'V' shape.",
+   "Pause briefly, squeezing your abs.",
+   "Lower down slowly to starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_vertical_leg_raise_on_parallel_bars",
+  "name": "Vertical Leg Raise (on parallel bars)",
+  "equipment": "body only",
+  "primaryMuscles": [
+   "abs"
+  ],
+  "secondaryMuscles": [
+   "hip flexors"
+  ],
+  "instructions": [
+   "Support yourself on the parallel bars with straight arms and your legs hanging together.",
+   "Pull your shoulders down and brace your midsection to stop your body from swinging.",
+   "Keep your knees straight and lift your legs forward in front of you.",
+   "Raise your legs until they reach hip height or slightly higher.",
+   "Pause briefly at the top without leaning back.",
+   "Lower your legs with control to the start and reset before the next repetition."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_walk_wave_machine",
+  "name": "Walk Wave Machine",
+  "equipment": "machine",
+  "primaryMuscles": [
+   "cardiovascular system"
+  ],
+  "secondaryMuscles": [
+   "glutes",
+   "quadriceps",
+   "hamstrings",
+   "hip abductors",
+   "calves"
+  ],
+  "instructions": [
+   "Step onto the machine and position feet on pedals.",
+   "Grip handles for stability.",
+   "Initiate movement by pushing one leg outward while the other follows.",
+   "Maintain a rhythmic, lateral gliding motion.",
+   "Continue for the desired time or intensity."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_weighted_leg_extension_crunch",
+  "name": "Weighted Leg Extension Crunch",
+  "equipment": "other",
+  "primaryMuscles": [
+   "abdominals"
+  ],
+  "secondaryMuscles": [
+   "hip flexors",
+   "obliques"
+  ],
+  "instructions": [
+   "Lie flat on your back with knees bent, holding a weight across your chest.",
+   "Lift your legs to tabletop position (knees over hips, 90-degree bend).",
+   "Simultaneously extend your legs outward and crunch your upper body up.",
+   "Pause briefly at peak contraction.",
+   "Return arms and legs to the starting position."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_weighted_lying_twist",
+  "name": "Weighted Lying Twist",
+  "equipment": "other",
+  "primaryMuscles": [
+   "obliques"
+  ],
+  "secondaryMuscles": [
+   "abdominals",
+   "hip flexors"
+  ],
+  "instructions": [
+   "Lie on your back with arms outstretched for support.",
+   "Hold a weight between your feet (or over chest).",
+   "Lift your legs up to a 90-degree angle.",
+   "Slowly rotate your legs to one side, keeping shoulders down.",
+   "Return to center and repeat on the other side."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_weighted_standing_curl",
+  "name": "Weighted Standing Curl",
+  "equipment": "other",
+  "primaryMuscles": [
+   "biceps"
+  ],
+  "secondaryMuscles": [
+   "forearms"
+  ],
+  "instructions": [
+   "Stand tall with a weight in each hand at your sides and turn your palms forward.",
+   "Set your feet about hip-width apart and keep your elbows pinned near your ribs.",
+   "Curl the weights upward by bending your elbows until your hands reach shoulder height.",
+   "Pause briefly at the top without letting your elbows drift forward.",
+   "Lower the weights back down with control until your arms are fully straightened at your sides."
+  ],
+  "trackingMode": "bilateral"
+ },
+ {
+  "id": "bundle_cable_bar_lateral_pulldown_wide_shoulder_grip",
+  "name": "Wide Grip Cable Lat Pulldown",
+  "equipment": "cable",
+  "primaryMuscles": [
+   "lats"
+  ],
+  "secondaryMuscles": [
+   "biceps brachii",
+   "trapezius",
+   "rhomboids",
+   "rear deltoids"
+  ],
+  "instructions": [
+   "Adjust the thigh pad and sit at the cable pulldown machine.",
+   "Grip the wide bar overhead with a pronated (overhand) grip, hands wider than shoulders.",
+   "Lean back slightly, brace your core, and retract your shoulder blades.",
+   "Pull the bar down to your upper chest, driving elbows down and out.",
+   "Pause briefly, then slowly release the bar back to the starting position."
+  ],
+  "trackingMode": "bilateral"
+ }
+]
