@@ -1,6 +1,6 @@
 import type { SQLiteDatabase } from "expo-sqlite";
 
-const MIGRATIONS = [
+export const MIGRATIONS = [
   {
     id: 1,
     name: "initial",
@@ -141,6 +141,15 @@ const MIGRATIONS = [
 
       CREATE INDEX IF NOT EXISTS "workout_templates_user_id_idx" ON "workout_templates" ("user_id");
       CREATE INDEX IF NOT EXISTS "template_exercises_template_id_idx" ON "template_exercises" ("template_id");
+    `,
+  },
+  {
+    id: 3,
+    name: "exercise_movement_variants",
+    sql: `
+      ALTER TABLE "exercises" ADD COLUMN "movement_group" TEXT;
+      ALTER TABLE "exercises" ADD COLUMN "variant_label" TEXT;
+      CREATE INDEX IF NOT EXISTS "exercises_movement_group_idx" ON "exercises" ("movement_group");
     `,
   },
 ];

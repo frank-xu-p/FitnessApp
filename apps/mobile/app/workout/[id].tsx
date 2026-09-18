@@ -25,6 +25,7 @@ import {
 import * as Haptics from "expo-haptics";
 import { WorkoutExerciseCard } from "../../components/WorkoutExerciseCard";
 import { ExercisePicker } from "../../components/ExercisePicker";
+import { QuickCreateExerciseSheet } from "../../components/QuickCreateExerciseSheet";
 import { OverloadCadenceModal } from "../../components/OverloadCadenceModal";
 import { FinishWorkoutModal } from "../../components/FinishWorkoutModal";
 import {
@@ -85,6 +86,11 @@ export default function WorkoutScreen() {
   const [title, setTitle] = useState(workout?.title ?? "Workout");
   const [pickingExercise, setPickingExercise] = useState(false);
   const [replacingExerciseId, setReplacingExerciseId] = useState<string | null>(null);
+  const [creatingExercise, setCreatingExercise] = useState(false);
+  const [createInitial, setCreateInitial] = useState<{ name: string; groupKey: string | null }>({
+    name: "",
+    groupKey: null,
+  });
   const [showOverloadModal, setShowOverloadModal] = useState(false);
   const [showFinishModal, setShowFinishModal] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -877,6 +883,21 @@ export default function WorkoutScreen() {
       >
         <ExercisePicker
           onSelect={handleAddExercise}
+          onCreate={(name, groupKey) => {
+            setCreateInitial({ name, groupKey: groupKey ?? null });
+            setCreatingExercise(true);
+          }}
+        />
+        <QuickCreateExerciseSheet
+          visible={creatingExercise}
+          initialName={createInitial.name}
+          initialGroupKey={createInitial.groupKey}
+          createdBy="workout_quick_create"
+          onClose={() => setCreatingExercise(false)}
+          onCreated={(exercise) => {
+            setCreatingExercise(false);
+            handleAddExercise(exercise);
+          }}
         />
       </Modal>
 

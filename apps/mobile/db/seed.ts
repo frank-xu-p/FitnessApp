@@ -1,5 +1,6 @@
 import { sql, and, eq, inArray } from "drizzle-orm";
 import { exercises, sets, workoutTemplates, templateExercises } from "./schema";
+import { findMovementGroup, deriveVariantLabel } from "../lib/exerciseVariants";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 import demoVideoSlugs from "../assets/data/demo-video-slugs.json";
 
@@ -489,4 +490,36 @@ export async function seedStarterTemplates(database: any) {
 
 function generateId(): string {
   return `${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+}
+
+/**
+ * Assigns movement_group / variant_label to every exercise that doesn't have
+ * one yet, using the deterministic rules in lib/exerciseVariants. Covers the
+ * built-in catalog and any custom/Strong-imported exercises created before
+ * this feature existed. Runs on every launch; only touches rows with
+ * movement_group IS NULL, so user data is never overwritten.
+ */
+export async function backfillMovementGroups(database: any) {
+  const rows = (await database
+    .select({
+      id: exercises.id,
+      name: exercises.name,
+      equipment: exercises.equipment,
+    })
+    .from(exercises)
+    .where(sql`"movement_group" IS NULL`)) as {
+    id: string;
+    name: string;
+    equipment: string | null;
+  }[];
+
+  for (const row of rows) {
+    const group = findMovementGroup(row.name);
+    if (!group) continue;
+    const label = deriveVariantLabel(row.name, row.equipment, group);
+    await database
+      .update(exercises)
+      .set({ movementGroup: group, variantLabel: label })
+      .where(eq(exercises.id, row.id));
+  }
 }

@@ -17,6 +17,7 @@ import { useRouter } from "expo-router";
 
 import { useAuthStore } from "../store/useAuthStore";
 import { upsertExercise } from "../db/queries";
+import { findMovementGroup, deriveVariantLabel } from "../lib/exerciseVariants";
 import { SegmentedFigurine } from "./SegmentedFigurine";
 import { SvgXml } from "react-native-svg";
 import { renderStickFigureSvg, SkeletalPose } from "../lib/stickFigure";
@@ -710,16 +711,23 @@ export function VideoImporter({ onImported }: VideoImporterProps) {
     setLoading(true);
     try {
       const now = Date.now();
+      const finalName = name.trim();
+      const finalEquipment = equipment.trim() || null;
+      const movementGroup = findMovementGroup(finalName);
       const row: Exercise = {
         id: exerciseId || `custom_${now}`,
-        name: name.trim(),
-        equipment: equipment.trim() || null,
+        name: finalName,
+        equipment: finalEquipment,
         primaryMuscles,
         secondaryMuscles,
         cues,
         // Real motion GIF wins; vector-demo customs need no imageUrl;
         // backend-AI SVG frames keep legacy storage.
         imageUrl: gifUri ?? (previewPoses ? null : animationFrames[0] ?? null),
+        movementGroup,
+        variantLabel: movementGroup
+          ? deriveVariantLabel(finalName, finalEquipment, movementGroup)
+          : null,
         trackingMode: "bilateral",
         source: "community",
         visibility: "private",

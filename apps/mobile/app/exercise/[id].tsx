@@ -36,6 +36,10 @@ import { SegmentedFigurine } from "../../components/SegmentedFigurine";
 import { DemoVideoPlayer } from "../../components/DemoVideoPlayer";
 import { getDemoVideoSlug } from "../../lib/demoVideos";
 import { useCleanUI, cx } from "../../lib/theme";
+import {
+  getExerciseDisplayName,
+  getMovementDisplayName,
+} from "../../lib/exerciseVariants";
 import type { Exercise } from "../../db/schema";
 
 type TabMode = "about" | "history" | "charts" | "records";
@@ -53,31 +57,60 @@ export default function ExerciseDetailScreen() {
   const [analytics, setAnalytics] = useState<ExerciseSessionProgressPoint[]>([]);
   const [tab, setTab] = useState<TabMode>("about");
   const [loading, setLoading] = useState(true);
+  const [scope, setScope] = useState<"variant" | "movement">("variant");
+  const [scopeLoading, setScopeLoading] = useState(false);
+
+  const loadScopedHistory = useCallback(
+    async (s: "variant" | "movement", movementGroup: string | null) => {
+      if (!id) return;
+      const opts =
+        s === "movement" && movementGroup ? { movementGroup } : undefined;
+      const [histData, prsData] = await Promise.all([
+        getExerciseHistory(id, 20, undefined, opts),
+        getExercisePersonalRecords(id, opts),
+      ]);
+      setHistory(histData);
+      setPrs(prsData);
+    },
+    [id]
+  );
 
   const loadData = useCallback(async () => {
     if (!id) return;
     setLoading(true);
     try {
-      const [exData, histData, prsData, analyticsData] = await Promise.all([
+      const [exData, analyticsData] = await Promise.all([
         getExercise(id),
-        getExerciseHistory(id, 20),
-        getExercisePersonalRecords(id),
         getExerciseAnalytics(id),
       ]);
       setExercise(exData ?? null);
-      setHistory(histData);
-      setPrs(prsData);
       setAnalytics(analyticsData);
+      setScope("variant");
+      await loadScopedHistory("variant", exData?.movementGroup ?? null);
     } catch (err) {
       console.error("Failed to load exercise details", err);
     } finally {
       setLoading(false);
     }
-  }, [id]);
+  }, [id, loadScopedHistory]);
 
   useEffect(() => {
     loadData();
   }, [loadData]);
+
+  const handleScopeChange = async (s: "variant" | "movement") => {
+    if (s === scope || scopeLoading || !exercise) return;
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
+    setScope(s);
+    setScopeLoading(true);
+    try {
+      await loadScopedHistory(s, exercise.movementGroup ?? null);
+    } catch (err) {
+      console.error("Failed to load movement history", err);
+    } finally {
+      setScopeLoading(false);
+    }
+  };
 
   const handleAddToActiveWorkout = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
@@ -92,13 +125,107 @@ export default function ExerciseDetailScreen() {
     setTab(t);
   };
 
-  if (loading || !exercise) {
+  if (loading) {
     return (
       <View className="flex-1 items-center justify-center bg-black">
         <ActivityIndicator size="large" color={cleanUI ? "#0A84FF" : "#38BDF8"} />
       </View>
     );
   }
+
+  if (!exercise) {
+    return (
+      <View className="flex-1 bg-black pt-12">
+        <View
+          className={cx(
+            cleanUI,
+            "flex-row items-center px-4 pb-3 border-b border-[#2C2C2E]",
+            "flex-row items-center px-4 pb-3 bg-zinc-950 border-b border-zinc-800/80"
+          )}
+        >
+          <TouchableOpacity
+            onPress={() => router.back()}
+            activeOpacity={0.8}
+            className={cx(
+              cleanUI,
+              "rounded-full bg-[#1C1C1E] p-2",
+              "rounded-full bg-zinc-900 p-2 border border-zinc-800"
+            )}
+          >
+            <ArrowLeft size={20} color={cleanUI ? "#98989F" : "#E4E4E7"} />
+          </TouchableOpacity>
+        </View>
+        <View className="flex-1 items-center justify-center px-8">
+          <Info size={40} color={cleanUI ? "#636366" : "#71717A"} />
+          <Text
+            className={cx(
+              cleanUI,
+              "mt-3 text-[17px] font-semibold text-white text-center",
+              "mt-3 text-base font-bold text-zinc-300 text-center"
+            )}
+          >
+            Exercise not found
+          </Text>
+          <Text
+            className={cx(
+              cleanUI,
+              "mt-1 text-[13px] text-[#98989F] text-center",
+              "mt-1 text-xs text-zinc-500 text-center"
+            )}
+          >
+            This exercise may have been deleted. Your logged sets are still
+            safe in your workout history.
+          </Text>
+        </View>
+      </View>
+    );
+  }
+
+  const renderScopeToggle = () => {
+    if (!exercise.movementGroup) return null;
+    const movementName = getMovementDisplayName(exercise.movementGroup);
+    return (
+      <View
+        className={cx(
+          cleanUI,
+          "flex-row rounded-xl bg-[#141414] p-1",
+          "flex-row rounded-2xl border border-zinc-800/80 bg-zinc-900 p-1"
+        )}
+      >
+        {(
+          [
+            { key: "variant" as const, label: "This variant" },
+            { key: "movement" as const, label: `All ${movementName}` },
+          ]
+        ).map((opt) => {
+          const active = scope === opt.key;
+          return (
+            <TouchableOpacity
+              key={opt.key}
+              onPress={() => handleScopeChange(opt.key)}
+              activeOpacity={0.8}
+              className={cx(
+                cleanUI,
+                `flex-1 rounded-lg py-2 items-center ${active ? "bg-[#0A84FF]/15" : ""}`,
+                `flex-1 rounded-xl py-2 items-center ${active ? "bg-cyan-500/15" : ""}`
+              )}
+            >
+              <Text
+                className={cx(
+                  cleanUI,
+                  `text-[13px] ${active ? "text-[#0A84FF] font-semibold" : "text-[#98989F]"}`,
+                  `text-[11px] font-bold ${active ? "text-cyan-400" : "text-zinc-500"}`
+                )}
+                numberOfLines={1}
+              >
+                {opt.label}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+    );
+  };
 
   const primaryMuscles = Array.isArray(exercise.primaryMuscles)
     ? exercise.primaryMuscles
@@ -142,7 +269,7 @@ export default function ExerciseDetailScreen() {
             )}
             numberOfLines={1}
           >
-            {exercise.name}
+            {getExerciseDisplayName(exercise)}
           </Text>
           <Text
             className={cx(
@@ -639,6 +766,7 @@ export default function ExerciseDetailScreen() {
         {/* TAB 2: HISTORY */}
         {tab === "history" && (
           <View className="p-4 gap-3" testID="tab-content-history">
+            {renderScopeToggle()}
             {history.length > 0 ? (
               history.map((session, hIdx) => (
                 <View
@@ -806,6 +934,7 @@ export default function ExerciseDetailScreen() {
         {/* TAB 4: RECORDS */}
         {tab === "records" && (
           <View className="p-4 gap-3" testID="tab-content-records">
+            {renderScopeToggle()}
             <View
               className={cx(
                 cleanUI,

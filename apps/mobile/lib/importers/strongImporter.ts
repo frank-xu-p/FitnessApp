@@ -9,6 +9,11 @@ import {
 } from "../../db/schema";
 import type { Exercise, Workout, Set, WorkoutTemplate, TemplateExercise } from "../../db/schema";
 import { eq, sql } from "drizzle-orm";
+import {
+  findMovementGroup,
+  deriveVariantLabel,
+  getExerciseDisplayName,
+} from "../exerciseVariants";
 
 export type StrongSetType = "standard" | "warmup" | "drop" | "failure";
 
@@ -35,6 +40,10 @@ export type ParsedExerciseBlock = {
   chosenExerciseId?: string | null;
   /** Set by the import UI when the user chooses to create a new exercise. */
   createNewExercise?: boolean;
+  /** Movement group detected from the raw name (variant-aware matching). */
+  movementGroup?: string | null;
+  /** Variant label derived from the raw name, used when creating the exercise. */
+  suggestedVariantLabel?: string | null;
   sets: ParsedSet[];
 };
 
@@ -113,20 +122,42 @@ function computeSimilarity(a: string, b: string): number {
   return Math.max(tokenScore, levScore);
 }
 
+/** Best-effort equipment guess from keywords in a raw exercise name. */
+export function guessEquipmentFromName(rawName: string): string {
+  const lower = rawName.toLowerCase();
+  if (lower.includes("machine")) return "machine";
+  if (lower.includes("cable")) return "cable";
+  if (lower.includes("dumbbell") || lower.includes(" db ") || lower.endsWith(" db")) return "dumbbell";
+  if (lower.includes("barbell")) return "barbell";
+  if (lower.includes("kettlebell")) return "kettlebell";
+  if (lower.includes("band")) return "bands";
+  return "other";
+}
+
 /**
  * Matches an exercise name against the catalog.
  *
- * Only exact matches (ignoring case, and ignoring parenthetical equipment
- * tags like "(Machine)") auto-match. Anything else returns ranked
- * suggestions for the user to pick from — or to reject in favor of creating
- * a brand-new exercise. Never silently fuzzy-matches.
+ * Only exact matches (ignoring case) auto-match. When the name belongs to a
+ * known movement group (e.g. "Triceps Pushdown (Rope)"), matching is
+ * variant-aware: an exact variant (same movement + same attachment) auto-
+ * matches, otherwise the group's variants are offered as suggestions and the
+ * old parenthetical-stripping fallback is skipped — stripping "(Rope)" and
+ * matching the bare "Triceps Pushdown" would silently collapse rope into
+ * straight-bar. Anything else returns ranked suggestions for the user to pick
+ * from — or to reject in favor of creating a brand-new exercise. Never
+ * silently fuzzy-matches.
  */
 export function matchExerciseDetailed(
   rawName: string,
   candidateExercises: Exercise[] = []
-): { exact: Exercise | null; suggestions: ExerciseSuggestion[] } {
+): {
+  exact: Exercise | null;
+  suggestions: ExerciseSuggestion[];
+  movementGroup: string | null;
+  variantLabel: string | null;
+} {
   if (!rawName || candidateExercises.length === 0) {
-    return { exact: null, suggestions: [] };
+    return { exact: null, suggestions: [], movementGroup: null, variantLabel: null };
   }
 
   const trimmed = rawName.trim();
@@ -137,7 +168,42 @@ export function matchExerciseDetailed(
       (e) => e.name.toLowerCase() === lower || e.id.toLowerCase() === lower
     ) ?? null;
   if (exact) {
-    return { exact, suggestions: [] };
+    return {
+      exact,
+      suggestions: [],
+      movementGroup: exact.movementGroup ?? findMovementGroup(trimmed),
+      variantLabel: exact.variantLabel ?? null,
+    };
+  }
+
+  // Variant-aware path: resolve within the movement group, never across variants.
+  const groupKey = findMovementGroup(trimmed);
+  if (groupKey) {
+    const equipment = guessEquipmentFromName(trimmed);
+    const variantLabel = deriveVariantLabel(trimmed, equipment, groupKey);
+    const variants = candidateExercises.filter((e) => e.movementGroup === groupKey);
+    const variantMatch =
+      variantLabel != null
+        ? (variants.find(
+            (e) => (e.variantLabel ?? "").toLowerCase() === variantLabel.toLowerCase()
+          ) ?? null)
+        : null;
+    if (variantMatch) {
+      return {
+        exact: variantMatch,
+        suggestions: [],
+        movementGroup: groupKey,
+        variantLabel: variantMatch.variantLabel ?? null,
+      };
+    }
+    const suggestions = variants
+      .map((e) => ({
+        id: e.id,
+        name: getExerciseDisplayName(e),
+        score: 1,
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+    return { exact: null, suggestions, movementGroup: groupKey, variantLabel };
   }
 
   const cleanRaw = trimmed.replace(/\s*\([^)]*\)/g, "").trim().toLowerCase();
@@ -150,7 +216,12 @@ export function matchExerciseDetailed(
       return cleanCandidate === cleanRaw;
     }) ?? null;
   if (cleanExact) {
-    return { exact: cleanExact, suggestions: [] };
+    return {
+      exact: cleanExact,
+      suggestions: [],
+      movementGroup: cleanExact.movementGroup ?? null,
+      variantLabel: cleanExact.variantLabel ?? null,
+    };
   }
 
   const scored: ExerciseSuggestion[] = [];
@@ -171,7 +242,7 @@ export function matchExerciseDetailed(
     .filter((s) => (seen.has(s.id) ? false : (seen.add(s.id), true)))
     .slice(0, MAX_SUGGESTIONS);
 
-  return { exact: null, suggestions };
+  return { exact: null, suggestions, movementGroup: null, variantLabel: null };
 }
 
 /**
@@ -204,12 +275,14 @@ function makeExerciseBlock(
   candidateExercises: Exercise[],
   sets: ParsedSet[]
 ): ParsedExerciseBlock {
-  const { exact, suggestions } = matchExerciseDetailed(rawName, candidateExercises);
+  const { exact, suggestions, movementGroup, variantLabel } = matchExerciseDetailed(rawName, candidateExercises);
   return {
     rawExerciseName: rawName,
     matchedExerciseId: exact?.id,
     matchedExerciseName: exact?.name,
     suggestions,
+    movementGroup,
+    suggestedVariantLabel: variantLabel,
     sets,
   };
 }
@@ -567,22 +640,21 @@ export async function resolveOrCreateExercise(
 
   const now = Date.now();
   const id = `custom_${generateUuid()}`;
+  const rawName = block.rawExerciseName.trim();
+  const equipment = guessEquipmentFromName(rawName);
+  const movementGroup = block.movementGroup ?? findMovementGroup(rawName);
   const newRow: Exercise = {
     id,
-    name: block.rawExerciseName.trim(),
-    equipment: block.rawExerciseName.toLowerCase().includes("machine")
-      ? "machine"
-      : block.rawExerciseName.toLowerCase().includes("cable")
-      ? "cable"
-      : block.rawExerciseName.toLowerCase().includes("dumbbell")
-      ? "dumbbell"
-      : block.rawExerciseName.toLowerCase().includes("barbell")
-      ? "barbell"
-      : "other",
+    name: rawName,
+    equipment,
     primaryMuscles: [],
     secondaryMuscles: [],
     cues: [],
     imageUrl: null,
+    movementGroup,
+    variantLabel:
+      block.suggestedVariantLabel ??
+      (movementGroup ? deriveVariantLabel(rawName, equipment, movementGroup) : null),
     trackingMode: "bilateral",
     source: "community",
     visibility: "private",

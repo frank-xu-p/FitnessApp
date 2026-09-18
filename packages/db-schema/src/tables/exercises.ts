@@ -8,6 +8,8 @@ export const exercises = sqliteTable("exercises", {
   secondaryMuscles: text("secondary_muscles", { mode: "json" }).$type<string[]>(),
   cues: text("cues", { mode: "json" }).$type<string[]>(),
   imageUrl: text("image_url"),
+  movementGroup: text("movement_group"),
+  variantLabel: text("variant_label"),
   trackingMode: text("tracking_mode", { enum: ["bilateral", "unilateral", "alternating"] })
     .notNull()
     .default("bilateral"),

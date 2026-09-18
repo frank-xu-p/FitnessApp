@@ -12,10 +12,11 @@ import {
   effectiveReps,
   setVolumeKg,
 } from "../lib/unilateral";
+import { findMovementGroup, deriveVariantLabel } from "../lib/exerciseVariants";
 
 function likeQuery(query: string) {
   const q = `%${query.toLowerCase().trim()}%`;
-  return sql`(lower(${exercises.name}) LIKE ${q} OR lower(${exercises.equipment}) LIKE ${q} OR lower(${exercises.primaryMuscles}) LIKE ${q})`;
+  return sql`(lower(${exercises.name}) LIKE ${q} OR lower(${exercises.equipment}) LIKE ${q} OR lower(${exercises.primaryMuscles}) LIKE ${q} OR lower(${exercises.variantLabel}) LIKE ${q})`;
 }
 
 export type ExerciseFilters = {
@@ -64,10 +65,11 @@ export type ExercisePersonalRecords = {
 };
 
 export async function getExercisePersonalRecords(
-  exerciseId: string
+  exerciseId: string,
+  opts?: { movementGroup?: string }
 ): Promise<ExercisePersonalRecords> {
   await ensureDbReady();
-  const history = await getExerciseHistory(exerciseId, 100);
+  const history = await getExerciseHistory(exerciseId, 100, undefined, opts);
 
   let maxWeightKg: number | null = null;
   let maxReps: number | null = null;
@@ -213,6 +215,56 @@ export async function upsertExercise(
   });
   await logMutation("exercises", id, payload.id ? "update" : "insert", row);
   return row;
+}
+
+/**
+ * Creates a user-defined exercise (quick-create mid-workout, template editor,
+ * Strong import). Movement-group membership is detected from the name so the
+ * new exercise lands in the right variant family automatically; pass an
+ * explicit movementGroup/variantLabel to override.
+ */
+export async function createExercise(input: {
+  name: string;
+  equipment?: string | null;
+  primaryMuscles?: string[];
+  secondaryMuscles?: string[];
+  cues?: string[];
+  movementGroup?: string | null;
+  variantLabel?: string | null;
+  trackingMode?: "bilateral" | "unilateral" | "alternating";
+  createdBy?: string;
+}): Promise<Exercise> {
+  await ensureDbReady();
+  const now = Date.now();
+  const name = input.name.trim();
+  const movementGroup = input.movementGroup ?? findMovementGroup(name);
+  const row: typeof exercises.$inferInsert = {
+    id: `custom_${generateUuid()}`,
+    name,
+    equipment: input.equipment ?? null,
+    primaryMuscles: input.primaryMuscles ?? [],
+    secondaryMuscles: input.secondaryMuscles ?? [],
+    cues: input.cues ?? [],
+    imageUrl: null,
+    movementGroup,
+    variantLabel:
+      input.variantLabel ??
+      (movementGroup
+        ? deriveVariantLabel(name, input.equipment ?? null, movementGroup)
+        : null),
+    trackingMode: input.trackingMode ?? "bilateral",
+    source: "community",
+    visibility: "private",
+    reviewStatus: "approved",
+    createdBy: input.createdBy ?? "quick_create",
+    createdAt: now,
+    updatedAt: now,
+    clientTimestamp: now,
+    isDeleted: false,
+  };
+  await db.insert(exercises).values(row);
+  await logMutation("exercises", row.id, "insert", row);
+  return row as Exercise;
 }
 
 
@@ -508,7 +560,8 @@ export async function deleteSetsForExerciseInWorkout(
 export type TemplateWithExercises = WorkoutTemplate & {
   exercises: Array<
     TemplateExercise & {
-      exercise: Exercise;
+      /** Null when the exercise row is gone (deleted) — callers must handle it. */
+      exercise: Exercise | null;
     }
   >;
 };
@@ -536,7 +589,9 @@ export async function getTemplates(userId: string): Promise<TemplateWithExercise
         ex: exercises,
       })
       .from(templateExercises)
-      .innerJoin(exercises, eq(templateExercises.exerciseId, exercises.id))
+      // LEFT JOIN: keep the row even when its exercise was deleted, so the
+      // UI can show a placeholder instead of silently dropping it.
+      .leftJoin(exercises, eq(templateExercises.exerciseId, exercises.id))
       .where(
         and(
           eq(templateExercises.templateId, tpl.id),
@@ -575,7 +630,9 @@ export async function getTemplateWithExercises(templateId: string): Promise<Temp
       ex: exercises,
     })
     .from(templateExercises)
-    .innerJoin(exercises, eq(templateExercises.exerciseId, exercises.id))
+    // LEFT JOIN: a deleted exercise must not silently drop the template row.
+    // Callers render a placeholder for the missing exercise instead.
+    .leftJoin(exercises, eq(templateExercises.exerciseId, exercises.id))
     .where(
       and(
         eq(templateExercises.templateId, tpl.id),
@@ -912,22 +969,28 @@ export async function deleteTemplate(templateId: string) {
 export async function getExerciseHistory(
   exerciseId: string,
   limitWorkouts = 3,
-  excludeWorkoutId?: string
+  excludeWorkoutId?: string,
+  opts?: { movementGroup?: string }
 ) {
   await ensureDbReady();
   const conditions = [
-    eq(sets.exerciseId, exerciseId),
     eq(sets.isDeleted, false),
     eq(workouts.isDeleted, false),
     sql`${sets.completedAt} IS NOT NULL`,
     sql`${workouts.completedAt} IS NOT NULL`,
   ];
+  if (opts?.movementGroup) {
+    // Movement-level view: aggregate sets across every variant in the group.
+    conditions.push(eq(exercises.movementGroup, opts.movementGroup));
+  } else {
+    conditions.push(eq(sets.exerciseId, exerciseId));
+  }
   if (excludeWorkoutId) {
     conditions.push(ne(workouts.id, excludeWorkoutId));
   }
 
   // Find recent completed workouts with sets for this exercise
-  const rows = await db
+  const baseQuery = db
     .select({
       setId: sets.id,
       workoutId: sets.workoutId,
@@ -945,7 +1008,11 @@ export async function getExerciseHistory(
       workoutTitle: workouts.title,
     })
     .from(sets)
-    .innerJoin(workouts, eq(sets.workoutId, workouts.id))
+    .innerJoin(workouts, eq(sets.workoutId, workouts.id));
+  const rows = await (opts?.movementGroup
+    ? baseQuery.innerJoin(exercises, eq(exercises.id, sets.exerciseId))
+    : baseQuery
+  )
     .where(and(...conditions))
     .orderBy(desc(workouts.startedAt), asc(sets.setNumber));
 
@@ -994,6 +1061,9 @@ export async function createWorkoutFromTemplate(
   const createdSets: Set[] = [];
 
   for (const te of tpl.exercises) {
+    // The exercise was deleted after the template was made — skip it rather
+    // than creating sets for a ghost exercise.
+    if (!te.exercise) continue;
     let startingWeight = te.targetWeightKg;
     let startingReps = te.targetReps ?? 10;
 
@@ -1042,7 +1112,7 @@ export async function createWorkoutFromTemplate(
   return {
     workout,
     sets: createdSets,
-    exercises: tpl.exercises.map((te) => te.exercise),
+    exercises: tpl.exercises.map((te) => te.exercise).filter((e) => e != null),
   };
 }
 

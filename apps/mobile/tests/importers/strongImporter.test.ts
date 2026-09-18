@@ -62,6 +62,17 @@ const mockDatabaseExercises: any[] = [
     id: "ex_triceps_pushdown",
     name: "Triceps Pushdown",
     equipment: "cable",
+    movementGroup: "triceps-pushdown",
+    variantLabel: "Straight Bar",
+    primaryMuscles: ["triceps"],
+    secondaryMuscles: [],
+  },
+  {
+    id: "ex_triceps_pushdown_rope",
+    name: "Cable Rope Triceps Pushdown",
+    equipment: "cable",
+    movementGroup: "triceps-pushdown",
+    variantLabel: "Rope",
     primaryMuscles: ["triceps"],
     secondaryMuscles: [],
   },
@@ -231,13 +242,51 @@ F: 275 lb × 4 reps`;
       expect(res.suggestions).toEqual([]);
     });
 
-    it("legacy matchExerciseName still returns the top suggestion", () => {
+    it("legacy matchExerciseName resolves variants through the group", () => {
       const match2 = matchExerciseName(
+        "Triceps Pushdown (Rope)",
+        mockDatabaseExercises
+      );
+      expect(match2.exercise?.id).toBe("ex_triceps_pushdown_rope");
+      expect(match2.confidence).toBe(1);
+    });
+
+    it("matches rope to rope, never silently to the straight-bar base", () => {
+      const rope = matchExerciseDetailed(
+        "Triceps Pushdown (Rope)",
+        mockDatabaseExercises
+      );
+      expect(rope.exact?.id).toBe("ex_triceps_pushdown_rope");
+      expect(rope.suggestions).toEqual([]);
+      expect(rope.movementGroup).toBe("triceps-pushdown");
+
+      // Strong's "(Cable-Rope)" canonicalizes to the catalog's "Rope" label
+      // and auto-matches the same variant.
+      const cableRope = matchExerciseDetailed(
         "Triceps Pushdown (Cable-Rope)",
         mockDatabaseExercises
       );
-      expect(match2.exercise?.id).toBe("ex_triceps_pushdown");
-      expect(match2.confidence).toBeGreaterThanOrEqual(0.45);
+      expect(cableRope.exact?.id).toBe("ex_triceps_pushdown_rope");
+      expect(cableRope.suggestions).toEqual([]);
+      expect(cableRope.variantLabel).toBe("Rope");
+
+      // Unknown variant in a known group: no silent match — offer the
+      // group's variants so the user picks or creates a new one.
+      const vbar = matchExerciseDetailed(
+        "Triceps Pushdown (V-Bar)",
+        mockDatabaseExercises
+      );
+      expect(vbar.exact).toBeNull();
+      expect(vbar.movementGroup).toBe("triceps-pushdown");
+      expect(vbar.variantLabel).toBe("V Bar");
+      expect(vbar.suggestions.map((s) => s.id).sort()).toEqual([
+        "ex_triceps_pushdown",
+        "ex_triceps_pushdown_rope",
+      ]);
+      // Suggestions carry display names ("Triceps Pushdown · Rope").
+      expect(
+        vbar.suggestions.some((s) => s.name === "Triceps Pushdown · Rope")
+      ).toBe(true);
     });
   });
 
@@ -280,6 +329,33 @@ F: 275 lb × 4 reps`;
       const ex = await resolveOrCreateExercise(block, chosenDb([]));
       expect(ex.name).toBe("Upper Back Row");
       expect(ex.id.startsWith("custom_")).toBe(true);
+    });
+
+    it("tags created exercises with their movement group and variant", async () => {
+      const block: any = {
+        rawExerciseName: "Triceps Pushdown (V-Bar)",
+        suggestions: [],
+        createNewExercise: true,
+        movementGroup: "triceps-pushdown",
+        suggestedVariantLabel: "V Bar",
+        sets: [],
+      };
+      let inserted: any = null;
+      const dbCapture = {
+        select: () => ({
+          from: () => ({ where: () => ({ limit: () => [] as any[] }) }),
+        }),
+        insert: () => ({
+          values: (val: any) => {
+            inserted = val;
+            return { onConflictDoNothing: () => Promise.resolve(val) };
+          },
+        }),
+      };
+      const ex = await resolveOrCreateExercise(block, dbCapture);
+      expect(ex.name).toBe("Triceps Pushdown (V-Bar)");
+      expect(inserted.movementGroup).toBe("triceps-pushdown");
+      expect(inserted.variantLabel).toBe("V Bar");
     });
   });
 

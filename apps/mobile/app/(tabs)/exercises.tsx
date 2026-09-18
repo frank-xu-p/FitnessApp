@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import {
   View,
   Text,
@@ -18,6 +18,7 @@ import {
   SlidersHorizontal,
   X,
   ChevronRight,
+  ChevronDown,
   Sparkles,
 } from "lucide-react-native";
 import { getExercises } from "../../db/queries";
@@ -25,6 +26,10 @@ import { useWorkoutStore } from "../../store/useWorkoutStore";
 import { AnatomicalDummy } from "../../components/AnatomicalDummy";
 import { ExerciseThumb } from "../../components/ExerciseThumb";
 import { useCleanUI, cx } from "../../lib/theme";
+import {
+  groupExercises,
+  getExerciseDisplayName,
+} from "../../lib/exerciseVariants";
 import type { Exercise } from "../../db/schema";
 
 const EQUIPMENT_CHIPS = [
@@ -61,6 +66,7 @@ export default function ExercisesScreen() {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [loading, setLoading] = useState(true);
   const [showFilters, setShowFilters] = useState(false);
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
 
   const loadData = useCallback(async () => {
     setLoading(true);
@@ -115,6 +121,137 @@ export default function ExercisesScreen() {
     query.length > 0 ||
     selectedEquipment !== "All" ||
     (selectedMuscle !== null && selectedMuscle !== "All");
+
+  type LibraryRow =
+    | { kind: "group"; groupKey: string; displayName: string; items: Exercise[] }
+    | { kind: "exercise"; exercise: Exercise };
+
+  const libraryRows: LibraryRow[] = useMemo(() => {
+    // Browsing (no filters): collapse variants into movement rows.
+    // Searching/filtering: flat list so every match is visible.
+    if (hasActiveFilters) {
+      return exercises.map((e) => ({ kind: "exercise" as const, exercise: e }));
+    }
+    const out: LibraryRow[] = [];
+    for (const g of groupExercises(exercises)) {
+      if (g.groupKey && g.items.length > 1) {
+        out.push({
+          kind: "group",
+          groupKey: g.groupKey,
+          displayName: g.displayName,
+          items: g.items,
+        });
+      } else {
+        for (const e of g.items) out.push({ kind: "exercise", exercise: e });
+      }
+    }
+    return out;
+  }, [exercises, hasActiveFilters]);
+
+  const toggleGroup = (key: string) => {
+    setExpandedGroups((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
+
+
+  const renderExerciseCard = (item: Exercise, indented = false) => {
+    const primary = Array.isArray(item.primaryMuscles)
+      ? item.primaryMuscles[0]
+      : null;
+
+    return (
+      <TouchableOpacity
+        testID={`exercise-item-${item.id}`}
+        onPress={() => handleSelectExercise(item)}
+        activeOpacity={0.8}
+        className={cx(
+          cleanUI,
+          `${indented ? "ml-12 " : ""}mb-2 flex-row items-center justify-between rounded-xl bg-[#141414] p-3`,
+          `${indented ? "ml-12 " : ""}mb-2.5 flex-row items-center justify-between rounded-2xl border border-zinc-800/80 bg-zinc-900 p-3 shadow-sm`
+        )}
+      >
+        <View className="flex-row items-center gap-3 flex-1 pr-2">
+                    {/* 44x44 thumbnail: user GIF > demo poster > mannequin */}
+                    <View
+                      className={cx(
+                        cleanUI,
+                        "h-11 w-11 rounded-xl bg-black items-center justify-center overflow-hidden",
+                        "h-11 w-11 rounded-xl bg-zinc-950 items-center justify-center overflow-hidden border border-zinc-800"
+                      )}
+                    >
+                      <ExerciseThumb exercise={item} size={44} />
+                    </View>
+
+                    {/* Title & Metadata */}
+                    <View className="flex-1">
+                      <Text
+                        className={cx(
+                          cleanUI,
+                          "text-[16px] text-white",
+                          "text-sm font-bold text-white"
+                        )}
+                        numberOfLines={1}
+                      >
+                        {getExerciseDisplayName(item)}
+                      </Text>
+                      <View className="mt-0.5 flex-row items-center gap-1.5">
+                        {primary && (
+                          <Text
+                            className={cx(
+                              cleanUI,
+                              "text-[13px] capitalize text-[#0A84FF]",
+                              "text-xs font-semibold capitalize text-cyan-400"
+                            )}
+                          >
+                            {primary}
+                          </Text>
+                        )}
+                        {item.equipment && (
+                          <Text
+                            className={cx(
+                              cleanUI,
+                              "text-[13px] text-[#98989F] capitalize",
+                              "text-xs text-zinc-400 capitalize"
+                            )}
+                          >
+                            · {item.equipment}
+                          </Text>
+                        )}
+                      </View>
+                    </View>
+                  </View>
+
+                  {/* Right Action */}
+                  <View className="flex-row items-center gap-1">
+                    {activeWorkout ? (
+                      <View
+                        className={cx(
+                          cleanUI,
+                          "rounded-xl bg-[#0A84FF]/20 px-2.5 py-1",
+                          "rounded-xl bg-cyan-500/20 px-2.5 py-1 border border-cyan-500/40"
+                        )}
+                      >
+                        <Text
+                          className={cx(
+                            cleanUI,
+                            "text-[13px] font-medium text-[#0A84FF]",
+                            "text-[11px] font-black text-cyan-400"
+                          )}
+                        >
+                          + ADD
+                        </Text>
+                      </View>
+                    ) : (
+                      <ChevronRight size={18} color={cleanUI ? "#636366" : "#71717A"} />
+                    )}
+                  </View>
+                </TouchableOpacity>
+              );
+            };
 
   return (
     <View className="flex-1 bg-black pt-12">
@@ -421,102 +558,75 @@ export default function ExercisesScreen() {
           </View>
         ) : (
           <FlashList
-            data={exercises}
-            keyExtractor={(item) => item.id}
+            data={libraryRows}
+            keyExtractor={(item) =>
+              item.kind === "group" ? `group_${item.groupKey}` : item.exercise.id
+            }
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 32 }}
             renderItem={({ item }) => {
-              const primary = Array.isArray(item.primaryMuscles)
-                ? item.primaryMuscles[0]
-                : null;
-
+              if (item.kind === "exercise") {
+                return renderExerciseCard(item.exercise);
+              }
+              const isOpen = expandedGroups.has(item.groupKey);
               return (
-                <TouchableOpacity
-                  testID={`exercise-item-${item.id}`}
-                  onPress={() => handleSelectExercise(item)}
-                  activeOpacity={0.8}
-                  className={cx(
-                    cleanUI,
-                    "mb-2 flex-row items-center justify-between rounded-xl bg-[#141414] p-3",
-                    "mb-2.5 flex-row items-center justify-between rounded-2xl border border-zinc-800/80 bg-zinc-900 p-3 shadow-sm"
-                  )}
-                >
-                  <View className="flex-row items-center gap-3 flex-1 pr-2">
-                    {/* 44x44 thumbnail: user GIF > demo poster > mannequin */}
-                    <View
-                      className={cx(
-                        cleanUI,
-                        "h-11 w-11 rounded-xl bg-black items-center justify-center overflow-hidden",
-                        "h-11 w-11 rounded-xl bg-zinc-950 items-center justify-center overflow-hidden border border-zinc-800"
-                      )}
-                    >
-                      <ExerciseThumb exercise={item} size={44} />
-                    </View>
-
-                    {/* Title & Metadata */}
-                    <View className="flex-1">
-                      <Text
-                        className={cx(
-                          cleanUI,
-                          "text-[16px] text-white",
-                          "text-sm font-bold text-white"
-                        )}
-                        numberOfLines={1}
-                      >
-                        {item.name}
-                      </Text>
-                      <View className="mt-0.5 flex-row items-center gap-1.5">
-                        {primary && (
-                          <Text
-                            className={cx(
-                              cleanUI,
-                              "text-[13px] capitalize text-[#0A84FF]",
-                              "text-xs font-semibold capitalize text-cyan-400"
-                            )}
-                          >
-                            {primary}
-                          </Text>
-                        )}
-                        {item.equipment && (
-                          <Text
-                            className={cx(
-                              cleanUI,
-                              "text-[13px] text-[#98989F] capitalize",
-                              "text-xs text-zinc-400 capitalize"
-                            )}
-                          >
-                            · {item.equipment}
-                          </Text>
-                        )}
-                      </View>
-                    </View>
-                  </View>
-
-                  {/* Right Action */}
-                  <View className="flex-row items-center gap-1">
-                    {activeWorkout ? (
+                <View className="mb-2">
+                  <TouchableOpacity
+                    testID={`movement-group-${item.groupKey}`}
+                    onPress={() => toggleGroup(item.groupKey)}
+                    activeOpacity={0.8}
+                    className={cx(
+                      cleanUI,
+                      "flex-row items-center justify-between rounded-xl bg-[#141414] p-3",
+                      "flex-row items-center justify-between rounded-2xl border border-zinc-800/80 bg-zinc-900 p-3 shadow-sm"
+                    )}
+                  >
+                    <View className="flex-row items-center gap-3 flex-1 pr-2">
                       <View
                         className={cx(
                           cleanUI,
-                          "rounded-xl bg-[#0A84FF]/20 px-2.5 py-1",
-                          "rounded-xl bg-cyan-500/20 px-2.5 py-1 border border-cyan-500/40"
+                          "h-11 w-11 rounded-xl bg-black items-center justify-center overflow-hidden",
+                          "h-11 w-11 rounded-xl bg-zinc-950 items-center justify-center overflow-hidden border border-zinc-800"
                         )}
                       >
+                        <Dumbbell size={20} color={cleanUI ? "#0A84FF" : "#38BDF8"} />
+                      </View>
+                      <View className="flex-1">
                         <Text
                           className={cx(
                             cleanUI,
-                            "text-[13px] font-medium text-[#0A84FF]",
-                            "text-[11px] font-black text-cyan-400"
+                            "text-[16px] text-white",
+                            "text-sm font-bold text-white"
+                          )}
+                          numberOfLines={1}
+                        >
+                          {item.displayName}
+                        </Text>
+                        <Text
+                          className={cx(
+                            cleanUI,
+                            "text-[13px] text-[#98989F] mt-0.5",
+                            "text-xs text-zinc-400 mt-0.5"
                           )}
                         >
-                          + ADD
+                          {item.items.length} variants
                         </Text>
                       </View>
+                    </View>
+                    {isOpen ? (
+                      <ChevronDown size={18} color={cleanUI ? "#636366" : "#71717A"} />
                     ) : (
                       <ChevronRight size={18} color={cleanUI ? "#636366" : "#71717A"} />
                     )}
-                  </View>
-                </TouchableOpacity>
+                  </TouchableOpacity>
+                  {isOpen && (
+                    <View className="mt-2">
+                      {item.items.map((ex) => (
+                        <View key={ex.id}>{renderExerciseCard(ex, true)}</View>
+                      ))}
+                    </View>
+                  )}
+                </View>
               );
             }}
             ListEmptyComponent={

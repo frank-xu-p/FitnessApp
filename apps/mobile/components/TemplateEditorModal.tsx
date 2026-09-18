@@ -11,12 +11,14 @@ import {
 } from "react-native";
 import { X, Plus, Trash2, ChevronUp, ChevronDown, Dumbbell, Zap, Check } from "lucide-react-native";
 import { ExercisePicker } from "./ExercisePicker";
+import { QuickCreateExerciseSheet } from "./QuickCreateExerciseSheet";
 import { useAuthStore } from "../store/useAuthStore";
 import { toDisplay, toCanonical, kgToLb, lbToKg } from "../lib/units";
 import { useCleanUI, cx } from "../lib/theme";
 import type { ProgressionModel, CadenceRate } from "../lib/progression";
 import type { TemplateWithExercises } from "../db/queries";
 import type { Exercise } from "../db/schema";
+import { getExerciseDisplayName } from "../lib/exerciseVariants";
 
 type TemplateEditorModalProps = {
   visible: boolean;
@@ -45,7 +47,8 @@ type TemplateEditorModalProps = {
 
 type EditableTemplateExercise = {
   exerciseId: string;
-  exercise: Exercise;
+  /** Null when the referenced exercise was deleted — rendered as a placeholder. */
+  exercise: Exercise | null;
   targetSets: number;
   targetReps: number;
   targetWeightDisplay: string;
@@ -83,6 +86,11 @@ export function TemplateEditorModal({
   );
   const [exercisesList, setExercisesList] = useState<EditableTemplateExercise[]>([]);
   const [pickingExercise, setPickingExercise] = useState(false);
+  const [creatingExercise, setCreatingExercise] = useState(false);
+  const [createInitial, setCreateInitial] = useState<{ name: string; groupKey: string | null }>({
+    name: "",
+    groupKey: null,
+  });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -165,7 +173,11 @@ export function TemplateEditorModal({
     if (!name.trim()) return;
     setLoading(true);
     try {
-      const payloadExercises = exercisesList.map((item, index) => {
+      // Rows whose exercise was deleted can't be saved meaningfully — drop
+      // them (the user already saw the "unavailable" placeholder).
+      const payloadExercises = exercisesList
+        .filter((item) => item.exercise != null)
+        .map((item, index) => {
         const weightNum = item.targetWeightDisplay
           ? parseFloat(item.targetWeightDisplay)
           : null;
@@ -235,7 +247,24 @@ export function TemplateEditorModal({
               <X size={24} color={cleanUI ? "#98989F" : "#6B7280"} />
             </TouchableOpacity>
           </View>
-          <ExercisePicker onSelect={handleAddExercise} onCreate={() => setPickingExercise(false)} />
+          <ExercisePicker
+            onSelect={handleAddExercise}
+            onCreate={(name, groupKey) => {
+              setCreateInitial({ name, groupKey: groupKey ?? null });
+              setCreatingExercise(true);
+            }}
+          />
+          <QuickCreateExerciseSheet
+            visible={creatingExercise}
+            initialName={createInitial.name}
+            initialGroupKey={createInitial.groupKey}
+            createdBy="template_editor"
+            onClose={() => setCreatingExercise(false)}
+            onCreated={(exercise) => {
+              setCreatingExercise(false);
+              handleAddExercise(exercise);
+            }}
+          />
         </View>
       </Modal>
     );
@@ -524,7 +553,7 @@ export function TemplateEditorModal({
                           "text-base font-bold text-gray-900 dark:text-gray-100"
                         )}
                       >
-                        {index + 1}. {item.exercise.name}
+                        {index + 1}. {item.exercise ? getExerciseDisplayName(item.exercise) : "Exercise unavailable"}
                       </Text>
                       <Text
                         className={cx(
@@ -533,7 +562,9 @@ export function TemplateEditorModal({
                           "text-xs text-gray-500 dark:text-gray-400"
                         )}
                       >
-                        {item.exercise.equipment ?? "Free weight"}
+                        {item.exercise
+                          ? (item.exercise.equipment ?? "Free weight")
+                          : "This exercise was deleted"}
                       </Text>
                     </View>
                     <View className="flex-row items-center gap-1">
