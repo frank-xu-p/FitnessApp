@@ -19,12 +19,10 @@ import {
   X,
   ChevronRight,
   Sparkles,
-  Download,
 } from "lucide-react-native";
 import { getExercises } from "../../db/queries";
 import { useWorkoutStore } from "../../store/useWorkoutStore";
 import { AnatomicalDummy } from "../../components/AnatomicalDummy";
-import { StrongImportModal } from "../../components/StrongImportModal";
 import { ExerciseThumb } from "../../components/ExerciseThumb";
 import { useCleanUI, cx } from "../../lib/theme";
 import type { Exercise } from "../../db/schema";
@@ -62,7 +60,7 @@ export default function ExercisesScreen() {
   const [showBodyMap, setShowBodyMap] = useState(false);
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showStrongModal, setShowStrongModal] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
 
   const loadData = useCallback(async () => {
     setLoading(true);
@@ -145,30 +143,6 @@ export default function ExercisesScreen() {
           </View>
 
           <View className="flex-row items-center gap-2">
-            <TouchableOpacity
-              onPress={() => {
-                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
-                setShowStrongModal(true);
-              }}
-              activeOpacity={0.8}
-              className={cx(
-                cleanUI,
-                "flex-row items-center gap-1.5 rounded-xl bg-[#1C1C1E] px-3 py-2",
-                "flex-row items-center gap-1.5 rounded-xl bg-cyan-500/10 px-3 py-2 border border-cyan-500/30"
-              )}
-            >
-              <Download size={15} color={cleanUI ? "#0A84FF" : "#38BDF8"} />
-              <Text
-                className={cx(
-                  cleanUI,
-                  "text-[13px] font-medium text-[#0A84FF]",
-                  "text-xs font-bold text-cyan-400"
-                )}
-              >
-                Strong Import
-              </Text>
-            </TouchableOpacity>
-
             <TouchableOpacity
               onPress={() => {
                 Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
@@ -592,13 +566,6 @@ export default function ExercisesScreen() {
           />
         )}
       </View>
-
-      {/* Strong App Importer Modal */}
-      <StrongImportModal
-        visible={showStrongModal}
-        onClose={() => setShowStrongModal(false)}
-        onImportSuccess={() => loadData()}
-      />
     </View>
   );
 }

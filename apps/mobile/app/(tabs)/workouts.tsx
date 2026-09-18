@@ -24,9 +24,7 @@ import {
   Dumbbell,
   ChevronRight,
   Sparkles,
-  FileText,
   RotateCcw,
-  Download,
 } from "lucide-react-native";
 
 import { useAuthStore } from "../../store/useAuthStore";
@@ -48,7 +46,6 @@ import {
 
 import { TemplateEditorModal } from "../../components/TemplateEditorModal";
 import { WorkoutDetailModal } from "../../components/WorkoutDetailModal";
-import { StrongImportModal } from "../../components/StrongImportModal";
 import { toDisplay } from "../../lib/units";
 import { useCleanUI, cx } from "../../lib/theme";
 
@@ -74,7 +71,6 @@ export default function WorkoutsScreen() {
   const [editingTemplate, setEditingTemplate] = useState<TemplateWithExercises | null>(null);
   const [selectedHistoryWorkout, setSelectedHistoryWorkout] = useState<WorkoutHistoryItem | null>(null);
   const [showTemplateModal, setShowTemplateModal] = useState(false);
-  const [showStrongModal, setShowStrongModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [startingTemplateId, setStartingTemplateId] = useState<string | null>(null);
 
@@ -282,54 +278,17 @@ export default function WorkoutsScreen() {
       {/* Top Header */}
       <View className="px-4 pb-3">
         <View className="flex-row items-center justify-between">
-          <View>
-            <Text
-              className={cx(
-                cleanUI,
-                "text-[22px] font-semibold text-white tracking-tight",
-                "text-2xl font-black text-white"
-              )}
-            >
-              Workouts
-            </Text>
-            <Text
-              className={cx(
-                cleanUI,
-                "text-[13px] text-[#98989F] mt-0.5",
-                "text-xs font-mono font-bold text-zinc-400"
-              )}
-            >
-              Templates & Logged Sessions
-            </Text>
-          </View>
+          <Text
+            className={cx(
+              cleanUI,
+              "text-[22px] font-semibold text-white tracking-tight",
+              "text-2xl font-black text-white"
+            )}
+          >
+            Workouts
+          </Text>
 
           <View className="flex-row items-center gap-2">
-            {/* Strong App Importer CTA */}
-            <TouchableOpacity
-              testID="open-strong-importer-btn"
-              onPress={() => {
-                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
-                setShowStrongModal(true);
-              }}
-              activeOpacity={0.8}
-              className={cx(
-                cleanUI,
-                "flex-row items-center gap-1 rounded-xl bg-[#1C1C1E] px-3 py-2",
-                "flex-row items-center gap-1 rounded-xl bg-cyan-500/20 px-3 py-2 border border-cyan-500/40"
-              )}
-            >
-              <FileText size={15} color={cleanUI ? "#0A84FF" : "#38BDF8"} />
-              <Text
-                className={cx(
-                  cleanUI,
-                  "text-[13px] font-medium text-[#0A84FF]",
-                  "text-xs font-bold text-cyan-400"
-                )}
-              >
-                Strong Import
-              </Text>
-            </TouchableOpacity>
-
             {/* New Template CTA */}
             <TouchableOpacity
               onPress={() => {
@@ -423,108 +382,42 @@ export default function WorkoutsScreen() {
           </TouchableOpacity>
         )}
 
-        {/* Quick Action Hero 1: Start Empty Workout (Neon Lime OLED Button) */}
+        {/* Primary action: Start Empty Workout */}
         <TouchableOpacity
           onPress={handleStartEmptyWorkout}
           activeOpacity={0.8}
           className={cx(
             cleanUI,
-            "mt-3 flex-row items-center justify-between rounded-xl bg-[#0A84FF] p-4",
+            "mt-3 flex-row items-center justify-center gap-2 rounded-xl bg-[#0A84FF] py-3.5",
             "mt-3 flex-row items-center justify-between rounded-2xl bg-[#CCFF00] p-4 shadow-lg shadow-[#CCFF00]/10"
           )}
         >
-          <View className="flex-row items-center gap-3">
-            <View
-              className={cx(
-                cleanUI,
-                "rounded-xl p-2.5",
-                "rounded-xl bg-black p-2.5"
-              )}
-            >
-              <Plus size={22} color={cleanUI ? "#FFFFFF" : "#CCFF00"} />
-            </View>
-            <View>
-              <Text
-                className={cx(
-                  cleanUI,
-                  "text-[17px] font-semibold text-white tracking-tight",
-                  "text-base font-black text-black tracking-tight"
-                )}
-              >
-                Start Empty Workout
-              </Text>
-              <Text
-                className={cx(
-                  cleanUI,
-                  "text-[13px] text-white/80",
-                  "text-xs font-bold text-black/70"
-                )}
-              >
-                Log freeform sets or build a custom routine on the fly
-              </Text>
-            </View>
-          </View>
-          <ChevronRight size={20} color={cleanUI ? "#FFFFFF" : "#000000"} />
-        </TouchableOpacity>
-
-        {/* Quick Action Hero 2: Import Strong Workout / Routine */}
-        <TouchableOpacity
-          onPress={() => {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
-            setShowStrongModal(true);
-          }}
-          activeOpacity={0.8}
-          className={cx(
-            cleanUI,
-            "mt-2.5 flex-row items-center justify-between rounded-xl bg-[#141414] p-4",
-            "mt-2.5 flex-row items-center justify-between rounded-2xl border border-cyan-500/40 bg-zinc-900 p-3.5 shadow-md"
-          )}
-        >
-          <View className="flex-row items-center gap-3">
-            <View
-              className={cx(
-                cleanUI,
-                "rounded-xl p-2.5",
-                "rounded-xl bg-cyan-500/20 p-2.5 border border-cyan-500/40"
-              )}
-            >
-              <Download size={20} color={cleanUI ? "#0A84FF" : "#38BDF8"} />
-            </View>
-            <View>
-              <View className="flex-row items-center gap-2">
-                <Text
-                  className={cx(
-                    cleanUI,
-                    "text-[16px] font-medium text-white tracking-tight",
-                    "text-sm font-black text-white tracking-tight"
-                  )}
-                >
-                  Import Workout or Routine
-                </Text>
-                <View className={cx(cleanUI, "", "rounded-md bg-cyan-500/20 px-1.5 py-0.2")}>
-                  <Text
-                    className={cx(
-                      cleanUI,
-                      "text-[13px] text-[#98989F]",
-                      "text-[9px] font-mono font-bold text-cyan-400"
-                    )}
-                  >
-                    STRONG / CSV
-                  </Text>
-                </View>
+          <Plus size={18} color="#FFFFFF" />
+          <Text
+            className={cx(
+              cleanUI,
+              "text-[16px] font-semibold text-white",
+              "text-base font-black text-black tracking-tight"
+            )}
+          >
+            Start Empty Workout
+          </Text>
+          {!cleanUI && (
+            <View className="flex-row items-center gap-3">
+              <View className="rounded-xl bg-black p-2.5">
+                <Plus size={22} color="#CCFF00" />
               </View>
-              <Text
-                className={cx(
-                  cleanUI,
-                  "text-[13px] text-[#98989F]",
-                  "text-[11px] font-mono text-zinc-400"
-                )}
-              >
-                Paste Strong clipboard share or CSV export
-              </Text>
+              <View>
+                <Text className="text-base font-black text-black tracking-tight">
+                  Start Empty Workout
+                </Text>
+                <Text className="text-xs font-bold text-black/70">
+                  Log freeform sets or build a custom routine on the fly
+                </Text>
+              </View>
             </View>
-          </View>
-          <ChevronRight size={18} color={cleanUI ? "#636366" : "#38BDF8"} />
+          )}
+          {!cleanUI && <ChevronRight size={20} color="#000000" />}
         </TouchableOpacity>
 
         {/* Segmented Tab Switcher */}
@@ -856,7 +749,7 @@ export default function WorkoutsScreen() {
                     "mt-1 text-xs text-zinc-500"
                   )}
                 >
-                  Tap "+ Strong Import" or "+ New" to add your training routines.
+                  Tap "+ New" to add your training routines.
                 </Text>
               </View>
             }
@@ -1041,13 +934,6 @@ export default function WorkoutsScreen() {
         onClose={() => setSelectedHistoryWorkout(null)}
         onRepeatWorkout={handleRepeatWorkout}
         onDeleteWorkout={(id) => handleDeleteWorkoutHistory(id, true)}
-      />
-
-      {/* Strong App Importer Modal */}
-      <StrongImportModal
-        visible={showStrongModal}
-        onClose={() => setShowStrongModal(false)}
-        onImportSuccess={() => loadData()}
       />
     </View>
   );
