@@ -33,7 +33,14 @@ export function DemoVideoPlayer({ exerciseId, height = 280, testID }: Props) {
     maleAvailable ? "male" : "female",
   );
   const [ready, setReady] = useState(false);
-  const firstRender = useRef(true);
+  // Only auto-fallback to the other model once per exercise — otherwise a
+  // stream that errors on both models would ping-pong forever.
+  const autoFallbackDone = useRef(false);
+
+  useEffect(() => {
+    autoFallbackDone.current = false;
+    setReady(false);
+  }, [exerciseId]);
 
   useEffect(() => {
     getDemoGender().then((g) => {
@@ -49,6 +56,24 @@ export function DemoVideoPlayer({ exerciseId, height = 280, testID }: Props) {
   const posterUri = getDemoPosterUrl(slug, gender);
   const showToggle = maleAvailable && femaleAvailable;
 
+  const handleGenderChange = (g: DemoGender) => {
+    setGender(g);
+    setDemoGender(g);
+  };
+
+  // Preferred stream missing/blocked: fall back to the other model, once.
+  const handleStreamError = () => {
+    if (autoFallbackDone.current) return;
+    autoFallbackDone.current = true;
+    const fallback: DemoGender | null =
+      gender === "female" && maleAvailable
+        ? "male"
+        : gender === "male" && femaleAvailable
+          ? "female"
+          : null;
+    if (fallback) handleGenderChange(fallback);
+  };
+
   return (
     <PlayerBody
       uri={uri}
@@ -56,17 +81,12 @@ export function DemoVideoPlayer({ exerciseId, height = 280, testID }: Props) {
       height={height}
       testID={testID}
       gender={gender}
-      maleAvailable={maleAvailable}
-      femaleAvailable={femaleAvailable}
       showToggle={showToggle}
-      onGenderChange={(g) => {
-        setGender(g);
-        setDemoGender(g);
-      }}
+      onGenderChange={handleGenderChange}
+      onStreamError={handleStreamError}
       onReady={() => setReady(true)}
       ready={ready}
       onNotReady={() => setReady(false)}
-      firstRender={firstRender}
     />
   );
 }
@@ -77,68 +97,49 @@ function PlayerBody({
   height,
   testID,
   gender,
-  maleAvailable,
-  femaleAvailable,
   showToggle,
   onGenderChange,
+  onStreamError,
   onReady,
   onNotReady,
   ready,
-  firstRender,
 }: {
   uri: string;
   posterUri: string;
   height: number;
   testID?: string;
   gender: DemoGender;
-  maleAvailable: boolean;
-  femaleAvailable: boolean;
   showToggle: boolean;
   onGenderChange: (g: DemoGender) => void;
+  onStreamError: () => void;
   onReady: () => void;
   onNotReady: () => void;
   ready: boolean;
-  firstRender: React.MutableRefObject<boolean>;
 }) {
+  // NOTE: useVideoPlayer already tears down and recreates the player whenever
+  // `uri` changes (it's keyed on the source). Do NOT call player.replace()
+  // manually here — the manual call races the hook's release and crashes with
+  // "Cannot use shared object that was already released".
   const player = useVideoPlayer(uri, (p) => {
     p.loop = true;
     p.muted = true;
     p.play();
   });
 
-  // Swap the model without remounting the player.
+  // Show the poster/spinner again while the new model's stream buffers.
   useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
     onNotReady();
-    try {
-      player.replace({ uri });
-      player.play();
-    } catch {
-      // player not ready yet; the hook source update covers it
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uri]);
 
   useEffect(() => {
     const sub = player.addListener("statusChange", (payload: any) => {
       if (payload?.status === "readyToPlay") onReady();
-      else if (payload?.status === "error") {
-        // Preferred stream missing/blocked: fall back to the other model.
-        const fallback: DemoGender | null =
-          gender === "female" && maleAvailable
-            ? "male"
-            : gender === "male" && femaleAvailable
-              ? "female"
-              : null;
-        if (fallback) onGenderChange(fallback);
-      }
+      else if (payload?.status === "error") onStreamError();
     });
     return () => sub.remove();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [player, gender]);
+  }, [player]);
 
   return (
     <View testID={testID}>
@@ -157,7 +158,7 @@ function PlayerBody({
           style={{ width: "100%", height: "100%" }}
           contentFit="contain"
           nativeControls={false}
-          allowsFullscreen={false}
+          fullscreenOptions={{ enable: false }}
           allowsPictureInPicture={false}
         />
         {!ready && (
